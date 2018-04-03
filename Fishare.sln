@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fishare", "Fishare\Fishare.csproj", "{D9765B57-0DB1-4A64-BF32-EEA6F677CD3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC-Fishare", "Fishare\MVC-Fishare.csproj", "{D9765B57-0DB1-4A64-BF32-EEA6F677CD3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{0B7D6B82-2273-463B-B4CC-5B298284DC4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{B9FA59B9-9B07-4161-9073-5727B47EFFF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{7DE73550-1792-47FE-BB08-AFA824D8FB87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fishare.DAL", "Fishare.DAL\Fishare.DAL.csproj", "{8FB12AD6-2881-4480-8B63-7066D00656FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fishare.Logic", "Fishare.Logic\Fishare.Logic.csproj", "{C0695E9E-9C2C-4596-BC1C-85F60D29979D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fishare.Models", "Fishare.Models\Fishare.Models.csproj", "{4ADAADE8-BF4D-4824-BCCC-530C5C51279F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,26 @@ Global
 		{D9765B57-0DB1-4A64-BF32-EEA6F677CD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9765B57-0DB1-4A64-BF32-EEA6F677CD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9765B57-0DB1-4A64-BF32-EEA6F677CD3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FB12AD6-2881-4480-8B63-7066D00656FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB12AD6-2881-4480-8B63-7066D00656FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB12AD6-2881-4480-8B63-7066D00656FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB12AD6-2881-4480-8B63-7066D00656FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0695E9E-9C2C-4596-BC1C-85F60D29979D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0695E9E-9C2C-4596-BC1C-85F60D29979D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0695E9E-9C2C-4596-BC1C-85F60D29979D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0695E9E-9C2C-4596-BC1C-85F60D29979D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ADAADE8-BF4D-4824-BCCC-530C5C51279F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ADAADE8-BF4D-4824-BCCC-530C5C51279F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ADAADE8-BF4D-4824-BCCC-530C5C51279F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ADAADE8-BF4D-4824-BCCC-530C5C51279F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8FB12AD6-2881-4480-8B63-7066D00656FC} = {0B7D6B82-2273-463B-B4CC-5B298284DC4D}
+		{C0695E9E-9C2C-4596-BC1C-85F60D29979D} = {B9FA59B9-9B07-4161-9073-5727B47EFFF8}
+		{4ADAADE8-BF4D-4824-BCCC-530C5C51279F} = {7DE73550-1792-47FE-BB08-AFA824D8FB87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51372A96-D69C-4F75-AA8B-71969FFAB0FE}
