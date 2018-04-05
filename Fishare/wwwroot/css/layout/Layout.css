@@ -1,0 +1,21 @@
+﻿.FHPicture {
+    height: 60px;
+    width: 60px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.PPicture {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.MA-Text {
+    text-align: center;
+    color: white;
+    margin-top: 15px;
+}
+.lg-ca-Btn {
+    margin-left: 10px;
+    margin-right: 10px;
+}
