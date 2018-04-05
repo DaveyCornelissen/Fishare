@@ -19,3 +19,12 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+.page-footer {
+    background-color: #2196F3;
+}
+.footer-copyright {
+    background-color: #1A78C2;
+}
+.Footer-text {
+    color: white;
+}
