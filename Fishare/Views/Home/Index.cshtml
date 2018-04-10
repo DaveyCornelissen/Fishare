@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Fishare.Model.User
+@{
     ViewData["Title"] = "Home Page";
 }
 <link href="~/css/authentication/authetication.css" rel="stylesheet" />
@@ -14,13 +15,25 @@
                     <img src="images/Layout/fishing-rod.png" class="WelcomeImage" />
                 </div>
                 <div class="col-md-12 ContentText">
-                    <h4>Welcome to Fishare!</h4>
-                    <p>your'e Online Fishing platform to share your fish adventeurs with your friends</p>
-                    <br/><br/>
+                    <h4>Welcome to Fishare! </h4>
+                    <p>Your online fishing platform to share all your fish adventures with your friends</p>
                     <p>Please login or register to contineue</p>
-                    <button class="btn btn-success">Login</button>
-                    <br/><br/>
-                    <p>If you dont have an account click</p><button class="btn btn-danger">Create Account</button>
+                    <form asp-controller="Home" asp-action="Index" method="post">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input asp-for="UserEmail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="KeepLogin">
+                            <label class="form-check-label" for="RememberLogin">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>

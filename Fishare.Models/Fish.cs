@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fishare.Models
+namespace Fishare.Model
 {
-    class Fish
+    public class Fish
     {
         public int FishID { get; set; }
         public string FishName { get; set; }

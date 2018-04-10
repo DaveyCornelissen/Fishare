@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fishare.Models
+namespace Fishare.Model
 {
     class EJoined
     {

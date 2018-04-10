@@ -1,9 +1,4 @@
-﻿.Site {
-    display: flex;
-    min-height: 80vh;
-    flex-direction: column;
-}
-.FHPicture {
+﻿.FHPicture {
     height: 60px;
     width: 60px;
     margin-left: 10px;
@@ -24,11 +19,15 @@
     margin-left: 10px;
     margin-right: 10px;
 }
-.Main-Content {
-    flex: 1;
+html {
+    height: 100%;
+}
+.Site {
+   min-height: 100%;
 }
 .page-footer {
     background-color: #2196F3;
+
 }
 .footer-copyright {
     background-color: #1A78C2;
