@@ -19,6 +19,29 @@ namespace Fishare.Models
         public List<Post> Posts { get; set; }
         public List<Friend> Friends { get; set; }
 
+        public User()
+        {
+            
+        }
 
+        public void ChangeUser()
+        {
+
+        }
+
+        public void UploadPPhoto()
+        {
+
+        }
+
+        public void ChangePassword()
+        {
+
+        }
+
+        public void deleteUser()
+        {
+
+        }
     }
 }

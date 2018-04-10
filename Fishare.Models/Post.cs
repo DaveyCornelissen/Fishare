@@ -18,6 +18,19 @@ namespace Fishare.Models
         public List<PReaction> Reactions { get; set; }
         public FishInfo FishInfo { get; set; }
 
+        public Post()
+        {
+            
+        }
 
+        public void Delete()
+        {
+
+        }
+
+        public void ChangePost()
+        {
+
+        }
     }
 }

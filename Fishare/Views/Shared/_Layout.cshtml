@@ -16,7 +16,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
     </environment>
 </head>
-<body>
+<body class="Site">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <img class="FHPicture" src="~/images/Layout/fishing-rod.png"/>
     <a class="navbar-brand" href="#">Fishare</a>
@@ -50,11 +50,10 @@
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="Main-Content">
     @RenderBody()
-    <hr/>
 </div>
-<footer class="page-footer pt-4 mt-4">
+<footer class="page-footer pt-4">
     <div class="container-fluid text-center text-md-left">
 
         <!--Grid row-->

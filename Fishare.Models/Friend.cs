@@ -10,9 +10,12 @@ namespace Fishare.Models
         public User Frienduser { get; private set; }
         public eStatus Status { get; private set; }
 
-        public Friend()
+        public Friend(User user, User friend, eStatus status)
         {
-            
+            this.User = User;
+            this.Frienduser = friend;
+            this.Status = status;
+
         }
 
         public enum eStatus
@@ -20,6 +23,21 @@ namespace Fishare.Models
             Pending,
             Blocked,
             Accept
+        }
+
+        public void AcceptFriend()
+        {
+
+        }
+
+        public void BlockFriend()
+        {
+
+        }
+
+        public void DeleteFriend()
+        {
+
         }
     }
 }
