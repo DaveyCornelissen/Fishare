@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fishare.DAL.Interface\Fishare.DAL.Interface.csproj" />
-    <ProjectReference Include="..\Fishare.DAL\Fishare.DAL.csproj" />
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
+    <ProjectReference Include="..\Fishare.RepositoryInfterface\Fishare.Repository.Interface.csproj" />
   </ItemGroup>
 
 </Project>

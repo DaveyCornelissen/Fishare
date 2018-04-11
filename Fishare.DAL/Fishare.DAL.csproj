@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Fishare.DAL.Interface\Fishare.DAL.Interface.csproj" />
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
   </ItemGroup>
 

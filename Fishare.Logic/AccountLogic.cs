@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Fishare.DAL;
+using Fishare.DAL.Interface;
+using Fishare.Model;
+using Fishare.ViewModels;
 
 
 namespace Fishare.Logic
 {
-    using Fishare.DAL.Memory;
-    using Fishare.Model;
 
-    public class AccountLogic
+    public class AccountLogic 
     {
-        AccountMemoryContext Repo = new AccountMemoryContext();
+        private IAccountContext Repository;
 
-        public User checkLogin(User account) => this.Repo.CheckUserExist(account);
+        public AccountLogic(IAccountContext repository)
+        {
+            Repository = repository;
+        }
+
+        public bool UserExist(LoginViewModel Entity) => Repository.Exist(Entity);
+
+        public User GetInfoUser(LoginViewModel Entity) => Repository.GetUserInfo(Entity);
     }
 }

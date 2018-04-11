@@ -7,6 +7,7 @@ namespace Fishare.Model
     class EPhoto
     {
         public Event Event { get; private set; }
+
         public string path { get; private set; }
 
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fishare.DAL.SQL
 {
-    class AccountSQLContext
+    public class AccountSQLContext
     {
 
     }

@@ -1,6 +1,5 @@
-﻿@model Fishare.Model.User
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Login Page";
 }
 <link href="~/css/authentication/authetication.css" rel="stylesheet" />
 
@@ -18,15 +17,15 @@
                     <h4>Welcome to Fishare! </h4>
                     <p>Your online fishing platform to share all your fish adventures with your friends</p>
                     <p>Please login or register to contineue</p>
-                    <form asp-controller="Home" asp-action="Index" method="post">
+                    <form asp-controller="Login" asp-action="UserLogin" method="post">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email address</label>
-                            <input asp-for="UserEmail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            <input name="Email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <input name="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="KeepLogin">
