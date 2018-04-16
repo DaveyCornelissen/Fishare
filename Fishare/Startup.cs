@@ -25,10 +25,11 @@ namespace Fishare
         {
             services.AddMvc();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            services.AddAuthentication("FishCookies")
+                .AddCookie("FishCookies", option =>
                 {
-                    options.LoginPath = "/Login/UserLogin/";
+                    option.LoginPath = "/Account/Login";
+                    option.AccessDeniedPath = "/Home/Error";
                 });
         }
 
@@ -51,7 +52,7 @@ namespace Fishare
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=UserLogin}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

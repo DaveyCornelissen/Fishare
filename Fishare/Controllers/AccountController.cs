@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Fishare.Model;
 using Fishare.Logic;
 using Fishare.ViewModels;
 using Fishare.Factory;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 
 namespace Fishare.Controllers
 {
 
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         private IConfiguration Config;
         private Factory.Factory Factory;
 
-        public LoginController(IConfiguration Config)
+        public AccountController(IConfiguration Config)
         {
             this.Config = Config;
             Factory = new Factory.Factory(this.Config);
@@ -28,13 +29,13 @@ namespace Fishare.Controllers
         }
 
 
-        public IActionResult UserLogin()
+        public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult UserLogin(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             var AccountLogic = Factory.AccountInfo();
 
@@ -44,20 +45,34 @@ namespace Fishare.Controllers
             {
                 User UserInfo = AccountLogic.GetInfoUser(model);
 
-                var claims = new List<Claim>
+                var Claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, UserInfo.UserName),
+                    new Claim("Id", UserInfo.UserID.ToString()),
+                    new Claim("Name", UserInfo.UserName),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    Claims, "FishCookies");
+
+                await HttpContext.SignInAsync(
+                    "FishCookies",
+                    new ClaimsPrincipal(claimsIdentity),
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = model.Remember
+                    });
 
                 return RedirectToAction("TimeLine", "Timeline");
-            }
+            } 
             else
             {
                 return View();
             }
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }

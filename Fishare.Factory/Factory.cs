@@ -20,16 +20,16 @@ namespace Fishare.Factory
             this.ConnectionString = Config.GetSection("ConnectionStrings")[Context];
         }
 
-        private IAccountContext CreateContext()
-        {
-            switch (this.Context)
-            {
-                //case "MSSQL": return new AccountSQLContext(this.ConnectionString);
-                case "MEMORY": return new AccountMemoryContext();
-                default: throw new NotImplementedException();
-            }
-        }
+//        private IAccountContext CreateContext()
+//        {
+//            switch (this.Context)
+//            {
+//                //case "MSSQL": return new AccountSQLContext(this.ConnectionString);
+//                case "MEMORY": return new AccountMemoryContext();
+//                default: throw new NotImplementedException();
+//            }
+//        }
 
-        public AccountLogic AccountInfo() => new AccountLogic(this.CreateContext());
+        public AccountLogic AccountInfo() => new AccountLogic(Context);
     }
 }
