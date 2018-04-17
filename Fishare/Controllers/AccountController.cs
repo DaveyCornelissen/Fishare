@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Fishare.Model;
 using Fishare.Logic;
 using Fishare.ViewModels;
-using Fishare.Factory;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 
@@ -18,16 +17,12 @@ namespace Fishare.Controllers
 
     public class AccountController : Controller
     {
-        private IConfiguration Config;
-        private Factory.Factory Factory;
+        private AccountLogic _accountLogic;
 
-        public AccountController(IConfiguration Config)
+        public AccountController(IConfiguration config)
         {
-            this.Config = Config;
-            Factory = new Factory.Factory(this.Config);
-
+            _accountLogic = new AccountLogic(config);
         }
-
 
         public IActionResult Login()
         {
@@ -37,35 +32,43 @@ namespace Fishare.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var AccountLogic = Factory.AccountInfo();
 
-            bool userExist = AccountLogic.UserExist(model);
+            bool userExist = _accountLogic.CheckLogin(model);
 
             if (userExist)
             {
-                User UserInfo = AccountLogic.GetInfoUser(model);
+                User UserInfo = _accountLogic.GetUser(model.Email);
 
-                var Claims = new List<Claim>
+                if (UserInfo != null)
                 {
-                    new Claim("Id", UserInfo.UserID.ToString()),
-                    new Claim("Name", UserInfo.UserName),
-                };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    Claims, "FishCookies");
-
-                await HttpContext.SignInAsync(
-                    "FishCookies",
-                    new ClaimsPrincipal(claimsIdentity),
-                    new AuthenticationProperties
+                    var Claims = new List<Claim>
                     {
-                        IsPersistent = model.Remember
-                    });
+                        new Claim("Id", UserInfo.UserID.ToString()),
+                        new Claim("Name", UserInfo.UserName),
+                    };
 
-                return RedirectToAction("TimeLine", "Timeline");
+                    var claimsIdentity = new ClaimsIdentity(
+                        Claims, "FishCookies");
+
+                    await HttpContext.SignInAsync(
+                        "FishCookies",
+                        new ClaimsPrincipal(claimsIdentity),
+                        new AuthenticationProperties
+                        {
+                            IsPersistent = model.Remember
+                        });
+
+                    return RedirectToAction("TimeLine", "Timeline");
+                }
+                else
+                {
+                    ViewData["ErrorGetUser"] = "Oops something whent wrong!";
+                    return View();
+                }
             } 
             else
             {
+                ViewData["ErrorNoUser"] = "Email or password does not exist! Please try again";
                 return View();
             }
         }
@@ -73,6 +76,42 @@ namespace Fishare.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(User model)
+        {
+            string password = model.Password;
+
+            if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
+            {
+                //password does not met the requirements!
+                ViewData["PasswordError"] = "The password does not match the requirements";
+                return View();
+            }
+
+            bool emailExist = _accountLogic.CheckExist(model.UserEmail);
+            
+            if (!emailExist)
+            {
+                bool UserCreated = _accountLogic.CreateUser(model);
+
+                if (UserCreated)
+                {
+                    ViewData["UserCreateSucces"] = "Your account is succesfull created! You can now login.";
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    ViewData["UserCreateFailed"] = "Oops something went wrong! your account has failed to create!";
+                    return View();
+                }
+            }
+            else
+            {
+                ViewData["ErrorEmail"] = "Email already exist! Please choose anotherone";
+                return View();
+            }
         }
     }
 }

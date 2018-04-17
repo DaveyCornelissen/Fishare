@@ -1,26 +1,36 @@
 ﻿using System;
-using Fishare.DAL.Interface;
+using Fishare.DAL;
 using Fishare.DAL.Memory;
+using Fishare.DAL.SQL;
+using Fishare.Model;
+using Fishare.Repository.Interface;
+using Fishare.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Fishare.Repository
 {
-    public class AccountRepository
+    public class AccountRepository : Repository<User>, IAccountRepository
     {
-        private string context;
+        private IAccountRepository _context;
 
-        public AccountRepository(string _context)
+        /// <summary>
+        /// Constructor to get the right context
+        /// </summary>
+        /// <param name="context"></param>
+        public AccountRepository(IAccountRepository context)
         {
-            context = _context;
+            _context = context;
         }
 
-        public IAccountContext Context()
+        public bool CheckLogin(string email, string password)
         {
-           switch (this.context)
-           {
-                //case "MSSQL": return new AccountSQLContext(this.ConnectionString);
-                case "MEMORY": return new AccountMemoryContext();
-                default: throw new NotImplementedException();
-           }
+            return _context.CheckLogin(email, password);
+        }
+
+        public bool Exist(string email)
+        {
+            return _context.Exist(email);
         }
     }
 }

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fishare.Factory\Fishare.Factory.csproj" />
+    <ProjectReference Include="..\Fishare.DAL\Fishare.DAL.csproj" />
     <ProjectReference Include="..\Fishare.Logic\Fishare.Logic.csproj" />
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
   </ItemGroup>

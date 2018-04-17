@@ -29,19 +29,5 @@ namespace Fishare.Model
         public List<Post> Posts { get; set; }
 
         public List<Friend> Friends { get; set; }
-
-        public User(int userID, string userName, string userEmail, string password, string firstName, string lastName, DateTime birthDay, string phoneNumber, string bio, string pPPath)
-        {
-            this.UserID = userID;
-            this.UserName = userName;
-            this.UserEmail = userEmail;
-            this.Password = password;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.BirthDay = birthDay;
-            this.PhoneNumber = phoneNumber;
-            this.Bio = bio;
-            this.PpPath = pPPath;
-        }
     }
 }

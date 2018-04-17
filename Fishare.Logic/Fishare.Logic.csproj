@@ -9,10 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fishare.DAL.Interface\Fishare.DAL.Interface.csproj" />
     <ProjectReference Include="..\Fishare.DAL\Fishare.DAL.csproj" />
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
-    <ProjectReference Include="..\Fishare.Repository.Interface\Fishare.Repository.Interface.csproj" />
     <ProjectReference Include="..\Fishare.Repository\Fishare.Repository.csproj" />
   </ItemGroup>
 

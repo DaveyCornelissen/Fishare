@@ -2,11 +2,11 @@
 
 namespace Fishare.Repository.Interface
 {
-    public interface IRepository
+    public interface IRepository<TEntity> where TEntity : class
     {
-        bool create();
+        bool create(TEntity entity);
         
-        bool Read();
+        TEntity Read(string email);
         
         bool Update();
         
