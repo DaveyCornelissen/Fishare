@@ -6,7 +6,6 @@ using Fishare.DAL;
 using Fishare.DAL.Memory;
 using Fishare.DAL.SQL;
 using Fishare.Model;
-using Fishare.ViewModels;
 using Fishare.Repository;
 using Fishare.Repository.Interface;
 using Microsoft.Extensions.Configuration;
@@ -38,13 +37,30 @@ namespace Fishare.Logic
             _repository = new AccountRepository(_context);
         }
        
-        public bool CheckLogin(LoginViewModel entity) => _repository.CheckLogin(entity.Email, entity.Password);
+        public bool CheckLogin(string email, string password) => _repository.CheckLogin(email, password);
 
         public User GetUser(string email) => _repository.Read(email);
 
         public bool CheckExist(string email) => _repository.Exist(email);
 
-        public bool CreateUser(User entity) => _repository.create(entity);
+        public bool CreateUser(User entity)
+        {
+            bool emailExist = CheckExist(entity.UserEmail);
+
+            if (emailExist)
+            {
+                throw new ExceptionHandler("ErrorEmailExist","The email already exist! Please choose another one.");
+            }
+
+            string password = entity.Password;
+
+            if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
+            {
+                throw new ExceptionHandler("ErrorPassword", "The password does not match the requirements!");
+            }
+
+            return _repository.create(entity);
+        } 
 
     }
 }

@@ -9,7 +9,7 @@ namespace Fishare.Controllers
 {
     public class TimelineController : Controller
     {
-
+        [Authorize(AuthenticationSchemes = "FishCookies")]
         public IActionResult TimeLine()
         {
             

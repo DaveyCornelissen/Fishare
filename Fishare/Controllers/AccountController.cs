@@ -33,7 +33,7 @@ namespace Fishare.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
 
-            bool userExist = _accountLogic.CheckLogin(model);
+            bool userExist = _accountLogic.CheckLogin(model.Email, model.Password);
 
             if (userExist)
             {
@@ -41,6 +41,8 @@ namespace Fishare.Controllers
 
                 if (UserInfo != null)
                 {
+                    
+
                     var Claims = new List<Claim>
                     {
                         new Claim("Id", UserInfo.UserID.ToString()),
@@ -81,18 +83,7 @@ namespace Fishare.Controllers
         [HttpPost]
         public IActionResult Create(User model)
         {
-            string password = model.Password;
-
-            if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
-            {
-                //password does not met the requirements!
-                ViewData["PasswordError"] = "The password does not match the requirements";
-                return View();
-            }
-
-            bool emailExist = _accountLogic.CheckExist(model.UserEmail);
-            
-            if (!emailExist)
+            try
             {
                 bool UserCreated = _accountLogic.CreateUser(model);
 
@@ -107,9 +98,9 @@ namespace Fishare.Controllers
                     return View();
                 }
             }
-            else
+            catch (ExceptionHandler exception)
             {
-                ViewData["ErrorEmail"] = "Email already exist! Please choose anotherone";
+                ViewData[exception.Index] = exception.Message;
                 return View();
             }
         }

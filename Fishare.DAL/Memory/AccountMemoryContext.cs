@@ -22,7 +22,7 @@ namespace Fishare.DAL.Memory
                     Password = "12345",
                     FirstName = "Davey",
                     LastName = "Cornelissen",
-                    BirthDay = DateTime.Now,
+                    BirthDay = "21-08-1997",
                     PhoneNumber = "0628433115",
                     PpPath = "/Test/Profile.PNG"
                 });

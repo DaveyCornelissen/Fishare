@@ -42,12 +42,13 @@
                 <a class="nav-link" href="#"><i class="fab fa-houzz"></i> FishClub</a>
             </li>
         </ul>
-@*        <div class="form-inline my-2 my-lg-0">*@
-@*            <p class="MA-Text"><i class="fas fa-user"></i> My Account</p>*@
-@*            <img class="PPicture" src="~/images/Layout/user.png"/>*@
-@*            <a asp-controller="Timeline" asp-action="TimeLine" class="btn btn-success my-2 my-sm-0 lg-ca-Btn" type="submit"><i class="fas fa-sign-in-alt"></i> Login</a>*@
-@*            <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i> create account</button>*@
-@*        </div>*@
+        <div class="form-inline my-2 my-lg-0">
+            <p class="MA-Text"><i class="fas fa-user"></i> My Account</p>
+            <img class="PPicture" src="~/images/Layout/user.png"/>
+            <form>
+                <button asp-controller="Account" asp-action="Login" class="btn btn-success my-2 my-sm-0 lg-ca-Btn" type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+        </div>
     </div>
 </nav>
 <div class="Main-Content">

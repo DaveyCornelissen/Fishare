@@ -24,19 +24,19 @@ html {
 }
 .Main-Content {
     height:100%;
-    position:relative;
+/*    //position:relative;*/
 }
 .page-footer {
     background-color: #2196F3;
-    bottom:0;
+/*    bottom:0;*/
     width:100%;
 }
 
-@media screen and (min-width: 768px) {
-    .page-footer {
-        position: absolute;
-    }
-}
+/*@media screen and (min-width: 768px) {*/
+/*    .page-footer {*/
+/*        position: absolute;*/
+/*    }*/
+/*}*/
 
 .footer-copyright {
     background-color: #1A78C2;

@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Text;
 using Fishare.Model;
 using Fishare.Repository.Interface;
-using Fishare.ViewModels;
 
 namespace Fishare.DAL.SQL
 {
@@ -26,7 +25,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool create(User entity)
         {
-            string InsertUserQuery = "INSERT INTO User (Username, UserEmail, Password, FirstName, LastName, BirthDay, Phone, User_Photo_Path) VALUES (@1, @2, @3, @4, @5, @6, @7, @8)";
+            string InsertUserQuery = "INSERT INTO [User] (Username, UserEmail, Password, FirstName, LastName, BirthDay, Phone) VALUES (@1, @2, @3, @4, @5, @6, @7)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(InsertUserQuery, connection))
@@ -36,9 +35,9 @@ namespace Fishare.DAL.SQL
                 command.Parameters.AddWithValue("@3", entity.Password);
                 command.Parameters.AddWithValue("@4", entity.FirstName);
                 command.Parameters.AddWithValue("@5", entity.LastName);
-                command.Parameters.AddWithValue("@6", entity.BirthDay);
+                command.Parameters.AddWithValue("@6", DateTime.Now);
                 command.Parameters.AddWithValue("@7", entity.PhoneNumber);
-                command.Parameters.AddWithValue("@8", entity.PpPath);
+                //command.Parameters.AddWithValue("@8", "test");
 
                 connection.Open();
 
@@ -48,7 +47,7 @@ namespace Fishare.DAL.SQL
                     command.ExecuteReader();
                     return true;
                 }
-                catch
+                catch(Exception)
                 {
                     //if insert failed
                     return false;
@@ -63,7 +62,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public User Read(string email)
         {
-            string existAccountQuery = "Select UserID, UserName, UserEmail, Firstname, Lastname, Birthday, Phone, User_photo_path From User Where UserEmail=@1";
+            string existAccountQuery = "Select UserID, UserName, UserEmail, Firstname, Lastname, Birthday, Phone From [User] Where UserEmail=@1";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(existAccountQuery, connection))
@@ -89,9 +88,9 @@ namespace Fishare.DAL.SQL
                             UserEmail = dataReader.GetString(2),
                             FirstName = dataReader.GetString(3),
                             LastName = dataReader.GetString(4),
-                            BirthDay = dataReader.GetDateTime(5),
+                            BirthDay = dataReader.GetString(5),
                             PhoneNumber = dataReader.GetString(6),
-                            PpPath = dataReader.GetString(7)
+                            //PpPath = dataReader.GetString(7)
                         };
 
                         return User;
@@ -127,7 +126,7 @@ namespace Fishare.DAL.SQL
         public bool CheckLogin(string email, string password)
         {
             
-            string checkLoginQuery = "Select UserEmail From User Where UserEmail=@1 And Password=@2";
+            string checkLoginQuery = "Select UserEmail From [User] Where UserEmail=@1 And Password=@2";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(checkLoginQuery, connection))
@@ -165,7 +164,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool Exist(string email)
         {
-            string existAccountQuery = "Select UserEmail From User Where UserEmail=@1";
+            string existAccountQuery = "Select UserEmail From [User] Where UserEmail=@1";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(existAccountQuery, connection))

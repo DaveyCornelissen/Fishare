@@ -18,7 +18,7 @@ namespace Fishare.Model
 
         public string LastName { get; set; }
 
-        public DateTime BirthDay { get; set; }
+        public string BirthDay { get; set; }
 
         public string PhoneNumber { get; set; }
 

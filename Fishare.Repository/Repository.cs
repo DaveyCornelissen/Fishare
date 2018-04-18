@@ -10,11 +10,18 @@ using Microsoft.Extensions.Configuration;
 
 namespace Fishare.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class 
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        public readonly IRepository<TEntity> _context;
+
+        public Repository(IRepository<TEntity> context)
+        {
+            _context = context;
+        }
+
         public bool create(TEntity entity)
         {
-            throw new NotImplementedException();
+            return _context.create(entity);
         }
 
         public bool Delete()
@@ -24,7 +31,7 @@ namespace Fishare.Repository
 
         public TEntity Read(string email)
         {
-            throw new NotImplementedException();
+            return _context.Read(email);
         }
 
         public bool Update()
