@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
+using Fishare.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Fishare.Model;
 using Fishare.Logic;
@@ -41,23 +43,18 @@ namespace Fishare.Controllers
 
                 if (UserInfo != null)
                 {
-                    
+                    CookieClaims cookieClaims = new CookieClaims();
+                    cookieClaims.addClaims("Id", UserInfo.UserID.ToString());
+                    cookieClaims.addClaims("UserName", UserInfo.UserName);
 
-                    var Claims = new List<Claim>
-                    {
-                        new Claim("Id", UserInfo.UserID.ToString()),
-                        new Claim("Name", UserInfo.UserName),
-                    };
+                    var claimsPrincipal = cookieClaims.CreateCookieAuth("FishCookies");
 
-                    var claimsIdentity = new ClaimsIdentity(
-                        Claims, "FishCookies");
-
+                    //to login the user
                     await HttpContext.SignInAsync(
-                        "FishCookies",
-                        new ClaimsPrincipal(claimsIdentity),
+                        "FishCookies", claimsPrincipal,
                         new AuthenticationProperties
                         {
-                            IsPersistent = model.Remember
+                            IsPersistent = true
                         });
 
                     return RedirectToAction("TimeLine", "Timeline");

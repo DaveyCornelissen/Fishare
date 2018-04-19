@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Fishare.DAL;
+using Microsoft.AspNetCore.Http;
 
 namespace Fishare
 {
@@ -25,11 +26,16 @@ namespace Fishare
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            CookieAuthentication(services);
+        }
 
+        // This method is used for setting up cookies and cookie options
+        private static void CookieAuthentication(IServiceCollection services)
+        {
             services.AddAuthentication("FishCookies")
                 .AddCookie("FishCookies", option =>
                 {
-                    option.LoginPath = "/Account/Login";
+                    option.LoginPath = new PathString("/Account/Login");
                     option.AccessDeniedPath = "/Home/Error";
                     option.ExpireTimeSpan = TimeSpan.FromHours(1);
                     option.ReturnUrlParameter = "original";
