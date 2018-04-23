@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Fishare.Model;
-using Fishare.ViewModels;
 using Fishare.DAL;
 using Fishare.Repository.Interface;
 

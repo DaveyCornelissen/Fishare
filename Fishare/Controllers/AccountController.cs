@@ -54,14 +54,14 @@ namespace Fishare.Controllers
                         "FishCookies", claimsPrincipal,
                         new AuthenticationProperties
                         {
-                            IsPersistent = true
+                            IsPersistent = model.Remember
                         });
 
                     return RedirectToAction("TimeLine", "Timeline");
                 }
                 else
                 {
-                    ViewData["ErrorGetUser"] = "Oops something whent wrong!";
+                    ViewData["ErrorGetUser"] = "Oops something went wrong!";
                     return View();
                 }
             } 
@@ -86,7 +86,7 @@ namespace Fishare.Controllers
 
                 if (UserCreated)
                 {
-                    ViewData["UserCreateSucces"] = "Your account is succesfull created! You can now login.";
+                    ViewData["UserCreateSucces"] = "Your account is successfull created! You can now login.";
                     return RedirectToAction("Login", "Account");
                 }
                 else
