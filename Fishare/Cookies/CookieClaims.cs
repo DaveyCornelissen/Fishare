@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -9,11 +10,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 
-
 namespace Fishare.Cookies
 {
-    public class CookieClaims
+    public class CookieClaims : ClaimsPrincipal
     {
+        private ClaimsIdentity identity;
+
         /// <summary>
         /// A list of added claims
         /// </summary>
@@ -50,18 +52,6 @@ namespace Fishare.Cookies
             Thread.CurrentPrincipal = claimsPrincipal;
 
             return claimsPrincipal;
-        }
-
-        /// <summary>
-        /// Get the value of a set claim
-        /// </summary>
-        /// <param name="claimType"></param>
-        /// <returns></returns>
-        public string GetClaim(ClaimsPrincipal Identity, string claimType)
-        {
-            // Get the claims values
-            return Identity.Claims.Where(c => c.Type == claimType)
-                .Select(c => c.Value).SingleOrDefault();
         }
     }
 }

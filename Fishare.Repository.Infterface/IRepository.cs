@@ -7,7 +7,7 @@ namespace Fishare.Repository.Interface
     {
         bool create(TEntity entity);
         
-        TEntity Read(string email);
+        TEntity Read(int Id);
         
         bool Update();
         

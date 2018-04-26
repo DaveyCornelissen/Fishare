@@ -28,6 +28,8 @@ namespace Fishare.Model
 
         public List<Post> Posts { get; set; }
 
+        public int TotalFriends { get; set; }
+
         public List<Friend> Friends { get; set; }
     }
 }

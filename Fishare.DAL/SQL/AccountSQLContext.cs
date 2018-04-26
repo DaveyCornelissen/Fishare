@@ -25,7 +25,8 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool create(User entity)
         {
-            string InsertUserQuery = "INSERT INTO [User] (Username, UserEmail, Password, FirstName, LastName, BirthDay, Phone) VALUES (@1, @2, @3, @4, @5, @6, @7)";
+            string InsertUserQuery =
+                "INSERT INTO [User] (Username, UserEmail, Password, FirstName, LastName, BirthDay, Phone) VALUES (@1, @2, @3, @4, @5, @6, @7)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(InsertUserQuery, connection))
@@ -44,10 +45,10 @@ namespace Fishare.DAL.SQL
                 try
                 {
                     //return true if account is created
-                    command.ExecuteReader();
+                    command.ExecuteNonQuery();
                     return true;
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     //if insert failed
                     return false;
@@ -55,50 +56,61 @@ namespace Fishare.DAL.SQL
             }
         }
 
-        /// <summary>
-        /// Get all the user properties by the email.
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        public User Read(string email)
+        //TODO Cant reach the other recieved tabels 
+        public User Read(int Id)
         {
-            string existAccountQuery = "Select UserID, UserName, UserEmail, Firstname, Lastname, Birthday, Phone From [User] Where UserEmail=@1";
+            //string getAccountQuery = ;
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(existAccountQuery, connection))
+            using (SqlCommand command = new SqlCommand("dbo.GetUserProfile", connection))
             {
-
-                command.Parameters.AddWithValue("@1", email);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", Id);
                 try
                 {
                     connection.Open();
 
-                    var result = command.ExecuteScalar();
+                    SqlDataReader dataReader = command.ExecuteReader();
 
-                    if (result != null)
+                    dataReader.Read();
+
+                    User user = new User
                     {
-                        SqlDataReader dataReader = command.ExecuteReader();
+                        UserName = dataReader["UserName"].ToString(),
+                        UserEmail = dataReader["UserEmail"].ToString(),
+                        FirstName = dataReader["Firstname"].ToString(),
+                        LastName = dataReader["Lastname"].ToString(),
+                        PhoneNumber = dataReader["Phone"].ToString(),
+                        PpPath = dataReader["User_photo_Path"].ToString(),
+                        Bio = dataReader["Bio"].ToString(),
+                        TotalFriends = (int)dataReader["TotalFriends"]
+                    };
 
-                        dataReader.Read();
+                    int Posts = Convert.ToInt16(dataReader["PostID"]);
 
-                        User User = new User
+                    if (Posts != 0)
+                    {
+                        List<Post> userPosts = new List<Post>();
+
+                        while (dataReader.Read())
                         {
-                            UserID = dataReader.GetInt32(0),
-                            UserName = dataReader.GetString(1),
-                            UserEmail = dataReader.GetString(2),
-                            FirstName = dataReader.GetString(3),
-                            LastName = dataReader.GetString(4),
-                            BirthDay = dataReader.GetString(5),
-                            PhoneNumber = dataReader.GetString(6),
-                            //PpPath = dataReader.GetString(7)
-                        };
+                            Post post = new Post
+                            {
+                                PostID = (int)dataReader["PostID"],
+                                Title = dataReader["Title"].ToString(),
+                                //DateTime = (DateTime)dataReader["DateTime"],
+                                PrimaryPhoto = dataReader["Path"].ToString()
 
-                        return User;
+                            };
+                            userPosts.Add(post);
+                        }
+
+                        //set the new list to the user object
+                        user.Posts = userPosts;
+
                     }
-                    else
-                    {
-                        return null;
-                    }
+
+                    return user;
                 }
                 catch (Exception errorException)
                 {
@@ -125,13 +137,11 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool CheckLogin(string email, string password)
         {
-            
             string checkLoginQuery = "Select UserEmail From [User] Where UserEmail=@1 And Password=@2";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(checkLoginQuery, connection))
             {
-
                 command.Parameters.AddWithValue("@1", email);
                 command.Parameters.AddWithValue("@2", password);
 
@@ -147,7 +157,7 @@ namespace Fishare.DAL.SQL
                     }
                     else
                     {
-                       return true;
+                        return true;
                     }
                 }
                 catch (Exception errorException)
@@ -184,6 +194,46 @@ namespace Fishare.DAL.SQL
                     else
                     {
                         return false;
+                    }
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public User GetCookieInfo(string email)
+        {
+            string getAccountIDQuery = "Select UserID, UserName From [User] Where UserEmail=@1";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand(getAccountIDQuery, connection))
+            {
+                command.Parameters.AddWithValue("@1", email);
+                try
+                {
+                    connection.Open();
+
+                    var result = command.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        SqlDataReader dataReader = command.ExecuteReader();
+
+                        dataReader.Read();
+
+                        User User = new User
+                        {
+                            UserID = dataReader.GetInt32(0),
+                            UserName = dataReader.GetString(1),
+                        };
+
+                        return User;
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
                 catch (Exception errorException)

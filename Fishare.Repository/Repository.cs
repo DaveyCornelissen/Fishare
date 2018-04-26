@@ -29,9 +29,9 @@ namespace Fishare.Repository
             throw new NotImplementedException();
         }
 
-        public TEntity Read(string email)
+        public TEntity Read(int id)
         {
-            return _context.Read(email);
+            return _context.Read(id);
         }
 
         public bool Update()

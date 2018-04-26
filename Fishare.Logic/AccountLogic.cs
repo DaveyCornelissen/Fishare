@@ -36,13 +36,17 @@ namespace Fishare.Logic
 
             _repository = new AccountRepository(_context);
         }
-       
+
+        //Check if the user email and password exist
         public bool CheckLogin(string email, string password) => _repository.CheckLogin(email, password);
 
-        public User GetUser(string email) => _repository.Read(email);
+        //Getting user-id and user-name
+        public User GetCookieInfo(string email) => _repository.GetCookieInfo(email);
 
+        //Check if the email already exist
         public bool CheckExist(string email) => _repository.Exist(email);
 
+        //Create the new user
         public bool CreateUser(User entity)
         {
             bool emailExist = CheckExist(entity.UserEmail);
@@ -60,7 +64,9 @@ namespace Fishare.Logic
             }
 
             return _repository.create(entity);
-        } 
+        }
+
+        public User GetUserProfile(int UserId) => _repository.Read(UserId);
 
     }
 }

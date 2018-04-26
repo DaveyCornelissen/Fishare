@@ -10,5 +10,7 @@ namespace Fishare.Repository.Interface
         bool CheckLogin(string email, string password);
 
         bool Exist(string email);
+
+        User GetCookieInfo(string email);
     }
 }

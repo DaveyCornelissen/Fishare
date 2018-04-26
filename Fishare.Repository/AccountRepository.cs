@@ -31,5 +31,10 @@ namespace Fishare.Repository
         {
             return _context.Exist(email);
         }
+
+        public User GetCookieInfo(string email)
+        {
+            return _context.GetCookieInfo(email);
+        }
     }
 }

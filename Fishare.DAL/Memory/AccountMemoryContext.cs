@@ -13,7 +13,7 @@ namespace Fishare.DAL.Memory
 
         public AccountMemoryContext()
         {
-            this.AllUsers.Add(new User
+            AllUsers.Add(new User
                 {
                     UserID = 1,
                     UserName = "DaveyCor",
@@ -29,7 +29,7 @@ namespace Fishare.DAL.Memory
 
         public User GetUserInfo(User entity)
         {
-            User user = this.AllUsers.Find(u => u.UserEmail == entity.UserEmail && u.Password == entity.Password);
+            User user = AllUsers.Find(u => u.UserEmail == entity.UserEmail && u.Password == entity.Password);
 
             return user;
         }
@@ -41,19 +41,24 @@ namespace Fishare.DAL.Memory
 
         public bool CheckLogin(string email, string password)
         {
-            User user = this.AllUsers.Find(u => u.UserEmail == email && u.Password == password);
+            User user = AllUsers.Find(u => u.UserEmail == email && u.Password == password);
 
             return user != null;
         }
 
         public bool Exist(string email)
         {
-            User user = this.AllUsers.Find(u => u.UserEmail == email);
+            User user = AllUsers.Find(u => u.UserEmail == email);
 
             return user != null;
         }
 
-        public User Read(string email)
+        public User GetCookieInfo(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Read(int Id)
         {
             throw new NotImplementedException();
         }

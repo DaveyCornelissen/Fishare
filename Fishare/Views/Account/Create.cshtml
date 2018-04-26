@@ -8,49 +8,57 @@
     <div class="col-md-12">
         <img src="~/images/Layout/fishing-rod.png" class="WelcomeImage"/>
     </div>
-    <div class="col-md-12 ContentText">
-        <form asp-controller="Account" asp-action="Create" method="post" class="col-md-4 offset-4">
-            <h4>Welcome to Fishare!</h4>
-            <p>Your online fishing platform to share all your fish adventures with your friends</p>
-            <p>Please register to continue</p>
-            <div class="form-group">
-                <label for="Email">Email address</label>
-                <input asp-for="UserEmail" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                <p>@ViewData["ErrorEmailExist"]</p>
+    <div class="col-md-12">
+        <form asp-controller="Account" asp-action="Create" method="post">
+            <div class="Top-Text">
+                <h4>Welcome to Fishare!</h4>
+                <p>Your online fishing platform to share all your fish adventures with your friends</p>
+                <p>Please register to continue</p>
             </div>
-            <div class="form-group">
-                <label for="UserName">User Name</label>
-                <input asp-for="UserName" type="text" class="form-control" aria-describedby="UserNameHelp" placeholder="Enter UserName">
-                <small id="UserNameHelp" class="form-text text-muted">We'll never share your UserName with anyone else.</small>
+            <div class="row ContentText">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Email">Email address</label>
+                        <input asp-for="UserEmail" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <p>@ViewData["ErrorEmailExist"]</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="UserName">User Name</label>
+                        <input asp-for="UserName" type="text" class="form-control" aria-describedby="UserNameHelp" placeholder="Enter UserName">
+                        <small id="UserNameHelp" class="form-text text-muted">We'll never share your UserName with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                        <p>@ViewData["ErrorPassword"]</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input asp-for="FirstName" type="text" class="form-control" placeholder="Enter Firstname">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input asp-for="LastName" type="text" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="BirthDay">Birth Day</label>
+                        <input asp-for="BirthDay" type="time" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone</label>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Upload profile picture</label>
+                        <input asp-for="PpPath" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                        <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
-                <p>@ViewData["ErrorPassword"]</p>
-            </div>
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
-                <input asp-for="FirstName" type="text" class="form-control" placeholder="Enter Firstname">
-            </div>
-            <div class="form-group">
-                <label for="LastName">Last Name</label>
-                <input asp-for="LastName" type="text" class="form-control" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="BirthDay">Birth Day</label>
-                <input asp-for="BirthDay" type="time" class="form-control" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="Phone">Phone</label>
-                <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">Upload profile picture</label>
-                <input asp-for="PpPath" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
