@@ -25,11 +25,8 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool create(User entity)
         {
-            string InsertUserQuery =
-                "INSERT INTO [User] (Username, UserEmail, Password, FirstName, LastName, BirthDay, Phone) VALUES (@1, @2, @3, @4, @5, @6, @7)";
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(InsertUserQuery, connection))
+            using (SqlCommand command = new SqlCommand("dbo.CreateUserAccount", connection))
             {
                 command.Parameters.AddWithValue("@1", entity.UserName);
                 command.Parameters.AddWithValue("@2", entity.UserEmail);
@@ -38,7 +35,6 @@ namespace Fishare.DAL.SQL
                 command.Parameters.AddWithValue("@5", entity.LastName);
                 command.Parameters.AddWithValue("@6", DateTime.Now);
                 command.Parameters.AddWithValue("@7", entity.PhoneNumber);
-                //command.Parameters.AddWithValue("@8", "test");
 
                 connection.Open();
 
@@ -56,11 +52,8 @@ namespace Fishare.DAL.SQL
             }
         }
 
-        //TODO Cant reach the other recieved tabels 
         public User Read(int Id)
         {
-            //string getAccountQuery = ;
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand("dbo.GetUserProfile", connection))
             {
@@ -82,13 +75,11 @@ namespace Fishare.DAL.SQL
                         LastName = dataReader["Lastname"].ToString(),
                         PhoneNumber = dataReader["Phone"].ToString(),
                         PpPath = dataReader["User_photo_Path"].ToString(),
-                        Bio = dataReader["Bio"].ToString(),
-                        TotalFriends = (int)dataReader["TotalFriends"]
+                        Bio = dataReader["Bio"].ToString()
                     };
 
-                    int Posts = Convert.ToInt16(dataReader["PostID"]);
-
-                    if (Posts != 0)
+                    //for the next table
+                    if (dataReader.NextResult())
                     {
                         List<Post> userPosts = new List<Post>();
 
@@ -108,6 +99,15 @@ namespace Fishare.DAL.SQL
                         //set the new list to the user object
                         user.Posts = userPosts;
 
+                    }
+
+                    //for the next table
+                    if (dataReader.NextResult())
+                    {
+                        dataReader.Read();
+
+                        //set the totalfriends to the user object
+                        user.TotalFriends = (int)dataReader["TotalFriends"];
                     }
 
                     return user;
@@ -137,13 +137,12 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool CheckLogin(string email, string password)
         {
-            string checkLoginQuery = "Select UserEmail From [User] Where UserEmail=@1 And Password=@2";
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(checkLoginQuery, connection))
+            using (SqlCommand command = new SqlCommand("dbo.CheckLogin", connection))
             {
-                command.Parameters.AddWithValue("@1", email);
-                command.Parameters.AddWithValue("@2", password);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", password);
 
                 try
                 {
@@ -174,20 +173,20 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool Exist(string email)
         {
-            string existAccountQuery = "Select UserEmail From [User] Where UserEmail=@1";
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(existAccountQuery, connection))
+            using (SqlCommand command = new SqlCommand("dbo.CheckEmailExistance", connection))
             {
-                command.Parameters.AddWithValue("@1", email);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", email);
 
                 try
                 {
                     connection.Open();
+                    SqlDataReader dataReader = command.ExecuteReader();
 
-                    var result = command.ExecuteScalar();
+                    dataReader.Read();
 
-                    if (result != null)
+                    if ((int)dataReader["TotalMatches"] >= 0)
                     {
                         return true;
                     }
@@ -205,12 +204,11 @@ namespace Fishare.DAL.SQL
 
         public User GetCookieInfo(string email)
         {
-            string getAccountIDQuery = "Select UserID, UserName From [User] Where UserEmail=@1";
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(getAccountIDQuery, connection))
+            using (SqlCommand command = new SqlCommand("dbo.GetCookieInfo", connection))
             {
-                command.Parameters.AddWithValue("@1", email);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", email);
                 try
                 {
                     connection.Open();
@@ -225,8 +223,9 @@ namespace Fishare.DAL.SQL
 
                         User User = new User
                         {
-                            UserID = dataReader.GetInt32(0),
-                            UserName = dataReader.GetString(1),
+                            UserID = (int)dataReader["UserID"],
+                            UserName = dataReader["UserName"].ToString(),
+                            PpPath = dataReader["User_Photo_Path"].ToString()
                         };
 
                         return User;

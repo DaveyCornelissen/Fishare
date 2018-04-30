@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Fishare.Cookies;
 
 
 namespace Fishare.Controllers
@@ -28,10 +29,7 @@ namespace Fishare.Controllers
 
         public AccountController(IConfiguration config)
         {
-
-
             _accountLogic = new AccountLogic(config);
-
         }
 
         public IActionResult Login()
@@ -50,11 +48,24 @@ namespace Fishare.Controllers
 
                 if (cookieInfo != null)
                 {
-                    CookieClaims cookieClaims = new CookieClaims();
-                    cookieClaims.addClaims("Id", cookieInfo.UserID.ToString());
-                    var claimsPrincipal = cookieClaims.CreateCookieAuth("FishCookies");
+                    CookieCreate cookieCreate = new CookieCreate();
+                    cookieCreate.addClaims("Id", cookieInfo.UserID.ToString());
+                    cookieCreate.addClaims("UserName", cookieInfo.UserName);
+                    cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
+                    var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
+//                    List<Claim> ClaimList = new List<Claim>();
+//
+//                    ClaimList.Add(new Claim("Id", cookieInfo.UserID.ToString()));
+//
+//                    var claimsIdentity = new ClaimsIdentity(
+//                        ClaimList, "FishCookies");
+//
+//                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+//
+//                    // Set current principal
+//                    Thread.CurrentPrincipal = claimsPrincipal;
 
-                    Response.Cookies.Append("UserID", cookieInfo.UserID.ToString());
+                    //Response.Cookies.Append("UserID", cookieInfo.UserID.ToString());
 
                     //to login the user
                     await HttpContext.SignInAsync(
@@ -111,12 +122,14 @@ namespace Fishare.Controllers
 
         public IActionResult Profile()
         {
-            _userId = Convert.ToInt16(Request.Cookies["UserID"]);
+            _userId = Convert.ToInt16(CookieClaims.GetCookieID(User)); //Convert.ToInt16(Request.Cookies["UserID"]);
 
-            User User = _accountLogic.GetUserProfile(_userId);
+            //var claims = User.Claims.ToList();
+
+            User _User = _accountLogic.GetUserProfile(_userId);
 
             ProfileViewModel profileView = new ProfileViewModel();
-            profileView.User = User;
+            profileView.User = _User;
 
             return View(profileView);
         }

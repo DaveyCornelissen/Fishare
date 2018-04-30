@@ -10,48 +10,81 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 
+
 namespace Fishare.Cookies
 {
-    public class CookieClaims : ClaimsPrincipal
+    public static class CookieClaims 
     {
-        private ClaimsIdentity identity;
-
         /// <summary>
-        /// A list of added claims
+        /// get the userId to a string
         /// </summary>
-        public List<Claim> ClaimList { get; private set; }
-
-        public CookieClaims()
-        {
-            ClaimList = new List<Claim>();
-        }
-
-        /// <summary>
-        /// To add a new claim to the Cookies
-        /// </summary>
-        /// <param name="claimType"></param>
-        /// <param name="claimValue"></param>
-        public void addClaims(string claimType, string claimValue)
-        {
-            ClaimList.Add(new Claim(claimType, claimValue));
-        }
-
-        /// <summary>
-        /// To create the principals of the selected cookie
-        /// </summary>
-        /// <param name="cookieName"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public ClaimsPrincipal CreateCookieAuth(string cookieName)
+        public static string GetCookieID(this IPrincipal user)
         {
-            var claimsIdentity = new ClaimsIdentity(
-                ClaimList, cookieName);
+            try
+            {
+                var claim = ((ClaimsIdentity)user.Identity).FindFirst("Id");
+                return claim?.Value;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
 
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+        /// <summary>
+        /// Get the users email to a string
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static string GetCookieEmail(this IPrincipal user)
+        {
+            try
+            {
+                var claim = ((ClaimsIdentity)user.Identity).FindFirst("Email");
+                return claim?.Value;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
 
-            // Set current principal
-            Thread.CurrentPrincipal = claimsPrincipal;
+        /// <summary>
+        /// Get the username to a string for the navbar
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static string GetCookieUserName(this IPrincipal user)
+        {
+            try
+            {
+                var claim = ((ClaimsIdentity)user.Identity).FindFirst("UserName");
+                return claim?.Value;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
 
-            return claimsPrincipal;
+        /// <summary>
+        /// Get the path to a string for the users profile picture
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static string GetCookiePhoto(this IPrincipal user)
+        {
+            try
+            {
+                var claim = ((ClaimsIdentity)user.Identity).FindFirst("UserPicture");
+                return claim?.Value;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
     }
 }
