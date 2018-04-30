@@ -89,7 +89,7 @@ namespace Fishare.DAL.SQL
                             {
                                 PostID = (int)dataReader["PostID"],
                                 Title = dataReader["Title"].ToString(),
-                                //DateTime = (DateTime)dataReader["DateTime"],
+                                DateTime = (DateTime)dataReader["DateTime"],
                                 PrimaryPhoto = dataReader["Path"].ToString()
 
                             };

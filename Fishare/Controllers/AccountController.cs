@@ -53,19 +53,6 @@ namespace Fishare.Controllers
                     cookieCreate.addClaims("UserName", cookieInfo.UserName);
                     cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
                     var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
-//                    List<Claim> ClaimList = new List<Claim>();
-//
-//                    ClaimList.Add(new Claim("Id", cookieInfo.UserID.ToString()));
-//
-//                    var claimsIdentity = new ClaimsIdentity(
-//                        ClaimList, "FishCookies");
-//
-//                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-//
-//                    // Set current principal
-//                    Thread.CurrentPrincipal = claimsPrincipal;
-
-                    //Response.Cookies.Append("UserID", cookieInfo.UserID.ToString());
 
                     //to login the user
                     await HttpContext.SignInAsync(
@@ -96,11 +83,23 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(User model)
+        public IActionResult Create(CreateAccountViewModel model)
         {
             try
             {
-                bool UserCreated = _accountLogic.CreateUser(model);
+                User _newUser = new User
+                {
+                    UserName = model.UserName,
+                    UserEmail = model.UserEmail,
+                    Password = model.Password,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    BirthDay = model.Birthday,
+                    PhoneNumber = model.PhoneNumber,
+                    PpPath = model.PPath
+                };
+
+                bool UserCreated = _accountLogic.CreateUser(_newUser);
 
                 if (UserCreated)
                 {
@@ -122,14 +121,12 @@ namespace Fishare.Controllers
 
         public IActionResult Profile()
         {
-            _userId = Convert.ToInt16(CookieClaims.GetCookieID(User)); //Convert.ToInt16(Request.Cookies["UserID"]);
+            _userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            //var claims = User.Claims.ToList();
-
-            User _User = _accountLogic.GetUserProfile(_userId);
+            User _user = _accountLogic.GetUserProfile(_userId);
 
             ProfileViewModel profileView = new ProfileViewModel();
-            profileView.User = _User;
+            profileView.User = _user;
 
             return View(profileView);
         }

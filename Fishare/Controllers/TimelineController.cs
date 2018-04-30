@@ -20,27 +20,12 @@ namespace Fishare.Controllers
 
         public TimelineController(IConfiguration config)
         {
-            //Cookies
-//            CookieClaims cookieClaims = new CookieClaims();
-
-            //Get the current claims principal
-//            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
-//
-//            if (identity != null)
-//            {
-//                // Get the claims values
-//                _userId = Convert.ToInt16(cookieClaims.GetClaim(identity, "Id"));
-//            }
-            //
-
-//            _postLogic = new PostLogic(config);
-
+            _postLogic = new PostLogic(config);
         }
 
-//        [Authorize(AuthenticationSchemes = "FishCookies")]
+        [Authorize(AuthenticationSchemes = "FishCookies")]
         public IActionResult TimeLine()
         {
-            
 
             return View();
         }

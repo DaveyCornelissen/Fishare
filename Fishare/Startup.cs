@@ -26,9 +26,6 @@ namespace Fishare
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-//            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//                .AddCookie(options => { options.AccessDeniedPath = ""; });
             CookieAuthentication(services);
         }
 
