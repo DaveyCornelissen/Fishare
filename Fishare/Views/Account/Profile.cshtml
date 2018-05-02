@@ -38,8 +38,10 @@
                 <div class="row">
                     @foreach (Post post in Model.User.Posts)
                     {
-                        <div class="card text-white bg-warning mb-3" style="max-width: 20rem;">
-                            <div class="card-header">@post.Title  @post.DateTime</div>
+                        <div id="@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
+                            <div class="card-header">
+                                <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
+                            </div>
                             <div class="card-body">
                                 <img class="PreviewPostImage" src="~@post.PrimaryPhoto"/>
                             </div>

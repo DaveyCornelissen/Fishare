@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Fishare.Cookies;
 
 
 namespace Fishare.Controllers
@@ -40,39 +39,37 @@ namespace Fishare.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            bool userExist = _accountLogic.CheckLogin(model.Email, model.Password);
-
-            if (userExist)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            try
+            {
+                //check if the user input is valid
+                _accountLogic.CheckLogin(model.Email, model.Password);
+                //Get the cookie info
                 User cookieInfo = _accountLogic.GetCookieInfo(model.Email);
 
-                if (cookieInfo != null)
-                {
-                    CookieCreate cookieCreate = new CookieCreate();
-                    cookieCreate.addClaims("Id", cookieInfo.UserID.ToString());
-                    cookieCreate.addClaims("UserName", cookieInfo.UserName);
-                    cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
-                    var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
+                CookieCreate cookieCreate = new CookieCreate();
+                cookieCreate.addClaims("Id", cookieInfo.UserID.ToString());
+                cookieCreate.addClaims("UserName", cookieInfo.UserName);
+                cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
+                var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
 
-                    //to login the user
-                    await HttpContext.SignInAsync(
-                        "FishCookies", claimsPrincipal,
-                        new AuthenticationProperties
-                        {
-                            IsPersistent = model.Remember
-                        });
+                //to login the user
+                await HttpContext.SignInAsync(
+                    "FishCookies", claimsPrincipal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = model.Remember
+                    });
 
-                    return RedirectToAction("TimeLine", "Timeline");
-                }
-                else
-                {
-                    ViewData["ErrorGetUser"] = "Oops something went wrong!";
-                    return View();
-                }
+                return RedirectToAction("TimeLine", "Timeline");
             }
-            else
+            catch (ExceptionHandler exception)
             {
-                ViewData["ErrorNoUser"] = "Email or password does not exist! Please try again";
+                ViewData[exception.Index] = exception.Message;
                 return View();
             }
         }
@@ -87,6 +84,11 @@ namespace Fishare.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
                 User _newUser = new User
                 {
                     UserName = model.UserName,
@@ -99,18 +101,9 @@ namespace Fishare.Controllers
                     PpPath = model.PPath
                 };
 
-                bool UserCreated = _accountLogic.CreateUser(_newUser);
+                _accountLogic.CreateUser(_newUser);
 
-                if (UserCreated)
-                {
-                    ViewData["UserCreateSucces"] = "Your account is successfull created! You can now login.";
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    ViewData["UserCreateFailed"] = "Oops something went wrong! your account has failed to create!";
-                    return View();
-                }
+                return RedirectToAction("Login", "Account", ViewData);
             }
             catch (ExceptionHandler exception)
             {

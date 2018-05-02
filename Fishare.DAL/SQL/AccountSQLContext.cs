@@ -28,26 +28,30 @@ namespace Fishare.DAL.SQL
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand("dbo.CreateUserAccount", connection))
             {
-                command.Parameters.AddWithValue("@1", entity.UserName);
-                command.Parameters.AddWithValue("@2", entity.UserEmail);
-                command.Parameters.AddWithValue("@3", entity.Password);
-                command.Parameters.AddWithValue("@4", entity.FirstName);
-                command.Parameters.AddWithValue("@5", entity.LastName);
-                command.Parameters.AddWithValue("@6", DateTime.Now);
-                command.Parameters.AddWithValue("@7", entity.PhoneNumber);
-
-                connection.Open();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserName", entity.UserName);
+                command.Parameters.AddWithValue("@UserEmail", entity.UserEmail);
+                command.Parameters.AddWithValue("@Password", entity.Password);
+                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
+                command.Parameters.AddWithValue("@LastName", entity.LastName);
+                command.Parameters.AddWithValue("@BirthDay", entity.BirthDay);
+                command.Parameters.AddWithValue("@Phone", entity.PhoneNumber);
 
                 try
                 {
+                    connection.Open();
                     //return true if account is created
-                    command.ExecuteNonQuery();
+                     int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
                     return true;
                 }
-                catch (Exception)
+                catch (Exception errorException)
                 {
-                    //if insert failed
-                    return false;
+                    throw errorException;
                 }
             }
         }
@@ -174,7 +178,7 @@ namespace Fishare.DAL.SQL
         public bool Exist(string email)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand("dbo.CheckEmailExistance", connection))
+            using (SqlCommand command = new SqlCommand("dbo.CheckEmailExistence", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@Email", email);
@@ -186,7 +190,7 @@ namespace Fishare.DAL.SQL
 
                     dataReader.Read();
 
-                    if ((int)dataReader["TotalMatches"] >= 0)
+                    if ((int)dataReader["TotalMatches"] != 0)
                     {
                         return true;
                     }

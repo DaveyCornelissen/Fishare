@@ -7,3 +7,15 @@
 .User-Content {
     margin: 15px;
 }
+.PreviewPost {
+    margin: 15px;
+}
+.PreviewPostImage {
+    height: 200px;
+}
+.PostTitle {
+    text-align: left;
+}
+.PostDate {
+    text-align: right;
+}

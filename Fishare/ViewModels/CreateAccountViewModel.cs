@@ -9,41 +9,38 @@ namespace Fishare.ViewModels
 {
     public class CreateAccountViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter an email adress!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(60)]
+        [StringLength(60, ErrorMessage = "the email must be less than {1} characters.")]
         public string UserEmail { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an username!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(150)]
+        [StringLength(150, ErrorMessage = "the username must be less than {1} characters.")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an password")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "the password must be less than {1} characters.")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an first name!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "the first name must be less than {1} characters.")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an last name!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "the last name must be less than {1} characters.")]
         public string LastName { get; set; }
 
-        [Required]
-        [Column(TypeName = "VARCHAR")]
+
         public DateTime Birthday { get; set; }
 
-        [Required]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
+        [StringLength(20, ErrorMessage = "the phone number must be less than {1} characters.")]
         public string PhoneNumber { get; set; }
 
-        [Required]
         [Column(TypeName = "VARCHAR")]
         [StringLength(255)]
         public string PPath { get; set; }

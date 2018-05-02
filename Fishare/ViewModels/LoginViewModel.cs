@@ -9,14 +9,14 @@ namespace Fishare.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your email adress!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(60)]
+        [StringLength(60, ErrorMessage = "Your email must be less than {1} characters.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your password!")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "Your password must be less than {1} characters.")]
         public string Password { get; set; }
 
         public bool Remember { get; set; }

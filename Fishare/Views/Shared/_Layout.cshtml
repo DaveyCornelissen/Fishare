@@ -11,10 +11,10 @@
         <script src="~/fonts/fontawesome-all.js"></script>
         <link href="~/css/layout/Layout.css" rel="stylesheet"/>
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </environment>
 </head>
 <body class="Site">
@@ -67,76 +67,38 @@
 </div>
 <footer class="page-footer pt-4">
     <div class="container-fluid text-center text-md-left">
-
-        <!--Grid row-->
         <div class="row mb-3 text-center d-flex justify-content-center">
-
-            <!--Grid column-->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase">
                     <a class="Footer-text" href="#!">About us</a>
                 </h6>
             </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase">
                     <a class="Footer-text" href="#!">Products</a>
                 </h6>
             </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase">
                     <a class="Footer-text" href="#!">Awards</a>
                 </h6>
             </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase">
                     <a class="Footer-text" href="#!">Help</a>
                 </h6>
             </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase">
                     <a class="Footer-text" href="#!">Contact</a>
                 </h6>
             </div>
-            <!--Grid column-->
-
         </div>
     </div>
     <div class="footer-copyright py-3 text-center">
         © 2018 Copyright: Fishare
     </div>
 </footer>
-
-<environment include="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-</environment>
-<environment exclude="Development">
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-    </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-            crossorigin="anonymous"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-    </script>
-</environment>
-
 @RenderSection("Scripts", required: false)
 </body>
 </html>

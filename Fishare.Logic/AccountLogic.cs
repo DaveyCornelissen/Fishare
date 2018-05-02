@@ -38,22 +38,40 @@ namespace Fishare.Logic
         }
 
         //Check if the user email and password exist
-        public bool CheckLogin(string email, string password) => _repository.CheckLogin(email, password);
+        public void CheckLogin(string email, string password)
+        {
+            bool userResult = _repository.CheckLogin(email, password);
+
+            if (!userResult)
+            {
+                throw new ExceptionHandler("ErrorNoUser", "Email or password does not exist! Please try again");
+            }
+        }
 
         //Getting user-id and user-name
-        public User GetCookieInfo(string email) => _repository.GetCookieInfo(email);
+        public User GetCookieInfo(string email)
+        {
+            User userResult = _repository.GetCookieInfo(email);
+
+            if (userResult == null)
+            {
+                throw new ExceptionHandler("ErrorNoCookiesInfo", "Oops something went wrong! we couldn't reach the CookiesBox");
+            }
+
+            return userResult;
+        }
 
         //Check if the email already exist
-        public bool CheckExist(string email) => _repository.Exist(email);
+        //public bool CheckExist(string email) => _repository.Exist(email);
 
         //Create the new user
-        public bool CreateUser(User entity)
+        public void CreateUser(User entity)
         {
-            bool emailExist = CheckExist(entity.UserEmail);
+            bool emailExist = _repository.Exist(entity.UserEmail);
 
             if (emailExist)
             {
-                throw new ExceptionHandler("ErrorEmailExist","The email already exist! Please choose another one.");
+                throw new ExceptionHandler("ErrorEmailExist", "The email already exist! Please choose another one.");
             }
 
             string password = entity.Password;
@@ -63,10 +81,14 @@ namespace Fishare.Logic
                 throw new ExceptionHandler("ErrorPassword", "The password does not match the requirements!");
             }
 
-            return _repository.create(entity);
+            bool userCreated = _repository.create(entity);
+
+            if (!userCreated)
+            {
+                throw new ExceptionHandler("UserCreateFailed", "Oops something went wrong! your account has failed to create!");
+            }
         }
 
         public User GetUserProfile(int UserId) => _repository.Read(UserId);
-
     }
 }
