@@ -23,13 +23,12 @@ namespace Fishare.DAL.SQL
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public bool create(User entity)
+        public bool Create(User entity)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand("dbo.CreateUserAccount", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserName", entity.UserName);
                 command.Parameters.AddWithValue("@UserEmail", entity.UserEmail);
                 command.Parameters.AddWithValue("@Password", entity.Password);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
@@ -73,12 +72,14 @@ namespace Fishare.DAL.SQL
 
                     User user = new User
                     {
-                        UserName = dataReader["UserName"].ToString(),
+                        UserID = (int)dataReader["UserID"],
                         UserEmail = dataReader["UserEmail"].ToString(),
+                        Password = dataReader["Password"].ToString(),
                         FirstName = dataReader["Firstname"].ToString(),
                         LastName = dataReader["Lastname"].ToString(),
                         PhoneNumber = dataReader["Phone"].ToString(),
                         PpPath = dataReader["User_photo_Path"].ToString(),
+                        BirthDay = (DateTime)dataReader["BirthDay"],
                         Bio = dataReader["Bio"].ToString()
                     };
 
@@ -123,9 +124,38 @@ namespace Fishare.DAL.SQL
             }
         }
 
-        public bool Update()
+        public bool Update(User entity)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.UpdateUserAccount", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserID", entity.UserID);
+                command.Parameters.AddWithValue("@UserEmail", entity.UserEmail);
+                command.Parameters.AddWithValue("@Password", entity.Password);
+                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
+                command.Parameters.AddWithValue("@LastName", entity.LastName);
+                //command.Parameters.AddWithValue("@BirthDay", entity.BirthDay);
+                command.Parameters.AddWithValue("@Phone", entity.PhoneNumber);
+                command.Parameters.AddWithValue("@Bio", entity.Bio);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
         }
 
         public bool Delete()
@@ -228,7 +258,7 @@ namespace Fishare.DAL.SQL
                         User User = new User
                         {
                             UserID = (int)dataReader["UserID"],
-                            UserName = dataReader["UserName"].ToString(),
+                            FirstName = dataReader["Firstname"].ToString(),
                             PpPath = dataReader["User_Photo_Path"].ToString()
                         };
 

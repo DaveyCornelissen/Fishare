@@ -1,26 +1,35 @@
-﻿@using Fishare.DAL.SQL
-@using Fishare.Model
+﻿@using Fishare.Model
 @model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
 }
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 <link href="~/css/Profile/Profile.css" rel="stylesheet"/>
-<div class="container">
+<div id="ProfilePage" class="container">
     <div class="Top-Content">
         <div class="row">
             <div class="UserImage">
-                @*                                <img src="@Model.User.PpPath" class="UserPhoto"/>*@
+                <img src="~/images/Layout/user.png" class="UserPhoto"/>
             </div>
             <div class="col-md-6">
-                <h4>@Model.User.UserName</h4>
-                <h5>Name: @Model.User.FirstName @Model.User.LastName</h5>
-                <h5>Posts: @Model.User.Posts.Count.ToString()</h5>
-                <h5>Friends: @Model.User.TotalFriends</h5>
-                <h5>Bio: @Model.User.Bio</h5>
+                <div class="row AccountInfoText">
+                    <div class="col-md-6">
+                        <h5><strong class="text-primary">Name:</strong> @Model.User.FirstName @Model.User.LastName</h5>
+                        <h5><strong class="text-primary">Bio:</strong> @Model.User.Bio</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><strong class="text-primary">Posts:</strong> @Model.User.Posts.Count.ToString()</h5>
+                        <h5><strong class="text-primary">Friends:</strong> @Model.User.TotalFriends.ToString()</h5>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4 ButtonDiv">
-                <button class="btn btn-secondary ActionButtons">Settings</button>
-                <Button class="btn btn-warning ActionButtons">Friends</Button>
+                <div class="col-8 offset-4">
+                    <button type="button" class="btn btn-secondary ActionButtons" data-toggle="modal" data-target="#AccountSettings">Settings</button>
+                    <Button type="button" class="btn btn-warning ActionButtons">Friends</Button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,3 +65,75 @@
     </div>
 </div>
 
+@*Accountsettings Modal*@
+<div id="AccountSettings" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Account Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body col-md-10 offset-1">
+                <form asp-controller="Account" asp-action="Profile" class="post-using-ajax" method="post">
+                    <div class="Top-Text">
+                        <p>Change here your account settings.</p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="Email">Email address</label>
+                            <input asp-for="UserEmail" type="email" class="form-control" data-val="true" aria-describedby="emailHelp" placeholder="Enter a email" value="@Model.User.UserEmail">
+                            <span asp-validation-for="UserEmail" data-valmsg-replace="true" class="form-text field-validation-valid text-danger">@ViewData["ErrorEmailExist"]</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" data-val="true" placeholder="leave empty if you dont want to change your password">
+                            <span asp-validation-for="Password" data-valmsg-replace="true" class="form-text field-validation-valid text-danger">@ViewData["ErrorPassword"]</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="FirstName">First Name</label>
+                            <input asp-for="FirstName" type="text" class="form-control" data-val="true" placeholder="Enter Firstname" value="@Model.User.FirstName">
+                            <span asp-validation-for="FirstName" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="LastName">Last Name</label>
+                            <input asp-for="LastName" type="text" class="form-control" data-val="true" placeholder="Enter your lastname" value="@Model.User.LastName">
+                            <span asp-validation-for="LastName" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="BirthDay">Birth Day</label>
+                            <input asp-for="Birthday" type="datetime" class="form-control" placeholder="Enter your date of birth" value="@Model.User.BirthDay">
+                        </div>
+                        <div class="form-group">
+                            <label for="Phone">Phone</label>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Enter phone number" value="@Model.User.PhoneNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="Bio">Bio</label>
+                            <textarea asp-for="Bio" rows="3" class="form-control" placeholder="Enter here your Bio story">@Model.User.Bio</textarea>
+                        </div>
+                        @if (Model.User.PpPath != "")
+                        {
+                            <div class="form-group">
+                                <img src="~@Model.User.PpPath" class="PreviewAccountImage"/>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="ProfilePhoto">Upload profile picture</label>
+                            <input asp-for="PPath" type="file" class="form-control-file" id="ProfilePhoto" aria-describedby="fileHelp">
+                            <small id="fileHelp" class="form-text text-muted">You can only upload images with these formats: PNG, JPEG, GIF</small>
+                        </div>
+                        <span class="form-text text-danger">@ViewData["UserCreateFailed"]</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="EditAccoutButton" type="submit" class="btn btn-success">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/account/profile/profile.js"></script>

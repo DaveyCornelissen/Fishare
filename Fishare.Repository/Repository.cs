@@ -19,9 +19,9 @@ namespace Fishare.Repository
             _context = context;
         }
 
-        public bool create(TEntity entity)
+        public bool Create(TEntity entity)
         {
-            return _context.create(entity);
+            return _context.Create(entity);
         }
 
         public bool Delete()
@@ -34,9 +34,9 @@ namespace Fishare.Repository
             return _context.Read(id);
         }
 
-        public bool Update()
+        public bool Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            return _context.Update(entity);
         }
     }
 }

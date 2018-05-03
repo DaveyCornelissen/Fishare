@@ -9,7 +9,7 @@ namespace Fishare.ViewModels
 {
     public class CreateAccountViewModel
     {
-        [Required(ErrorMessage = "Please enter an email adress!")]
+        [Required(ErrorMessage = "Please enter an email address!")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(60, ErrorMessage = "the email must be less than {1} characters.")]
         public string UserEmail { get; set; }
@@ -19,7 +19,6 @@ namespace Fishare.ViewModels
         [StringLength(150, ErrorMessage = "the username must be less than {1} characters.")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Please enter an password")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(255, ErrorMessage = "the password must be less than {1} characters.")]
         public string Password { get; set; }

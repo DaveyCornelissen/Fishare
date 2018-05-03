@@ -40,12 +40,8 @@ namespace Fishare.Logic
         //Check if the user email and password exist
         public void CheckLogin(string email, string password)
         {
-            bool userResult = _repository.CheckLogin(email, password);
-
-            if (!userResult)
-            {
+            if (!_repository.CheckLogin(email, password))
                 throw new ExceptionHandler("ErrorNoUser", "Email or password does not exist! Please try again");
-            }
         }
 
         //Getting user-id and user-name
@@ -54,41 +50,56 @@ namespace Fishare.Logic
             User userResult = _repository.GetCookieInfo(email);
 
             if (userResult == null)
-            {
                 throw new ExceptionHandler("ErrorNoCookiesInfo", "Oops something went wrong! we couldn't reach the CookiesBox");
-            }
 
             return userResult;
         }
 
-        //Check if the email already exist
-        //public bool CheckExist(string email) => _repository.Exist(email);
-
         //Create the new user
         public void CreateUser(User entity)
         {
-            bool emailExist = _repository.Exist(entity.UserEmail);
-
-            if (emailExist)
-            {
+            if (_repository.Exist(entity.UserEmail))
                 throw new ExceptionHandler("ErrorEmailExist", "The email already exist! Please choose another one.");
-            }
 
             string password = entity.Password;
 
             if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
-            {
                 throw new ExceptionHandler("ErrorPassword", "The password does not match the requirements!");
-            }
 
-            bool userCreated = _repository.create(entity);
-
-            if (!userCreated)
-            {
+            if (!_repository.Create(entity))
                 throw new ExceptionHandler("UserCreateFailed", "Oops something went wrong! your account has failed to create!");
-            }
         }
 
         public User GetUserProfile(int UserId) => _repository.Read(UserId);
+
+        public void UpdateUser(User entity)
+        {
+            User _oldUser = _repository.Read(entity.UserID);
+
+            if (_oldUser.UserEmail != entity.UserEmail)
+            {
+                bool emailExist = _repository.Exist(entity.UserEmail);
+
+                if (emailExist)
+                {
+                    throw new ExceptionHandler("ErrorEmailExist", "The email already exist! Please choose another one.");
+                }
+            }
+
+            string password = entity.Password;
+
+            if (password != null)
+            {
+                if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
+                    throw new ExceptionHandler("ErrorPassword", "The password does not match the requirements!");
+            }
+            else
+            {
+                entity.Password = _oldUser.Password;
+            }
+
+            if (!_repository.Update(entity))
+                throw new ExceptionHandler("UserUpdateFailed", "Oops something went wrong! your account has failed to Update!");
+        }
     }
 }

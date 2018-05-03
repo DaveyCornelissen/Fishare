@@ -9,7 +9,7 @@ namespace Fishare.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Please enter your email adress!")]
+        [Required(ErrorMessage = "Please enter your email address!")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(60, ErrorMessage = "Your email must be less than {1} characters.")]
         public string Email { get; set; }

@@ -3,6 +3,9 @@
     ViewData["Title"] = "Login";
 }
 <link href="~/css/authentication/authetication.css" rel="stylesheet" />
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 
 <div class="col-12">
     <div class="col-md-12">
@@ -13,15 +16,15 @@
             <h4>Welcome to Fishare!</h4>
             <p>Your online fishing platform to share all your fish adventures with your friends</p>
             <p>Please login or register to contineue</p>
-            <div id="EmailForm" class="form-group">
+            <div class="form-group">
                 <label for="EmailLogin">Email address</label>
-                <input asp-for="Email" type="email" class="form-control" id="EmailLogin" aria-describedby="emailHelp" placeholder="Enter email">
-                <span asp-validation-for="Email" id="EmailHelp" class="form-text text-danger"></span>
+                <input asp-for="Email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                <span asp-validation-for="Email" class="form-text text-danger"></span>
             </div>
-            <div id="PasswordForm" class="form-group">
+            <div class="form-group">
                 <label for="PasswordLogin">Password</label>
-                <input asp-for="Password" type="password" class="form-control" id="PasswordLogin" placeholder="Password">
-                <span asp-validation-for="Password" id="PasswordHelp" class="form-text text-danger"></span>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                <span asp-validation-for="Password" class="form-text text-danger"></span>
             </div>
             <div class="form-check check">
                 <input asp-for="Remember" type="checkbox" value="true" class="form-check-input" id="KeepLogin">

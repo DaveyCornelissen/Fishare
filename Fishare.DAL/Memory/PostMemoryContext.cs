@@ -30,7 +30,7 @@ namespace Fishare.DAL.Memory
             });
         }
 
-        public bool create(Post entity)
+        public bool Create(Post entity)
         {
             throw new NotImplementedException();
         }
@@ -40,7 +40,7 @@ namespace Fishare.DAL.Memory
             throw new NotImplementedException();
         }
 
-        public bool Update()
+        public bool Update(Post entity)
         {
             throw new NotImplementedException();
         }

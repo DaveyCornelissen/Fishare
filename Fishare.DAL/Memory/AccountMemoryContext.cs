@@ -10,21 +10,24 @@ namespace Fishare.DAL.Memory
     public class AccountMemoryContext : IAccountRepository
     {
         List<User> AllUsers = new List<User>();
+        List<Post> AllPosts = new List<Post>();
 
         public AccountMemoryContext()
         {
             AllUsers.Add(new User
                 {
                     UserID = 1,
-                    UserName = "DaveyCor",
                     UserEmail = "d.cornelissen8@gmail.com",
                     Password = "12345",
                     FirstName = "Davey",
                     LastName = "Cornelissen",
                     BirthDay = DateTime.Now,
                     PhoneNumber = "0628433115",
+                    Posts = AllPosts,
                     PpPath = "/Test/Profile.PNG"
                 });
+
+            AllPosts.Add(new Post {UserId = 1, DateTime = DateTime.Now, Title = "Test"});
         }
 
         public User GetUserInfo(User entity)
@@ -32,6 +35,25 @@ namespace Fishare.DAL.Memory
             User user = AllUsers.Find(u => u.UserEmail == entity.UserEmail && u.Password == entity.Password);
 
             return user;
+        }
+
+        public bool Update(User entity)
+        {
+            User user = AllUsers.Find(u => u.UserID == entity.UserID);
+
+            if (user != null)
+            {
+                user.UserEmail = entity.UserEmail;
+                user.FirstName = entity.FirstName;
+                user.LastName = entity.LastName;
+                user.Password = entity.Password;
+                user.BirthDay = entity.BirthDay;
+                user.Bio = entity.Bio;
+                user.PhoneNumber = entity.PhoneNumber;
+                return true;
+            }
+
+            return false;
         }
 
         public bool Delete()
@@ -55,22 +77,39 @@ namespace Fishare.DAL.Memory
 
         public User GetCookieInfo(string email)
         {
-            throw new NotImplementedException();
+            User user = AllUsers.Find(u => u.UserEmail == email);
+
+            return user;
         }
 
         public User Read(int Id)
         {
-            throw new NotImplementedException();
+            User user = AllUsers.Find(u => u.UserID == Id);
+
+            return user;
         }
 
-        public bool Update()
+        public bool Create(User entity)
         {
-            throw new NotImplementedException();
-        }
+            if (entity != null)
+            {
+                User _newUser = new User
+                {
+                    UserEmail = entity.UserEmail,
+                    Password = entity.Password,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    BirthDay = entity.BirthDay,
+                    PhoneNumber = entity.PhoneNumber,
+                    PpPath = entity.PpPath
+                };
 
-        public bool create(User entity)
-        {
-            throw new NotImplementedException();
+                AllUsers.Add(_newUser);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

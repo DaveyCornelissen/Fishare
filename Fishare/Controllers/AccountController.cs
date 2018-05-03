@@ -36,13 +36,19 @@ namespace Fishare.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                "FishCookies");
+
+            return RedirectToAction("Login", "Account");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
             try
             {
@@ -53,7 +59,7 @@ namespace Fishare.Controllers
 
                 CookieCreate cookieCreate = new CookieCreate();
                 cookieCreate.addClaims("Id", cookieInfo.UserID.ToString());
-                cookieCreate.addClaims("UserName", cookieInfo.UserName);
+                cookieCreate.addClaims("UserName", cookieInfo.FirstName);
                 cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
                 var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
 
@@ -82,16 +88,13 @@ namespace Fishare.Controllers
         [HttpPost]
         public IActionResult Create(CreateAccountViewModel model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
+
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-
                 User _newUser = new User
                 {
-                    UserName = model.UserName,
                     UserEmail = model.UserEmail,
                     Password = model.Password,
                     FirstName = model.FirstName,
@@ -103,7 +106,7 @@ namespace Fishare.Controllers
 
                 _accountLogic.CreateUser(_newUser);
 
-                return RedirectToAction("Login", "Account", ViewData);
+                return RedirectToAction("Login", "Account");
             }
             catch (ExceptionHandler exception)
             {
@@ -122,6 +125,47 @@ namespace Fishare.Controllers
             profileView.User = _user;
 
             return View(profileView);
+        }
+
+        [HttpPost]
+        public IActionResult Profile(ProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            try
+            {
+                int cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+
+                User _newUser = new User
+                {
+                    UserID = cookieUserID,
+                    UserEmail = model.UserEmail,
+                    Password = model.Password,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    BirthDay = model.Birthday,
+                    PhoneNumber = model.PhoneNumber,
+                    PpPath = model.PPath,
+                    Bio = model.Bio
+                };
+
+                //update users account
+                _accountLogic.UpdateUser(_newUser);
+
+                //get the current user profile
+                User _user = _accountLogic.GetUserProfile(cookieUserID);
+
+                ProfileViewModel profileView = new ProfileViewModel();
+                profileView.User = _user;
+
+                return PartialView(profileView);
+            }
+            catch (ExceptionHandler exception)
+            {
+                ViewData[exception.Index] = exception.Message;
+                return View();
+            }
         }
     }
 }
