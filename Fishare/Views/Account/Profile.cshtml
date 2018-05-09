@@ -1,34 +1,50 @@
 ﻿@using Fishare.Model
+@using Microsoft.AspNetCore.Mvc.Rendering
 @model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
 }
+
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+
 <link href="~/css/Profile/Profile.css" rel="stylesheet"/>
 <div id="ProfilePage" class="container">
     <div class="Top-Content">
         <div class="row">
-            <div class="UserImage">
-                <img src="~/images/Layout/user.png" class="UserPhoto"/>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
+                <div class="UserImage">
+                    <img src="~/images/Layout/user.png" class="UserPhoto" />
+                </div>
                 <div class="row AccountInfoText">
-                    <div class="col-md-6">
-                        <h5><strong class="text-primary">Name:</strong> @Model.User.FirstName @Model.User.LastName</h5>
-                        <h5><strong class="text-primary">Bio:</strong> @Model.User.Bio</h5>
+
+                    <div class="col-md-5">
+                        <h5>
+                            <strong class="text-primary">Name:</strong> @Model.ProfileInfoViewModel.FirstName @Model.ProfileInfoViewModel.LastName
+                        </h5>
+                        <h5>
+                            <strong class="text-primary">Bio:</strong> @Model.ProfileInfoViewModel.Bio
+                        </h5>
                     </div>
-                    <div class="col-md-6">
-                        <h5><strong class="text-primary">Posts:</strong> @Model.User.Posts.Count.ToString()</h5>
-                        <h5><strong class="text-primary">Friends:</strong> @Model.User.TotalFriends.ToString()</h5>
+                    <div class="col-md-2">
+                        <h5>
+                            <strong class="text-primary">Posts:</strong> @Model.ProfileInfoViewModel.Posts.Count.ToString()
+                        </h5>
+                        <h5>
+                            <strong class="text-primary">Friends:</strong> @Model.ProfileInfoViewModel.TotalFriends.ToString()
+                        </h5>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 ButtonDiv">
-                <div class="col-8 offset-4">
-                    <button type="button" class="btn btn-secondary ActionButtons" data-toggle="modal" data-target="#AccountSettings">Settings</button>
-                    <Button type="button" class="btn btn-warning ActionButtons">Friends</Button>
+            <div class="col-md-4 col-sm-10">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#AccountSettings">Settings</button>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                        <Button type="button" class="btn btn-warning" data-toggle="modal" data-target="#FriendsPage">Friends</Button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,14 +61,14 @@
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="Posts">
                 <div class="row">
-                    @foreach (Post post in Model.User.Posts)
+                    @foreach (Post post in Model.ProfileInfoViewModel.Posts)
                     {
-                        <div id="@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
+                        <div id="PostId:@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
                             <div class="card-header">
                                 <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
                             </div>
                             <div class="card-body">
-                                <img class="PreviewPostImage" src="~@post.PrimaryPhoto"/>
+                                <img class="PreviewPostImage" src="~@post.PrimaryPhoto" />
                             </div>
                         </div>
                     }
@@ -66,74 +82,95 @@
 </div>
 
 @*Accountsettings Modal*@
-<div id="AccountSettings" class="modal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Account Settings</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body col-md-10 offset-1">
-                <form asp-controller="Account" asp-action="Profile" class="post-using-ajax" method="post">
-                    <div class="Top-Text">
-                        <p>Change here your account settings.</p>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="Email">Email address</label>
-                            <input asp-for="UserEmail" type="email" class="form-control" data-val="true" aria-describedby="emailHelp" placeholder="Enter a email" value="@Model.User.UserEmail">
-                            <span asp-validation-for="UserEmail" data-valmsg-replace="true" class="form-text field-validation-valid text-danger">@ViewData["ErrorEmailExist"]</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="Password">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" data-val="true" placeholder="leave empty if you dont want to change your password">
-                            <span asp-validation-for="Password" data-valmsg-replace="true" class="form-text field-validation-valid text-danger">@ViewData["ErrorPassword"]</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="FirstName">First Name</label>
-                            <input asp-for="FirstName" type="text" class="form-control" data-val="true" placeholder="Enter Firstname" value="@Model.User.FirstName">
-                            <span asp-validation-for="FirstName" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="LastName">Last Name</label>
-                            <input asp-for="LastName" type="text" class="form-control" data-val="true" placeholder="Enter your lastname" value="@Model.User.LastName">
-                            <span asp-validation-for="LastName" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="BirthDay">Birth Day</label>
-                            <input asp-for="Birthday" type="datetime" class="form-control" placeholder="Enter your date of birth" value="@Model.User.BirthDay">
-                        </div>
-                        <div class="form-group">
-                            <label for="Phone">Phone</label>
-                            <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Enter phone number" value="@Model.User.PhoneNumber">
-                        </div>
-                        <div class="form-group">
-                            <label for="Bio">Bio</label>
-                            <textarea asp-for="Bio" rows="3" class="form-control" placeholder="Enter here your Bio story">@Model.User.Bio</textarea>
-                        </div>
-                        @if (Model.User.PpPath != "")
-                        {
-                            <div class="form-group">
-                                <img src="~@Model.User.PpPath" class="PreviewAccountImage"/>
+@Html.Partial("ProfileSettings", Model.ProfileSettingsViewModel);
+
+    @*Friends Modal*@
+    <div id="FriendsPage" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Friends Page</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body col-md-10 offset-md-1 col-sm-12">
+                    <div class="ContentBlock container">
+                        <h4>Friends Requests</h4>
+                        <div class="PageBorder"></div>
+                        <div class="col-md-12">
+                            <div class="row FRContent">
+                                <div class="col-2">
+                                    <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                </div>
+                                <div class="col-5">
+                                    <h5>Burkan</h5>
+                                </div>
+                                <div class="col-5 FRActionButtons">
+                                    <button type="button" class="btn btn-success">Accept</button>
+                                    <button type="button" class="btn btn-warning">Decline</button>
+                                    <button type="button" class="btn btn-danger">Block</button>
+                                </div>
                             </div>
-                        }
-                        <div class="form-group">
-                            <label for="ProfilePhoto">Upload profile picture</label>
-                            <input asp-for="PPath" type="file" class="form-control-file" id="ProfilePhoto" aria-describedby="fileHelp">
-                            <small id="fileHelp" class="form-text text-muted">You can only upload images with these formats: PNG, JPEG, GIF</small>
                         </div>
-                        <span class="form-text text-danger">@ViewData["UserCreateFailed"]</span>
                     </div>
-                    <div class="modal-footer">
-                        <button id="EditAccoutButton" type="submit" class="btn btn-success">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    <div class="ContentBlock container">
+                        <h4>Friends</h4>
+                        <div class="PageBorder"></div>
+                        <div class="col-md-12">
+                            <div class="row FRContent">
+                                <div class="col-2">
+                                    <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                </div>
+                                <div class="col-5">
+                                    <h5>Burkan</h5>
+                                </div>
+                                <div class="col-5">
+                                    <button type="button" class="btn btn-info">View</button>
+                                    <button type="button" class="btn btn-warning">Remove</button>
+                                    <button type="button" class="btn btn-danger">Block</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
+
+                    <div class="ContentBlock container">
+                        <h4>Search Friends</h4>
+                        <div class="PageBorder"></div>
+                        <div class="col-md-12">
+                            <div class="row SearchFriends">
+                                <div class="col-3">
+                                    <P>Search For Friends:</P>
+                                </div>
+                                <div class="col-7">
+                                    <input class="SearchBalk" type="text"/>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row FRContent">
+                                <div class="col-2">
+                                    <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                </div>
+                                <div class="col-5">
+                                    <h5>Burkan</h5>
+                                </div>
+                                <div class="col-5">
+                                    <button type="button" class="btn btn-success ml-auto">Send</button>
+                                    <button type="button" class="btn btn-danger ml-auto">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <script src="~/js/account/profile/profile.js"></script>

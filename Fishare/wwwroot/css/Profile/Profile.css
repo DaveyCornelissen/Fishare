@@ -5,7 +5,9 @@
     margin-top: 35px;
 }
 .ActionButtons {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 .User-Content {
     margin: 15px;
@@ -22,3 +24,32 @@
 .PostDate {
     text-align: right;
 }
+.ContentBlock {
+    margin-bottom: 60px;
+}
+.PageBorder {
+    border-bottom: 1px solid #2196F3;
+}
+.FRContent {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #127BA3;
+    background-color: #E7ECED;
+    align-items: baseline;
+    border-radius: 5px;
+}
+.SearchFriends {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+}
+.SearchBalk {
+    width: 100%;
+}
+.FriendPicture {
+    height: 50px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+

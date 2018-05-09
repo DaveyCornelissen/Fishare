@@ -26,11 +26,11 @@
                 <input asp-for="Password" type="password" class="form-control" placeholder="Password">
                 <span asp-validation-for="Password" class="form-text text-danger"></span>
             </div>
+            <span class="form-text text-danger">@ViewData["ErrorNoUser"] @ViewData["ErrorNoCookiesInfo"]</span>
             <div class="form-check check">
                 <input asp-for="Remember" type="checkbox" value="true" class="form-check-input" id="KeepLogin">
                 <label class="form-check-label" for="RememberLogin">Remember me</label>
             </div>
-            <span class="form-text text-danger">@ViewData["ErrorNoUser"] @ViewData["ErrorNoCookiesInfo"]</span>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         <div class="CreateAccountDiv col-md-12">

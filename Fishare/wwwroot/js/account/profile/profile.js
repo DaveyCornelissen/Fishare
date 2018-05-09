@@ -8,9 +8,12 @@
                 type: $frm.attr('method'),
                 url: $frm.attr('action'),
                 data: $frm.serialize(),
-                success: function(data) {
+                dataType: 'html',
+                success: function (data) {
                     $('#AccountSettings').modal('hide');
                     $("#ProfilePage").html(data);
+                    $('#AccountSettings').modal('show');
+                    console.log(data);
                 }
             });
         });
