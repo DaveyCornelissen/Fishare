@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace Fishare.Cookies
@@ -77,6 +80,18 @@ namespace Fishare.Cookies
             {
                 return null;
             }
+        }
+
+        public static void AddUpdateClaim(this IPrincipal user, string key, string value)
+        {
+            var Identity = ((ClaimsIdentity)user.Identity);
+            if (Identity == null)
+                return;
+
+            // check for existing claim and remove it
+            var existingClaim = Identity.FindFirst(key);
+            if (existingClaim != null)
+                Identity.RemoveClaim(existingClaim);
         }
     }
 }

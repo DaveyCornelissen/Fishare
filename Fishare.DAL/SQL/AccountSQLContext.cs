@@ -11,11 +11,11 @@ namespace Fishare.DAL.SQL
 {
     public class AccountSQLContext : IAccountRepository
     {
-        private readonly string _connectionString;
+        private readonly string connectionString;
 
         public AccountSQLContext(string connectionString)
         {
-            this._connectionString = connectionString;
+            this.connectionString = connectionString;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool Create(User entity)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.CreateUserAccount", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
@@ -57,7 +57,7 @@ namespace Fishare.DAL.SQL
 
         public User Read(int Id)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.GetUserProfile", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
@@ -126,7 +126,7 @@ namespace Fishare.DAL.SQL
 
         public bool Update(User entity)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.UpdateUserAccount", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
@@ -171,7 +171,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool CheckLogin(string email, string password)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.CheckLogin", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
@@ -207,7 +207,7 @@ namespace Fishare.DAL.SQL
         /// <returns></returns>
         public bool Exist(string email)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.CheckEmailExistence", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
@@ -238,7 +238,7 @@ namespace Fishare.DAL.SQL
 
         public User GetCookieInfo(string email)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.GetCookieInfo", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;

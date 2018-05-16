@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fishare.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Fishare.Model;
 using Fishare.Logic;
 using Fishare.ViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
 
@@ -17,9 +19,13 @@ namespace Fishare.Controllers
 
         private AccountLogic _accountLogic;
 
+        private FriendLogic _friendLogic;
+
         public AccountController(IConfiguration config)
         {
             _accountLogic = new AccountLogic(config);
+
+            _friendLogic = new FriendLogic(config);
         }
 
         public IActionResult Login()
@@ -110,28 +116,37 @@ namespace Fishare.Controllers
         {
             cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            return View(GetProfileModel(cookieUserID));
+            return View(GetProfileModel(cookieUserID, ""));
         }
 
         [HttpPost]
-        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel)
+        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel, string SearchValue)
         {
-            if (!ModelState.IsValid)
-                return PartialView();
+//            
 
             cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
             try
             {
-                //Update User Account settings
-                ProfileSettings(profileSettingsModel, cookieUserID);
+                if (String.IsNullOrEmpty(SearchValue))
+                {
+                    if (!ModelState.IsValid)
+                          return PartialView();
 
-                return PartialView(GetProfileModel(cookieUserID));
+                    //Update User Account settings
+                    ProfileSettings(profileSettingsModel, cookieUserID);
+
+                    //update the cookies
+                }
+
+                ProfileViewModel profileView = GetProfileModel(cookieUserID, SearchValue);
+
+                return PartialView(profileView);
             }
             catch (ExceptionHandler exception)
             {
                 ViewData[exception.Index] = exception.Message;
-                return PartialView(GetProfileModel(cookieUserID));
+                return PartialView(GetProfileModel(cookieUserID, SearchValue));
             }
         }
 
@@ -141,13 +156,14 @@ namespace Fishare.Controllers
         /// <param name="_pSModel"></param>
         /// <param name="cookieUserId"></param>
         /// <returns></returns>
-        private ProfileViewModel GetProfileModel(int cookieUserId)
+        private ProfileViewModel GetProfileModel(int cookieUserId, string SearchValue)
         {
             //return the new ProfileModel
             return new ProfileViewModel
             {
                 ProfileInfoViewModel = ProfileInfo(cookieUserId),
-                ProfileSettingsViewModel = ProfileSettings(cookieUserId)
+                ProfileSettingsViewModel = ProfileSettings(cookieUserId),
+                ProfileFriendsViewModal = ProfileFriends(cookieUserId, SearchValue)
             };
         }
 
@@ -170,7 +186,6 @@ namespace Fishare.Controllers
                 Bio = _user.Bio,
                 PPath = _user.PpPath,
                 TotalFriends = _user.TotalFriends,
-                Friends = _user.Friends,
                 Posts = _user.Posts
             };
         }
@@ -194,6 +209,26 @@ namespace Fishare.Controllers
                 PPath = _user.PpPath,
                 PhoneNumber = _user.PhoneNumber,
                 Bio = _user.Bio,
+            };
+        }
+
+        private ProfileFriendsViewModal ProfileFriends(int cookieUserId, string SearchValue)
+        {
+            List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(cookieUserId);
+
+            //List<Friend> _Pendingfriends = _friendLogic.GetPendingFriends(cookieUserId);
+
+
+            List<Friend> _Searchingfriends = null;
+
+            if (!String.IsNullOrEmpty(SearchValue))
+                _Searchingfriends = _friendLogic.GetSearchResult(SearchValue);
+
+            return new ProfileFriendsViewModal
+            {
+                AcceptedFriends = _Acceptedfriends,
+                //PendingFriends = _Pendingfriends,
+                SearchedFriends = _Searchingfriends
             };
         }
 

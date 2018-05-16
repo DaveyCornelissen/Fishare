@@ -13,5 +13,7 @@ namespace Fishare.ViewModels
         public ProfileInfoViewModel ProfileInfoViewModel { get; set; }
 
         public ProfileSettingsViewModel ProfileSettingsViewModel { get; set; }
+
+        public ProfileFriendsViewModal ProfileFriendsViewModal { get; set; }
     }
 }

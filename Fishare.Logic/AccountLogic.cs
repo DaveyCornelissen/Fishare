@@ -50,7 +50,7 @@ namespace Fishare.Logic
             User userResult = _repository.GetCookieInfo(email);
 
             if (userResult == null)
-                throw new ExceptionHandler("ErrorNoCookiesInfo", "Oops something went wrong! we couldn't reach the CookiesBox");
+                throw new ExceptionHandler("ErrorNoCookiesInfo", "Oops something went wrong! we couldn't reach the CookieBox");
 
             return userResult;
         }
@@ -70,8 +70,10 @@ namespace Fishare.Logic
                 throw new ExceptionHandler("UserCreateFailed", "Oops something went wrong! your account has failed to create!");
         }
 
+        //get the User Profile information
         public User GetUserProfile(int UserId) => _repository.Read(UserId);
 
+        //Update the Users Settings
         public void UpdateUser(User entity)
         {
             User _oldUser = _repository.Read(entity.UserID);

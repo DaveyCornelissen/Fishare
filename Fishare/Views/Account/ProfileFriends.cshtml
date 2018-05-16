@@ -1,0 +1,145 @@
+﻿@using Fishare.Model
+@model ProfileFriendsViewModal
+<div id="FriendsPage" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Friends Page</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body col-md-10 offset-md-1 col-sm-12">
+                <div class="ContentBlock container">
+                    <h4>Friends Requests</h4>
+                    <div class="PageBorder"></div>
+                    @*                    @foreach (Friend PendingFriend in Model.PendingFriends)*@
+                    @*                    {*@
+                    @*                        <div class="col-md-12">*@
+                    @*                            <div class="row FRContent">*@
+                    @*                                <div class="col-2">*@
+                    @*                                    @if (string.IsNullOrEmpty(PendingFriend.FriendEntity.PpPath))*@
+                    @*                                    {*@
+                    @*                                        <img src="~/images/Layout/user.png" class="FriendPicture"/>*@
+                    @*                                    }*@
+                    @*                                    else*@
+                    @*                                    {*@
+                    @*                                        <img src="~@PendingFriend.FriendEntity.PpPath" class="FriendPicture"/>*@
+                    @*                                    }*@
+                    @*                                </div>*@
+                    @*                                <div class="col-5">*@
+                    @*                                    <h5>@PendingFriend.FriendEntity.FirstName @PendingFriend.FriendEntity.LastName</h5>*@
+                    @*                                </div>*@
+                    @*                                <div class="col-5 FRActionButtons">*@
+                    @*                                    <button type="button" class="btn btn-success FriendAccept" value="@PendingFriend.FriendEntity.UserID">Accept</button>*@
+                    @*                                    <button type="button" class="btn btn-warning FriendDecline" value="@PendingFriend.FriendEntity.UserID">Decline</button>*@
+                    @*                                    <button type="button" class="btn btn-danger FriendBlock" value="@PendingFriend.FriendEntity.UserID">Block</button>*@
+                    @*                                </div>*@
+                    @*                            </div>*@
+                    @*                        </div>*@
+                    @*                    }*@
+                </div>
+
+                <div class="ContentBlock container">
+                    <h4>Friends</h4>
+                    <div class="PageBorder"></div>
+                    @foreach (Friend Friend in Model.AcceptedFriends)
+                    {
+                        <div class="col-md-12">
+                            <div class="row FRContent">
+                                <div class="col-2">
+                                    @if (string.IsNullOrEmpty(Friend.FriendEntity.PpPath))
+                                    {
+                                        <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="~@Friend.FriendEntity.PpPath" class="FriendPicture"/>
+                                    }
+                                </div>
+                                <div class="col-5">
+                                    <h5>@Friend.FriendEntity.FirstName @Friend.FriendEntity.LastName</h5>
+                                </div>
+                                <div class="col-5">
+                                    <button type="button" class="btn btn-info FriendView" value="@Friend.FriendEntity.UserID">View</button>
+                                    <button type="button" class="btn btn-warning FriendRemove" value="@Friend.FriendEntity.UserID">Remove</button>
+                                    <button type="button" class="btn btn-danger FriendBlock" value="@Friend.FriendEntity.UserID">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="ContentBlock container">
+                    <h4>Search Friends</h4>
+                    <div class="PageBorder"></div>
+                    <div class="col-md-12">
+                        <div class="row SearchFriends">
+                            <div class="col-3">
+                                <P>Search For Friends:</P>
+                            </div>
+                            <div class="col-7">
+                                <input id="FriendsSearchBox" class="SearchBalk" type="text"/>
+                            </div>
+                            <div class="col-2">
+                                <button id="SubitSearchBox" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.SearchedFriends != null)
+                    {
+                         foreach (Friend FriendResult in Model.SearchedFriends)
+                         {
+                             <div id="FriendId=@FriendResult.FriendEntity.UserID" class="col-md-12">
+                                 <div class="row FRContent">
+                                     <div class="col-2">
+                                         @if (string.IsNullOrEmpty(FriendResult.FriendEntity.PpPath))
+                                         {
+                                             <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                         }
+                                         else
+                                         {
+                                             <img src="~@FriendResult.FriendEntity.PpPath" class="FriendPicture"/>
+                                         }
+                                     </div>
+                                     <div class="col-5">
+                                         <h5>@FriendResult.FriendEntity.FirstName @FriendResult.FriendEntity.LastName</h5>
+                                     </div>
+                                     <div class="col-5">
+                                         @switch (FriendResult.Status)
+                                         {
+                                             case Friend.eStatus.Accept:
+                                                 <button type="button" class="btn btn-info FriendView" value="@FriendResult.FriendEntity.UserID">View</button>
+                                                 <button type="button" class="btn btn-warning FriendRemove" value="@FriendResult.FriendEntity.UserID">Remove</button>
+                                                 <button type="button" class="btn btn-danger FriendBlock" value="@FriendResult.FriendEntity.UserID">Block</button>
+                                                 break;
+                                             case Friend.eStatus.Pending:
+                                                 <button type="button" class="btn btn-success FriendAccept" value="@FriendResult.FriendEntity.UserID">Accept</button>
+                                                 <button type="button" class="btn btn-warning FriendDecline" value="@FriendResult.FriendEntity.UserID">Decline</button>
+                                                 <button type="button" class="btn btn-danger FriendBlock" value="@FriendResult.FriendEntity.UserID">Block</button>
+                                                 break;
+                                             case Friend.eStatus.Blocked:
+                                                 <button type="button" class="btn btn-danger ml-auto FriendUnblock" value="@FriendResult.FriendEntity.UserID">UnBlock</button>
+                                                 break;
+                                             default:
+                                                 <button type="button" class="btn btn-success ml-auto FriendSend" value="@FriendResult.FriendEntity.UserID">Send</button>
+                                                 <button type="button" class="btn btn-danger ml-auto FriendBlock" value="@FriendResult.FriendEntity.UserID">Block</button>
+                                                 break;
+                                         }
+
+                                     </div>
+                                 </div>
+                             </div>
+                         }
+                    }
+                    else
+                    {
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/account/profile/ProfileFriends.js"></script>

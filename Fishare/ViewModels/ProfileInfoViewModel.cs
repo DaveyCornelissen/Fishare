@@ -22,6 +22,6 @@ namespace Fishare.ViewModels
 
         public int TotalFriends { get; set; }
 
-        public List<Friend> Friends { get; set; }
+        //public List<Friend> Friends { get; set; }
     }
 }
