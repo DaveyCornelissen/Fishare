@@ -41,6 +41,16 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
+        public List<User> GetSearchResult(int userId, string searchObject)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool AcceptFriend(int userId, int friendId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Friend> GetSearchResult(string searchObject)
         {
             throw new System.NotImplementedException();

@@ -40,10 +40,10 @@
             <div class="col-md-4 col-sm-10">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#AccountSettings">Settings</button>
+                        <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                        <Button type="button" class="btn btn-warning" data-toggle="modal" data-target="#FriendsPage">Friends</Button>
+                        <Button type="button" class="btn btn-warning FriendModalButton">Friends</Button>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,12 @@
 </div>
 
 @*Accountsettings Modal*@
-@Html.Partial("ProfileSettings", Model.ProfileSettingsViewModel);
+@Html.Partial("ProfileSettings", Model.ProfileSettingsViewModel)
+
+<script src="~/js/account/profile/profileSettings.js"></script>
 
 @*Friends Modal*@
-@Html.Partial("ProfileFriends", Model.ProfileFriendsViewModal);
+@*@Html.Partial("ProfileFriends", Model.ProfileFriendsViewModal)*@
+<div id="LocationFriendsModalContainer"></div>
+
+<script src="~/js/account/profile/ProfileFriends.js"></script>

@@ -13,6 +13,8 @@ namespace Fishare.Repository.Interface
 
         List<Friend> GetPendingFriends(int userId);
 
-        List<Friend> GetSearchResult(string searchObject);
+        List<User> GetSearchResult(int userId, string searchObject);
+
+        bool AcceptFriend(int userId, int friendId);
     }
 }

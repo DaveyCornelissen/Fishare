@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(function () {
     $('.post-using-ajax').each(function() {
         var $frm = $(this);
         $frm.submit(function(e) {

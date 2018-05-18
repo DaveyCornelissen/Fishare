@@ -149,20 +149,21 @@ namespace Fishare.Logic
             }
         }
 
-        public List<Friend> GetSearchResult(string searchObject)
+        public List<User> GetSearchResult(int userId, string searchObject)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.GetSearchResult", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@SearchValue", searchObject);
+                command.Parameters.AddWithValue("@UserId", userId);
                 try
                 {
                     connection.Open();
 
                     SqlDataReader dataReader = command.ExecuteReader();
 
-                    List<Friend> friends = new List<Friend>();
+                    List<User> friends = new List<User>();
 
                     while (dataReader.Read())
                     {
@@ -173,40 +174,52 @@ namespace Fishare.Logic
                             LastName = dataReader["Lastname"].ToString(),
                             PpPath = dataReader["User_photo_Path"].ToString()
                         };
-
-                        Friend Searchfriend = new Friend
-                        {
-                            FriendEntity = SearchEntity,
-                            ActionId = (int)dataReader["Action_User_ID"],
-                        };
-
-//                        if ((int)dataReader["User_One_ID"] == userId)
-//                        {
-//                            Searchfriend.UserId = (int)dataReader["User_One_ID"];
-//                        }
-//                        else
-//                        {
-//                            Searchfriend.UserId = (int)dataReader["User_Two_ID"];
-//                        }
-
                         
-                        switch(dataReader["status"])
-                        {
-                            case "Accept" :
-                                Searchfriend.Status = Friend.eStatus.Accept;
-                                break;
-                            case "Pending" :
-                                Searchfriend.Status = Friend.eStatus.Pending;
-                                break;
-                            case "Blocked" :
-                                Searchfriend.Status = Friend.eStatus.Blocked;
-                                break;
-                        }
+//                        switch(dataReader["status"])
+//                        {
+//                            case "Accept" :
+//                                Searchfriend.Status = Friend.eStatus.Accept;
+//                                break;
+//                            case "Pending" :
+//                                Searchfriend.Status = Friend.eStatus.Pending;
+//                                break;
+//                            case "Blocked" :
+//                                Searchfriend.Status = Friend.eStatus.Blocked;
+//                                break;
+//                        }
 
-                        friends.Add(Searchfriend);
+                        friends.Add(SearchEntity);
                     }
 
                     return friends;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool AcceptFriend(int userId, int friendId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.AcceptFriendsRequest", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@FriendId", friendId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
                 }
                 catch (Exception errorException)
                 {

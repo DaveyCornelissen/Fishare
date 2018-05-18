@@ -49,9 +49,14 @@ namespace Fishare.Logic
             return _context.GetPendingFriends(userId);
         }
 
-        public List<Friend> GetSearchResult(string searchObject)
+        public List<User> GetSearchResult(int userId, string searchObject)
         {
-            return _context.GetSearchResult(searchObject);
+            return _context.GetSearchResult(userId, searchObject);
+        }
+
+        public bool AcceptFriend(int userId, int friendId)
+        {
+            return _context.AcceptFriend(userId, friendId);
         }
     }
 }

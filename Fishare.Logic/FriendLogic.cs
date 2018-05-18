@@ -35,17 +35,20 @@ namespace Fishare.Logic
             _repository = new FriendRepository(_context);
         }
 
-        public List<Friend> GetAcceptedFriends(int UserId) => _repository.GetAcceptedFriends(UserId);
+        public List<Friend> GetAcceptedFriends(int userId) => _repository.GetAcceptedFriends(userId);
 
-        public List<Friend> GetPendingFriends(int UserId) => _repository.GetPendingFriends(UserId);
+        public List<Friend> GetRequestingFriends(int userId) => _repository.GetPendingFriends(userId);
 
-        public List<Friend> GetSearchResult(string SearchObject)
+        public List<User> GetSearchResult(int userId, string searchObject)
         {
-            string DatabaseValue = "";
-            if (String.IsNullOrEmpty(SearchObject))
-                DatabaseValue = SearchObject + "%";
+            string databaseValue = "";
+            if (!String.IsNullOrEmpty(searchObject))
+                databaseValue = searchObject + "%";
 
-            return _repository.GetSearchResult(DatabaseValue);
+            return _repository.GetSearchResult(userId, databaseValue);
         }
+
+        public bool AcceptFriend(int userId, int friendId) => _repository.AcceptFriend(userId, friendId);
+    
     }
 }

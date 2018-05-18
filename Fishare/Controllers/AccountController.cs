@@ -116,38 +116,77 @@ namespace Fishare.Controllers
         {
             cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            return View(GetProfileModel(cookieUserID, ""));
+            return View(GetProfileModel(cookieUserID));
         }
 
         [HttpPost]
-        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel, string SearchValue)
+        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel)
         {
-//            
-
             cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
             try
             {
-                if (String.IsNullOrEmpty(SearchValue))
-                {
-                    if (!ModelState.IsValid)
-                          return PartialView();
+                if (!ModelState.IsValid)
+                      return PartialView();
 
-                    //Update User Account settings
-                    ProfileSettings(profileSettingsModel, cookieUserID);
+                //Update User Account settings
+                ProfileSettings(profileSettingsModel, cookieUserID);
 
-                    //update the cookies
-                }
-
-                ProfileViewModel profileView = GetProfileModel(cookieUserID, SearchValue);
-
-                return PartialView(profileView);
+                //update the cookies
+                
+                return PartialView(GetProfileModel(cookieUserID));
             }
             catch (ExceptionHandler exception)
             {
                 ViewData[exception.Index] = exception.Message;
-                return PartialView(GetProfileModel(cookieUserID, SearchValue));
+                return PartialView(GetProfileModel(cookieUserID));
             }
+        }
+
+        public IActionResult ProfileFriends()
+        {
+            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+
+            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(cookieUserID);
+
+            return PartialView(profileFriendsView);
+        }
+
+        [HttpPost]
+        public IActionResult ProfileFriends(string SearchValue, string ButtonType, int FriendID)
+        {
+            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+
+            if (!String.IsNullOrEmpty(ButtonType) && FriendID != 0)
+            {
+                switch (ButtonType)
+                {
+                    case "Accept":
+                        _friendLogic.AcceptFriend(cookieUserID, FriendID);
+                        break;
+                    case "Decline":
+                        break;
+                    case "Block":
+                        break;
+                    case "Cancel":
+                        break;
+                    case "View":
+                        break;
+                    case "Remove":
+                        break;
+                    case "Send":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(cookieUserID);
+
+            if (!String.IsNullOrEmpty(SearchValue))
+                profileFriendsView.SearchedFriends = _friendLogic.GetSearchResult(cookieUserID, SearchValue);
+
+            return PartialView(profileFriendsView);
         }
 
         /// <summary>
@@ -156,14 +195,13 @@ namespace Fishare.Controllers
         /// <param name="_pSModel"></param>
         /// <param name="cookieUserId"></param>
         /// <returns></returns>
-        private ProfileViewModel GetProfileModel(int cookieUserId, string SearchValue)
+        private ProfileViewModel GetProfileModel(int cookieUserId)
         {
             //return the new ProfileModel
             return new ProfileViewModel
             {
                 ProfileInfoViewModel = ProfileInfo(cookieUserId),
-                ProfileSettingsViewModel = ProfileSettings(cookieUserId),
-                ProfileFriendsViewModal = ProfileFriends(cookieUserId, SearchValue)
+                ProfileSettingsViewModel = ProfileSettings(cookieUserId)
             };
         }
 
@@ -212,23 +250,16 @@ namespace Fishare.Controllers
             };
         }
 
-        private ProfileFriendsViewModal ProfileFriends(int cookieUserId, string SearchValue)
+        private ProfileFriendsViewModal ProfileFriendView(int cookieUserId)
         {
             List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(cookieUserId);
 
-            //List<Friend> _Pendingfriends = _friendLogic.GetPendingFriends(cookieUserId);
-
-
-            List<Friend> _Searchingfriends = null;
-
-            if (!String.IsNullOrEmpty(SearchValue))
-                _Searchingfriends = _friendLogic.GetSearchResult(SearchValue);
+            List<Friend> _Pendingfriends = _friendLogic.GetRequestingFriends(cookieUserId);
 
             return new ProfileFriendsViewModal
             {
                 AcceptedFriends = _Acceptedfriends,
-                //PendingFriends = _Pendingfriends,
-                SearchedFriends = _Searchingfriends
+                RequestingFriends = _Pendingfriends
             };
         }
 
