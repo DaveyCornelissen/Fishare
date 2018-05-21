@@ -26,11 +26,6 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
-        public bool Block(int FriendId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public List<Friend> GetAcceptedFriends(int userId)
         {
             throw new System.NotImplementedException();
@@ -41,12 +36,42 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
+        public List<Friend> GetBlockedFriends(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<User> GetSearchResult(int userId, string searchObject)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool AcceptFriend(int userId, int friendId)
+        public bool AcceptFriendRequest(int userId, int friendId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool SendFriendRequest(int userOneId, int userTwoId, int actionId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool RemoveFriend(int userId, int friendId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeclineFriendsRequest(int userId, int friendId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool BlockFriend(int userId, int friendId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool UnblockFriend(int userId, int friendId)
         {
             throw new System.NotImplementedException();
         }

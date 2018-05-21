@@ -13,7 +13,7 @@
                     </button>
                 </div>
                 <div class="modal-body col-md-10 offset-md-1 col-sm-12">
-                    @if (Model.RequestingFriends != null)
+                    @if (Model.RequestingFriends.Count != 0)
                     {
                         <div class="ContentBlock container">
                             <h4>Friends Requests</h4>
@@ -33,20 +33,20 @@
                                             }
                                         </div>
                                         <div class="col-5">
-                                            <h5>@Request.FriendEntity.FirstName @Request.FriendEntity.LastName</h5>  
+                                            <h5>@Request.FriendEntity.FirstName @Request.FriendEntity.LastName</h5>
                                         </div>
                                         @if (Request.ActionId == Request.UserId)
                                         {
                                             <div class="col-5 FRActionButtons">
-                                                <button type="button" class="btn btn-danger ml-auto FriendActionButton" value="@Request.FriendEntity.UserID">Cancel</button>
+                                                <button type="button" class="btn btn-danger ml-auto FriendActionButton" value="@Request.FriendEntity.UserID+Cancel">Cancel</button>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="col-5 FRActionButtons">
-                                                <button type="button" class="btn btn-success FriendActionButton" value="@Request.FriendEntity.UserID">Accept</button>
-                                                <button type="button" class="btn btn-warning FriendActionButton" value="@Request.FriendEntity.UserID">Decline</button>
-                                                <button type="button" class="btn btn-danger FriendActionButton" value="@Request.FriendEntity.UserID">Block</button>
+                                                <button type="button" class="btn btn-success FriendActionButton" value="@Request.FriendEntity.UserID+Accept">Accept</button>
+                                                <button type="button" class="btn btn-warning FriendActionButton" value="@Request.FriendEntity.UserID+Decline">Decline</button>
+                                                <button type="button" class="btn btn-danger FriendActionButton" value="@Request.FriendEntity.UserID+Block">Block</button>
                                             </div>
                                         }
                                     </div>
@@ -54,7 +54,7 @@
                             }
                         </div>
                     }
-                    @if (Model.AcceptedFriends != null)
+                    @if (Model.AcceptedFriends.Count != 0)
                     {
                         <div class="ContentBlock container">
                             <h4>Friends</h4>
@@ -77,9 +77,40 @@
                                             <h5>@Friend.FriendEntity.FirstName @Friend.FriendEntity.LastName</h5>
                                         </div>
                                         <div class="col-5">
-                                            <button type="button" class="btn btn-info FriendActionButton" value="@Friend.FriendEntity.UserID">View</button>
-                                            <button type="button" class="btn btn-warning FriendActionButton" value="@Friend.FriendEntity.UserID">Remove</button>
-                                            <button type="button" class="btn btn-danger FriendActionButton" value="@Friend.FriendEntity.UserID">Block</button>
+                                            <button type="button" class="btn btn-info FriendActionButton" value="@Friend.FriendEntity.UserID+View">View</button>
+                                            <button type="button" class="btn btn-warning FriendActionButton" value="@Friend.FriendEntity.UserID+Remove">Remove</button>
+                                            <button type="button" class="btn btn-danger FriendActionButton" value="@Friend.FriendEntity.UserID+Block">Block</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    @if (Model.BlockedFriends.Count != 0)
+                    {
+                        <div class="ContentBlock container">
+                            <h4>Blocked users</h4>
+                            <div class="PageBorder"></div>
+                            @foreach (Friend Friend in Model.BlockedFriends)
+                            {
+                                <div class="col-md-12">
+                                    <div class="row FRContent">
+                                        <div class="col-2">
+                                            @if (string.IsNullOrEmpty(Friend.FriendEntity.PpPath))
+                                            {
+                                                <img src="~/images/Layout/user.png" class="FriendPicture"/>
+                                            }
+                                            else
+                                            {
+                                                <img src="~@Friend.FriendEntity.PpPath" class="FriendPicture"/>
+                                            }
+                                        </div>
+                                        <div class="col-5">
+                                            <h5>@Friend.FriendEntity.FirstName @Friend.FriendEntity.LastName</h5>
+                                        </div>
+                                        <div class="col-5">
+                                            <button type="button" class="btn btn-info FriendActionButton" value="@Friend.FriendEntity.UserID+Unblock">Unblock</button>
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +154,8 @@
                                             <h5>@FriendResult.FirstName @FriendResult.LastName</h5>
                                         </div>
                                         <div class="col-5">
-                                            <button type="button" class="btn btn-success ml-auto FriendActionButton" value="@FriendResult.UserID">Send</button>
-                                            <button type="button" class="btn btn-danger ml-auto FriendActionButton" value="@FriendResult.UserID">Block</button>
+                                            <button type="button" class="btn btn-success ml-auto FriendActionButton" value="@FriendResult.UserID+Send">Send</button>
+                                            <button type="button" class="btn btn-danger ml-auto FriendActionButton" value="@FriendResult.UserID+Block">Block</button>
                                         </div>
                                     </div>
                                 </div>
@@ -134,6 +165,7 @@
                         {
                         }
                     </div>
+                    <p class="text-danger">@ViewData["ErrorFriends"]</p>
                 </div>
             </div>
         </div>

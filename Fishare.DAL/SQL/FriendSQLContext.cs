@@ -38,11 +38,6 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
-        public bool Block(int FriendId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public List<Friend> GetAcceptedFriends(int userId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -149,6 +144,59 @@ namespace Fishare.Logic
             }
         }
 
+        public List<Friend> GetBlockedFriends(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.GetBlockedFriends", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                try
+                {
+                    connection.Open();
+
+                    SqlDataReader dataReader = command.ExecuteReader();
+
+                    List<Friend> blockedFriends = new List<Friend>();
+
+                    while (dataReader.Read())
+                    {
+                        User friendEntity = new User
+                        {
+                            UserID = (int)dataReader["UserID"],
+                            FirstName = dataReader["Firstname"].ToString(),
+                            LastName = dataReader["Lastname"].ToString(),
+                            PpPath = dataReader["User_photo_Path"].ToString()
+                        };
+
+                        Friend friend = new Friend
+                        {
+                            FriendEntity = friendEntity,
+                            ActionId = (int)dataReader["Action_User_ID"],
+                            Status = Friend.eStatus.Blocked
+                        };
+
+                        if ((int)dataReader["User_One_ID"] == userId)
+                        {
+                            friend.UserId = (int)dataReader["User_One_ID"];
+                        }
+                        else
+                        {
+                            friend.UserId = (int)dataReader["User_Two_ID"];
+                        }
+
+                        blockedFriends.Add(friend);
+                    }
+
+                    return blockedFriends;
+                }
+                catch (Exception exception)
+                {
+                    throw new Exception();
+                }
+            }
+        }
+
         public List<User> GetSearchResult(int userId, string searchObject)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -200,10 +248,151 @@ namespace Fishare.Logic
             }
         }
 
-        public bool AcceptFriend(int userId, int friendId)
+        public bool AcceptFriendRequest(int userId, int friendId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand("dbo.AcceptFriendsRequest", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@FriendId", friendId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool SendFriendRequest(int userOneId, int userTwoId, int actionId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.SendFriendRequest", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@User_One_ID", userOneId);
+                command.Parameters.AddWithValue("@User_Two_ID", userTwoId);
+                command.Parameters.AddWithValue("@Action_User_ID", actionId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool RemoveFriend(int userId, int friendId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.RemoveFriend", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@FriendId", friendId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool DeclineFriendsRequest(int userId, int friendId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.DeclineFriendsRequest", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@FriendId", friendId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool BlockFriend(int userId, int friendId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.BlockFriend", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@FriendId", friendId);
+
+                try
+                {
+                    connection.Open();
+                    //return true if account is created
+                    int result = command.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public bool UnblockFriend(int userId, int friendId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.UnblockFriend", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@UserId", userId);

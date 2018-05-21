@@ -34,10 +34,6 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
-        public bool Block(int FriendId)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public List<Friend> GetAcceptedFriends(int userId)
         {
@@ -49,14 +45,44 @@ namespace Fishare.Logic
             return _context.GetPendingFriends(userId);
         }
 
+        public List<Friend> GetBlockedFriends(int userId)
+        {
+            return _context.GetBlockedFriends(userId);
+        }
+
         public List<User> GetSearchResult(int userId, string searchObject)
         {
             return _context.GetSearchResult(userId, searchObject);
         }
 
-        public bool AcceptFriend(int userId, int friendId)
+        public bool AcceptFriendRequest(int userId, int friendId)
         {
-            return _context.AcceptFriend(userId, friendId);
+            return _context.AcceptFriendRequest(userId, friendId);
+        }
+
+        public bool SendFriendRequest(int userOneId, int userTwoId, int actionId)
+        {
+            return _context.SendFriendRequest(userOneId, userTwoId, actionId);
+        }
+
+        public bool RemoveFriend(int userId, int friendId)
+        {
+            return _context.RemoveFriend(userId, friendId);
+        }
+
+        public bool DeclineFriendsRequest(int userId, int friendId)
+        {
+            return _context.DeclineFriendsRequest(userId, friendId);
+        }
+
+        public bool BlockFriend(int userId, int friendId)
+        {
+            return _context.BlockFriend(userId, friendId);
+        }
+
+        public bool UnblockFriend(int userId, int friendId)
+        {
+            return _context.UnblockFriend(userId, friendId);
         }
     }
 }

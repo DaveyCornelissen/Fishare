@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Uploads\PostImages\" />
+    <Folder Include="wwwroot\images\Uploads\ProfileImages\" />
+  </ItemGroup>
+
 </Project>

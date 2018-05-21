@@ -39,6 +39,8 @@ namespace Fishare.Logic
 
         public List<Friend> GetRequestingFriends(int userId) => _repository.GetPendingFriends(userId);
 
+        public List<Friend> GetBlockedFriends(int userId) => _repository.GetBlockedFriends(userId);
+
         public List<User> GetSearchResult(int userId, string searchObject)
         {
             string databaseValue = "";
@@ -48,7 +50,25 @@ namespace Fishare.Logic
             return _repository.GetSearchResult(userId, databaseValue);
         }
 
-        public bool AcceptFriend(int userId, int friendId) => _repository.AcceptFriend(userId, friendId);
-    
+        public bool AcceptFriendRequest(int userId, int friendId) => _repository.AcceptFriendRequest(userId, friendId);
+
+        public bool SendFriendRequest(int userId, int friendId)
+        {
+            int _userOneId = (userId < friendId) ? userId : friendId;
+            ;
+            int _UserTwoId = (userId > friendId) ? userId : friendId;
+            ;
+
+            return _repository.SendFriendRequest(_userOneId, _UserTwoId, userId);
+        }
+
+        public bool RemoveFriend(int userId, int friendId) => _repository.RemoveFriend(userId, friendId);
+
+        public bool DeclineFriendRequest(int userId, int friendId) =>
+            _repository.DeclineFriendsRequest(userId, friendId);
+
+        public bool BlockFriend(int userId, int friendId) => _repository.BlockFriend(userId, friendId);
+
+        public bool UnblockFriend(int userId, int friendId) => _repository.UnblockFriend(userId, friendId);
     }
 }

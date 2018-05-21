@@ -7,14 +7,25 @@ namespace Fishare.Repository.Interface
 {
     public interface IFriendsRepository : IRepository<Friend>
     {
-        bool Block(int FriendId);
-
         List<Friend> GetAcceptedFriends(int userId);
 
         List<Friend> GetPendingFriends(int userId);
 
+        List<Friend> GetBlockedFriends(int userId);
+
         List<User> GetSearchResult(int userId, string searchObject);
 
-        bool AcceptFriend(int userId, int friendId);
+        bool AcceptFriendRequest(int userId, int friendId);
+
+        bool SendFriendRequest(int userOneId, int userTwoId, int actionId);
+
+        bool RemoveFriend(int userId, int friendId);
+
+        bool DeclineFriendsRequest(int userId, int friendId);
+
+        bool BlockFriend(int userId, int friendId);
+
+        bool UnblockFriend(int userId, int friendId);
+        
     }
 }

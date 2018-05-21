@@ -112,11 +112,11 @@ namespace Fishare.Controllers
             }
         }
 
-        public IActionResult Profile()
+        public IActionResult Profile(int UserId)
         {
-            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+            int _userId = (UserId != 0)? UserId : Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            return View(GetProfileModel(cookieUserID));
+            return View(GetProfileModel(_userId));
         }
 
         [HttpPost]
@@ -162,21 +162,30 @@ namespace Fishare.Controllers
                 switch (ButtonType)
                 {
                     case "Accept":
-                        _friendLogic.AcceptFriend(cookieUserID, FriendID);
+                        _friendLogic.AcceptFriendRequest(cookieUserID, FriendID);
                         break;
                     case "Decline":
+                        _friendLogic.DeclineFriendRequest(cookieUserID, FriendID);
                         break;
                     case "Block":
+                        _friendLogic.BlockFriend(cookieUserID, FriendID);
+                        break;
+                    case "Unblock":
+                        _friendLogic.UnblockFriend(cookieUserID, FriendID);
                         break;
                     case "Cancel":
+                        _friendLogic.DeclineFriendRequest(cookieUserID, FriendID);
                         break;
                     case "View":
-                        break;
+                        return RedirectToAction("Profile", FriendID);
                     case "Remove":
+                        _friendLogic.RemoveFriend(cookieUserID, FriendID);
                         break;
                     case "Send":
+                        _friendLogic.SendFriendRequest(cookieUserID, FriendID);
                         break;
                     default:
+                        ViewData["ErrorFriends"] = "Oops something when wrong with getting the friends information!";
                         break;
                 }
             }
@@ -250,16 +259,24 @@ namespace Fishare.Controllers
             };
         }
 
+        /// <summary>
+        /// Get the 3 Kind to friends into the friendsViewModal.
+        /// </summary>
+        /// <param name="cookieUserId"></param>
+        /// <returns></returns>
         private ProfileFriendsViewModal ProfileFriendView(int cookieUserId)
         {
             List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(cookieUserId);
 
             List<Friend> _Pendingfriends = _friendLogic.GetRequestingFriends(cookieUserId);
 
+            List<Friend> _Blockedfriends = _friendLogic.GetBlockedFriends(cookieUserId);
+
             return new ProfileFriendsViewModal
             {
                 AcceptedFriends = _Acceptedfriends,
-                RequestingFriends = _Pendingfriends
+                RequestingFriends = _Pendingfriends,
+                BlockedFriends = _Blockedfriends
             };
         }
 

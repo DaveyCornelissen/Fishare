@@ -18,8 +18,12 @@
 $(document).on('click',
     ".FriendActionButton",
     function (evt) {
-        var type = $(this).text();
-        var Id = $(this).val();
+        var ButtonValue = $(this).val();
+
+        //split the value of the button
+        var res = ButtonValue.split("+");
+        var type = res[1];
+        var Id = res[0];
 
         GetAjaxRequest(type, Id, evt);
     });

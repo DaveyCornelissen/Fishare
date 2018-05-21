@@ -63,7 +63,7 @@ namespace Fishare.Logic
 
             string password = entity.Password;
 
-            if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol))
+            if (password.Any(char.IsUpper) && password.Any(char.IsDigit) && password.Length >= 8 && password.Any(char.IsSymbol) && !String.IsNullOrWhiteSpace(password))
                 throw new ExceptionHandler("ErrorPassword", "The password does not match the requirements!");
 
             if (!_repository.Create(entity))
