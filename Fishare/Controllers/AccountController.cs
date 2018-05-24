@@ -131,12 +131,6 @@ namespace Fishare.Controllers
 
             try
             {
-                //button action to view friends profile
-//                if (ButtonType == "View")
-//                {
-//                    return RedirectToAction("Profile", new {Id = friendID});
-//                }
-
                 //for add a friend on there profile page
                 if (friendID != 0 && String.IsNullOrEmpty(ButtonType))
                 {
@@ -168,16 +162,13 @@ namespace Fishare.Controllers
             }
         }
 
-//        public IActionResult ProfileFriends(int Id)
-//        {
-//            int _userId = (Id != 0) ? Id : Convert.ToInt16(CookieClaims.GetCookieID(User));
-//
-//            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(_userId);
-//
-//            return PartialView(profileFriendsView);
-//        }
-
-       // [HttpPost]
+        /// <summary>
+        /// Handels everything for the friends page
+        /// </summary>
+        /// <param name="ButtonType"></param>
+        /// <param name="friendID"></param>
+        /// <param name="SearchValue"></param>
+        /// <returns></returns>
         public ProfileFriendsViewModal ProfileFriends(string ButtonType = null, int friendID = 0, string SearchValue = null)
         {
             //userId = (userId != 0) ? userId : Convert.ToInt16(CookieClaims.GetCookieID(User));
