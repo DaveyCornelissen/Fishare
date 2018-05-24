@@ -8,11 +8,29 @@
         $.ajax({
             type: 'GET',
             url: 'ProfileFriends',
-            data: { 'Id': ProfileId},
+            data: { 'Id' : ProfileId},
             success: function(data) {
                 $('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');
                 console.log(data);
+            }
+        });
+    });
+
+$(document).on('click',
+    ".FriendAddButton",
+    function (evt) {
+        evt.preventDefault();
+        var ButtonValue = $(this).val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'Profile',
+            data: { FriendID: ButtonValue },
+            dataType: 'html',
+            success: function (data) {
+                $("#ProfilePage").html(data);
+
             }
         });
     });
@@ -38,10 +56,10 @@ function GetAjaxRequest(type, Id, evt) {
         type: 'POST',
         url: 'ProfileFriends',
         data: { ButtonType: type, FriendID: Id },
-        success: function(data) {
-            $('#FriendsPage').modal('hide');
-            $('#LocationFriendsModalContainer').html(data);
-            $('#FriendsPage').modal('show');
+        success: function (data) {
+                $('#FriendsPage').modal('hide');
+                $('#LocationFriendsModalContainer').html(data);
+                $('#FriendsPage').modal('show');
         }
     })
 }

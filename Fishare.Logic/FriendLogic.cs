@@ -52,14 +52,17 @@ namespace Fishare.Logic
 
         public bool AcceptFriendRequest(int userId, int friendId) => _repository.AcceptFriendRequest(userId, friendId);
 
-        public bool SendFriendRequest(int userId, int friendId)
+        public bool SendFriendRequest(int userId, int friendId, int actionId = 0)
         {
             int _userOneId = (userId < friendId) ? userId : friendId;
             ;
             int _UserTwoId = (userId > friendId) ? userId : friendId;
             ;
 
-            return _repository.SendFriendRequest(_userOneId, _UserTwoId, userId);
+            actionId = (actionId != 0) ? actionId : userId;
+
+
+            return _repository.SendFriendRequest(_userOneId, _UserTwoId, actionId);
         }
 
         public bool RemoveFriend(int userId, int friendId) => _repository.RemoveFriend(userId, friendId);

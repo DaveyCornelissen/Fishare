@@ -17,7 +17,7 @@ namespace Fishare.Controllers
     {
         //TODO Upload Profile Image
 
-        private int cookieUserID;
+        private int userId;
 
         private AccountLogic _accountLogic;
 
@@ -122,26 +122,34 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel)
+        public IActionResult Profile(ProfileSettingsViewModel profileSettingsModel, int friendID)
         {
-            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+            userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
             try
             {
-                if (!ModelState.IsValid)
-                      return PartialView();
+                if (friendID != 0)
+                {
+                    //third parameter is the actionId default it is 0
+                   _friendLogic.SendFriendRequest(userId, friendID, friendID);
+                    userId = friendID;
+                }
+                else
+                {
+                    if (!ModelState.IsValid)
+                        return PartialView();
 
-                //Update User Account settings
-                ProfileSettings(profileSettingsModel, cookieUserID);
-
+                    //Update User Account settings
+                    ProfileSettings(profileSettingsModel, userId);
+                }
                 //update the cookies
                 
-                return PartialView(GetProfileModel(cookieUserID));
+                return PartialView(GetProfileModel(userId));
             }
             catch (ExceptionHandler exception)
             {
                 ViewData[exception.Index] = exception.Message;
-                return PartialView(GetProfileModel(cookieUserID));
+                return PartialView(GetProfileModel(userId));
             }
         }
 
@@ -155,40 +163,42 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProfileFriends(string SearchValue, string ButtonType, int FriendID)
+        public IActionResult ProfileFriends(string SearchValue, string ButtonType, int friendID)
         {
-            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+            userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            if (!String.IsNullOrEmpty(ButtonType) && FriendID != 0)
+            if (!String.IsNullOrEmpty(ButtonType) && friendID != 0)
             {
                 switch (ButtonType)
                 {
                     case "Accept":
-                        _friendLogic.AcceptFriendRequest(cookieUserID, FriendID);
+                        _friendLogic.AcceptFriendRequest(userId, friendID);
                         break;
                     case "Decline":
-                        _friendLogic.DeclineFriendRequest(cookieUserID, FriendID);
+                        _friendLogic.DeclineFriendRequest(userId, friendID);
                         break;
                     case "Block":
-                        _friendLogic.BlockFriend(cookieUserID, FriendID);
+                        _friendLogic.BlockFriend(userId, friendID);
                         break;
                     case "Unblock":
-                        _friendLogic.UnblockFriend(cookieUserID, FriendID);
+                        _friendLogic.UnblockFriend(userId, friendID);
                         break;
                     case "Cancel":
-                        _friendLogic.DeclineFriendRequest(cookieUserID, FriendID);
+                        _friendLogic.DeclineFriendRequest(userId, friendID);
                         break;
                     case "View":
                         //TODO Redirect to the user by the view button
-                        return RedirectToAction("Profile", FriendID);
+                        return RedirectToAction("Profile", friendID);
                     case "Remove":
-                        _friendLogic.RemoveFriend(cookieUserID, FriendID);
+                        _friendLogic.RemoveFriend(userId, friendID);
                         break;
                     case "Send":
-                        _friendLogic.SendFriendRequest(cookieUserID, FriendID);
+                        _friendLogic.SendFriendRequest(userId, friendID);
                         break;
                     case "RemoveOwn":
-                        _friendLogic.RemoveFriend(cookieUserID, FriendID);
+                        _friendLogic.RemoveFriend(userId, friendID);
+                        //To change the friends view for the guestviewer
+                        userId = friendID;
                         break;
                     default:
                         ViewData["ErrorFriends"] = "Oops something when wrong with getting the friends information!";
@@ -196,10 +206,10 @@ namespace Fishare.Controllers
                 }
             }
 
-            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(cookieUserID);
+            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(userId);
 
             if (!String.IsNullOrEmpty(SearchValue))
-                profileFriendsView.SearchedFriends = _friendLogic.GetSearchResult(cookieUserID, SearchValue);
+                profileFriendsView.SearchedFriends = _friendLogic.GetSearchResult(userId, SearchValue);
 
             return PartialView(profileFriendsView);
         }

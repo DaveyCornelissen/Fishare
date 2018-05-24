@@ -45,25 +45,29 @@
                         <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
                             <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
                         </div>
+                        <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                            <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
+                        </div>
                     }
                     else
                     {
                         if (!Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User)))
                         {
                             <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                <button type="button" class="btn btn-success FriendActionButton" value="@Model.ProfileInfoViewModel.UserId+Send">Add Friend</button>
+                                <button type="button" class="btn btn-success FriendAddButton" value="@Model.ProfileInfoViewModel.UserId">Add Friend</button>
                             </div>
                         }
                         else
                         {
-                            <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                            <div class="col-lg-5 col-md-8 col-sm-3 ActionButtons">
                                 <button type="button" class="btn btn-outline-success">Friends With @Model.ProfileInfoViewModel.FirstName</button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                                <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
                             </div>
                         }
                     }
-                    <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                        <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
-                    </div>
+
                 </div>
             </div>
         </div>
