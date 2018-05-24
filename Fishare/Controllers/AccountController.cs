@@ -124,13 +124,19 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Profile(int Id, string SearchValue, string ButtonType, int friendID,
-            ProfileSettingsViewModel profileSettingsModel, bool SettingsCall)
+        public IActionResult Profile(string SearchValue, string ButtonType, int friendID,
+            ProfileSettingsViewModel profileSettingsModel, string settingsCall)
         {
             userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
 
             try
             {
+                //button action to view friends profile
+//                if (ButtonType == "View")
+//                {
+//                    return RedirectToAction("Profile", new {Id = friendID});
+//                }
+
                 //for add a friend on there profile page
                 if (friendID != 0 && String.IsNullOrEmpty(ButtonType))
                 {
@@ -140,7 +146,7 @@ namespace Fishare.Controllers
                 }
                 
                 //update Profile/Account settings
-                if(SettingsCall)
+                if(settingsCall == "True")
                 {
                     if (!ModelState.IsValid)
                         return PartialView();
@@ -195,9 +201,6 @@ namespace Fishare.Controllers
                     case "Cancel":
                         _friendLogic.DeclineFriendRequest(userId, friendID);
                         break;
-//                    case "View":
-//                        //TODO Redirect to the user by the view button
-//                        return RedirectToAction("Profile", friendID);
                     case "Remove":
                         _friendLogic.RemoveFriend(userId, friendID);
                         break;
