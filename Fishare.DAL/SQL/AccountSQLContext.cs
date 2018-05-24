@@ -134,7 +134,7 @@ namespace Fishare.DAL.SQL
                             {
                                 FriendEntity = friendEntity,
                                 ActionId = (int)dataReader["Action_User_ID"],
-                                Status = Friend.eStatus.Accept
+                                Status = (Friend.eStatus) Enum.Parse(typeof(Friend.eStatus), dataReader["Status"].ToString())
                             };
 
                             if ((int)dataReader["User_One_ID"] == Id)

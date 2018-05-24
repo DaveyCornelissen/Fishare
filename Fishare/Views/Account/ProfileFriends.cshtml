@@ -38,16 +38,16 @@
                         <div class="col-5">
                             <h5>@Friend.FriendEntity.FirstName @Friend.FriendEntity.LastName</h5>
                         </div>
-                        @if (Friend.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User))
-                        {
-                            <button type="button" class="btn btn-warning FriendActionButton" value="@Friend.UserId+RemoveOwn">Remove</button>
-                        }
-                        else
-                        {
-                            <div class="col-5">
+                        <div class="col-5">
+                            @if (Friend.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User))
+                            {
+                                <button type="button" class="btn btn-warning FriendActionButton" value="@Friend.UserId+RemoveOwn">Remove</button>
+                            }
+                            else
+                            {
                                 <button type="button" class="btn btn-info FriendActionButton" value="@Friend.FriendEntity.UserId+View">View</button>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
             }

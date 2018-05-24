@@ -1,21 +1,22 @@
-﻿$('.FriendModalButton').on('click',
-    function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        var ProfileId = $(this).val();
-
-        $.ajax({
-            type: 'GET',
-            url: 'ProfileFriends',
-            data: { 'Id' : ProfileId},
-            success: function(data) {
-                $('#LocationFriendsModalContainer').html(data);
-                $('#FriendsPage').modal('show');
-                console.log(data);
-            }
-        });
-    });
+﻿//$('.FriendModalButton').on('click',
+//    function(evt) {
+//        evt.preventDefault();
+//        evt.stopPropagation();
+//
+//        var ProfileId = $(this).val();
+//
+//        $.ajax({
+//            type: 'GET',
+//            url: 'ProfileFriends',
+//            data: { 'Id' : ProfileId},
+//            success: function(data) {
+//                //$('#LocationFriendsModalContainer').html(data);
+//
+//                $('#FriendsPage').modal('show');
+//                console.log(data);
+//            }
+//        });
+//    });
 
 $(document).on('click',
     ".FriendAddButton",
@@ -54,11 +55,12 @@ function GetAjaxRequest(type, Id, evt) {
     evt.stopPropagation();
     $.ajax({
         type: 'POST',
-        url: 'ProfileFriends',
+        url: 'Profile',
         data: { ButtonType: type, FriendID: Id },
         success: function (data) {
-                $('#FriendsPage').modal('hide');
-                $('#LocationFriendsModalContainer').html(data);
+            $('#FriendsPage').modal('hide');
+            $("#ProfilePage").html(data);
+                //$('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');
         }
     })
@@ -71,7 +73,7 @@ $(document).on("click",
         evt.preventDefault();
         evt.stopPropagation();
         var SearchVal = $('#FriendsSearchBox').val();
-        var url = "ProfileFriends";
+            var url = "Profile";
 
         $.ajax({
             type: 'POST',
@@ -79,7 +81,8 @@ $(document).on("click",
             data: { SearchValue: SearchVal },
             success: function(data) {
                 $('#FriendsPage').modal('hide');
-                $('#LocationFriendsModalContainer').html(data);
+                $("#ProfilePage").html(data);
+                //$('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');
             }
         })

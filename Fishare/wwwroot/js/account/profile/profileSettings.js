@@ -7,7 +7,7 @@
             $.ajax({
                 type: $frm.attr('method'),
                 url: $frm.attr('action'),
-                data: $frm.serialize(),
+                data: { $frm.serialize(), SettingsCall : true },
                 dataType: 'html',
                 success: function (data) {
                     $('#AccountSettings').modal('hide');

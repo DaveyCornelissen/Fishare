@@ -33,7 +33,7 @@
                             <strong class="text-primary">Posts:</strong> @Model.ProfileInfoViewModel.Posts.Count.ToString()
                         </h5>
                         <h5>
-                            <strong class="text-primary">Friends:</strong> @Model.ProfileInfoViewModel.TotalFriends.ToString()
+                            <strong class="text-primary">Friends:</strong> @Model.ProfileInfoViewModel.Friends.Count(f => f.Status == Friend.eStatus.Accept).ToString()
                         </h5>
                     </div>
                 </div>
@@ -46,16 +46,25 @@
                             <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                            <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
+                            <Button type="button" class="btn btn-warning FriendModalButton" data-toggle="modal" data-target="#FriendsPage" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
                         </div>
                     }
                     else
                     {
-                        if (!Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User)))
+                        if (Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User) && f.Status != Friend.eStatus.Accept))
                         {
-                            <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                <button type="button" class="btn btn-success FriendAddButton" value="@Model.ProfileInfoViewModel.UserId">Add Friend</button>
-                            </div>
+                            if (!Model.ProfileInfoViewModel.Friends.Any(f => f.Status != Friend.eStatus.Pending))
+                            {
+                                <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                                    <button type="button" class="btn btn-success FriendAddButton" value="@Model.ProfileInfoViewModel.UserId">Add Friend</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                                    <button type="button" class="btn btn-info">Pending...</button>
+                                </div>
+                            }
                         }
                         else
                         {
@@ -110,7 +119,7 @@
 <script src="~/js/account/profile/profileSettings.js"></script>
 
 @*Friends Modal*@
-@*@Html.Partial("ProfileFriends", Model.ProfileFriendsViewModal)*@
-<div id="LocationFriendsModalContainer"></div>
+@Html.Partial("ProfileFriends", Model.ProfileFriendsViewModal)
+@*<div id="LocationFriendsModalContainer"></div>*@
 
 <script src="~/js/account/profile/ProfileFriends.js"></script>
