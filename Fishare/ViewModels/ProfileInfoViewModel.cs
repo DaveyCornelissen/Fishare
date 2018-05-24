@@ -6,6 +6,8 @@ namespace Fishare.ViewModels
 {
     public class ProfileInfoViewModel
     {
+        public int UserId { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public string PPath { get; set; }
@@ -22,6 +24,6 @@ namespace Fishare.ViewModels
 
         public int TotalFriends { get; set; }
 
-        //public List<Friend> Friends { get; set; }
+        public List<Friend> Friends { get; set; }
     }
 }

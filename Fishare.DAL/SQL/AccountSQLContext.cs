@@ -115,6 +115,41 @@ namespace Fishare.DAL.SQL
                         user.TotalFriends = (int)dataReader["TotalFriends"];
                     }
 
+                    //to get all friends
+                    if (dataReader.NextResult())
+                    {
+                        List<Friend> friends = new List<Friend>();
+
+                        while (dataReader.Read())
+                        {
+                            User friendEntity = new User
+                            {
+                                UserID = (int)dataReader["UserID"],
+                                FirstName = dataReader["Firstname"].ToString(),
+                                LastName = dataReader["Lastname"].ToString(),
+                                PpPath = dataReader["User_photo_Path"].ToString()
+                            };
+
+                            Friend friend = new Friend
+                            {
+                                FriendEntity = friendEntity,
+                                ActionId = (int)dataReader["Action_User_ID"],
+                                Status = Friend.eStatus.Accept
+                            };
+
+                            if ((int)dataReader["User_One_ID"] == Id)
+                            {
+                                friend.UserId = (int)dataReader["User_One_ID"];
+                            }
+                            else
+                            {
+                                friend.UserId = (int)dataReader["User_Two_ID"];
+                            }
+
+                            friends.Add(friend);
+                        }
+                    }
+
                     return user;
                 }
                 catch (Exception errorException)

@@ -226,6 +226,7 @@ namespace Fishare.Controllers
 
              return new ProfileInfoViewModel
             {
+                UserId = _user.UserID,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
                 PhoneNumber = _user.PhoneNumber,
@@ -233,7 +234,8 @@ namespace Fishare.Controllers
                 Bio = _user.Bio,
                 PPath = _user.PpPath,
                 TotalFriends = _user.TotalFriends,
-                Posts = _user.Posts
+                Posts = _user.Posts,
+                Friends = _user.Friends
             };
         }
 

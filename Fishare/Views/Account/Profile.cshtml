@@ -1,4 +1,5 @@
-﻿@using Fishare.Model
+﻿@using Fishare.Cookies
+@using Fishare.Model
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model ProfileViewModel
 @{
@@ -9,13 +10,13 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
 
-<link href="~/css/Profile/Profile.css" rel="stylesheet" />
+<link href="~/css/Profile/Profile.css" rel="stylesheet"/>
 <div id="ProfilePage" class="container">
     <div class="Top-Content">
         <div class="row">
             <div class="col-md-8">
                 <div class="UserImage">
-                    <img src="~/images/Layout/user.png" class="UserPhoto" />
+                    <img src="~/images/Layout/user.png" class="UserPhoto"/>
                 </div>
                 <div class="row AccountInfoText">
 
@@ -39,9 +40,24 @@
             </div>
             <div class="col-md-4 col-sm-10">
                 <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                        <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
-                    </div>
+                    @if (Model.ProfileInfoViewModel.UserId.ToString() == CookieClaims.GetCookieID(User))
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                            <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
+                        </div>
+                    }
+                    @if (Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserID.ToString() == CookieClaims.GetCookieID(User)))
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                            <a type="button" class="btn-success FriendModalButton">Friends</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
+                            <button type="button" class="btn-success FriendModalButton" value="@Model.ProfileInfoViewModel.UserId+Send">Add Friend</button>
+                        </div>
+                    }
                     <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
                         <Button type="button" class="btn btn-warning FriendModalButton">Friends</Button>
                     </div>
@@ -68,7 +84,7 @@
                                 <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
                             </div>
                             <div class="card-body">
-                                <img class="PreviewPostImage" src="~@post.PrimaryPhoto" />
+                                <img class="PreviewPostImage" src="~@post.PrimaryPhoto"/>
                             </div>
                         </div>
                     }
