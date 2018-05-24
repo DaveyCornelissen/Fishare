@@ -72,7 +72,7 @@ namespace Fishare.DAL.SQL
 
                     User user = new User
                     {
-                        UserID = (int)dataReader["UserID"],
+                        UserId = (int)dataReader["UserId"],
                         UserEmail = dataReader["UserEmail"].ToString(),
                         Password = dataReader["Password"].ToString(),
                         FirstName = dataReader["Firstname"].ToString(),
@@ -124,7 +124,7 @@ namespace Fishare.DAL.SQL
                         {
                             User friendEntity = new User
                             {
-                                UserID = (int)dataReader["UserID"],
+                                UserId = (int)dataReader["UserId"],
                                 FirstName = dataReader["Firstname"].ToString(),
                                 LastName = dataReader["Lastname"].ToString(),
                                 PpPath = dataReader["User_photo_Path"].ToString()
@@ -148,6 +148,8 @@ namespace Fishare.DAL.SQL
 
                             friends.Add(friend);
                         }
+
+                        user.Friends = friends;
                     }
 
                     return user;
@@ -165,7 +167,7 @@ namespace Fishare.DAL.SQL
             using (SqlCommand command = new SqlCommand("dbo.UpdateUserAccount", connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@UserID", entity.UserID);
+                command.Parameters.AddWithValue("@UserId", entity.UserId);
                 command.Parameters.AddWithValue("@UserEmail", entity.UserEmail);
                 command.Parameters.AddWithValue("@Password", entity.Password);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
@@ -292,7 +294,7 @@ namespace Fishare.DAL.SQL
 
                         User User = new User
                         {
-                            UserID = (int)dataReader["UserID"],
+                            UserId = (int)dataReader["UserId"],
                             FirstName = dataReader["Firstname"].ToString(),
                             PpPath = dataReader["User_Photo_Path"].ToString()
                         };

@@ -57,7 +57,7 @@ namespace Fishare.Logic
                     {
                         User friendEntity = new User
                         {
-                            UserID = (int) dataReader["UserID"],
+                            UserId = (int) dataReader["UserId"],
                             FirstName = dataReader["Firstname"].ToString(),
                             LastName = dataReader["Lastname"].ToString(),
                             PpPath = dataReader["User_photo_Path"].ToString()
@@ -110,7 +110,7 @@ namespace Fishare.Logic
                     {
                         User friendEntity = new User
                         {
-                            UserID = (int) dataReader["UserID"],
+                            UserId = (int) dataReader["UserId"],
                             FirstName = dataReader["Firstname"].ToString(),
                             LastName = dataReader["Lastname"].ToString(),
                             PpPath = dataReader["User_photo_Path"].ToString()
@@ -163,7 +163,7 @@ namespace Fishare.Logic
                     {
                         User friendEntity = new User
                         {
-                            UserID = (int)dataReader["UserID"],
+                            UserId = (int)dataReader["UserId"],
                             FirstName = dataReader["Firstname"].ToString(),
                             LastName = dataReader["Lastname"].ToString(),
                             PpPath = dataReader["User_photo_Path"].ToString()
@@ -217,7 +217,7 @@ namespace Fishare.Logic
                     {
                         User SearchEntity = new User
                         {
-                            UserID = (int)dataReader["UserID"],
+                            UserId = (int)dataReader["UserId"],
                             FirstName = dataReader["Firstname"].ToString(),
                             LastName = dataReader["Lastname"].ToString(),
                             PpPath = dataReader["User_photo_Path"].ToString()

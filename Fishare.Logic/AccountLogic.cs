@@ -76,7 +76,7 @@ namespace Fishare.Logic
         //Update the Users Settings
         public void UpdateUser(User entity)
         {
-            User _oldUser = _repository.Read(entity.UserID);
+            User _oldUser = _repository.Read(entity.UserId);
 
             if (_oldUser.UserEmail != entity.UserEmail)
             {

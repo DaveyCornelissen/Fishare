@@ -6,7 +6,7 @@ namespace Fishare.Model
 {
     public class User
     {
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         public string UserEmail { get; set; }
 

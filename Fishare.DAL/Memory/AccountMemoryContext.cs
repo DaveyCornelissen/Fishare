@@ -16,7 +16,7 @@ namespace Fishare.DAL.Memory
         {
             AllUsers.Add(new User
                 {
-                    UserID = 1,
+                    UserId = 1,
                     UserEmail = "d.cornelissen8@gmail.com",
                     Password = "12345",
                     FirstName = "Davey",
@@ -39,7 +39,7 @@ namespace Fishare.DAL.Memory
 
         public bool Update(User entity)
         {
-            User user = AllUsers.Find(u => u.UserID == entity.UserID);
+            User user = AllUsers.Find(u => u.UserId == entity.UserId);
 
             if (user != null)
             {
@@ -84,7 +84,7 @@ namespace Fishare.DAL.Memory
 
         public User Read(int Id)
         {
-            User user = AllUsers.Find(u => u.UserID == Id);
+            User user = AllUsers.Find(u => u.UserId == Id);
 
             return user;
         }

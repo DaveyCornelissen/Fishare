@@ -3,9 +3,12 @@
         evt.preventDefault();
         evt.stopPropagation();
 
+        var ProfileId = $(this).val();
+
         $.ajax({
             type: 'GET',
             url: 'ProfileFriends',
+            data: { 'Id': ProfileId},
             success: function(data) {
                 $('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');

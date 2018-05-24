@@ -15,6 +15,8 @@ namespace Fishare.Controllers
 {
     public class AccountController : Controller
     {
+        //TODO Upload Profile Image
+
         private int cookieUserID;
 
         private AccountLogic _accountLogic;
@@ -55,7 +57,7 @@ namespace Fishare.Controllers
                 User cookieInfo = _accountLogic.GetCookieInfo(model.Email);
 
                 CookieCreate cookieCreate = new CookieCreate();
-                cookieCreate.addClaims("Id", cookieInfo.UserID.ToString());
+                cookieCreate.addClaims("Id", cookieInfo.UserId.ToString());
                 cookieCreate.addClaims("UserName", cookieInfo.FirstName);
                 cookieCreate.addClaims("UserPicture", cookieInfo.PpPath);
                 var claimsPrincipal = cookieCreate.CreateCookieAuth("FishCookies");
@@ -112,9 +114,9 @@ namespace Fishare.Controllers
             }
         }
 
-        public IActionResult Profile(int UserId)
+        public IActionResult Profile(int Id)
         {
-            int _userId = (UserId != 0)? UserId : Convert.ToInt16(CookieClaims.GetCookieID(User));
+            int _userId = (Id != 0)? Id : Convert.ToInt16(CookieClaims.GetCookieID(User));
 
             return View(GetProfileModel(_userId));
         }
@@ -143,11 +145,11 @@ namespace Fishare.Controllers
             }
         }
 
-        public IActionResult ProfileFriends()
+        public IActionResult ProfileFriends(int Id)
         {
-            cookieUserID = Convert.ToInt16(CookieClaims.GetCookieID(User));
+            int _userId = (Id != 0) ? Id : Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(cookieUserID);
+            ProfileFriendsViewModal profileFriendsView = ProfileFriendView(_userId);
 
             return PartialView(profileFriendsView);
         }
@@ -177,12 +179,16 @@ namespace Fishare.Controllers
                         _friendLogic.DeclineFriendRequest(cookieUserID, FriendID);
                         break;
                     case "View":
+                        //TODO Redirect to the user by the view button
                         return RedirectToAction("Profile", FriendID);
                     case "Remove":
                         _friendLogic.RemoveFriend(cookieUserID, FriendID);
                         break;
                     case "Send":
                         _friendLogic.SendFriendRequest(cookieUserID, FriendID);
+                        break;
+                    case "RemoveOwn":
+                        _friendLogic.RemoveFriend(cookieUserID, FriendID);
                         break;
                     default:
                         ViewData["ErrorFriends"] = "Oops something when wrong with getting the friends information!";
@@ -204,13 +210,13 @@ namespace Fishare.Controllers
         /// <param name="_pSModel"></param>
         /// <param name="cookieUserId"></param>
         /// <returns></returns>
-        private ProfileViewModel GetProfileModel(int cookieUserId)
+        private ProfileViewModel GetProfileModel(int userId)
         {
             //return the new ProfileModel
             return new ProfileViewModel
             {
-                ProfileInfoViewModel = ProfileInfo(cookieUserId),
-                ProfileSettingsViewModel = ProfileSettings(cookieUserId)
+                ProfileInfoViewModel = ProfileInfo(userId),
+                ProfileSettingsViewModel = ProfileSettings(userId)
             };
         }
 
@@ -226,7 +232,7 @@ namespace Fishare.Controllers
 
              return new ProfileInfoViewModel
             {
-                UserId = _user.UserID,
+                UserId = _user.UserId,
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
                 PhoneNumber = _user.PhoneNumber,
@@ -264,18 +270,19 @@ namespace Fishare.Controllers
         /// <summary>
         /// Get the 3 Kind to friends into the friendsViewModal.
         /// </summary>
-        /// <param name="cookieUserId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        private ProfileFriendsViewModal ProfileFriendView(int cookieUserId)
+        private ProfileFriendsViewModal ProfileFriendView(int userId)
         {
-            List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(cookieUserId);
+            List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(userId);
 
-            List<Friend> _Pendingfriends = _friendLogic.GetRequestingFriends(cookieUserId);
+            List<Friend> _Pendingfriends = _friendLogic.GetRequestingFriends(userId);
 
-            List<Friend> _Blockedfriends = _friendLogic.GetBlockedFriends(cookieUserId);
+            List<Friend> _Blockedfriends = _friendLogic.GetBlockedFriends(userId);
 
             return new ProfileFriendsViewModal
             {
+                UserId = userId,
                 AcceptedFriends = _Acceptedfriends,
                 RequestingFriends = _Pendingfriends,
                 BlockedFriends = _Blockedfriends
@@ -292,7 +299,7 @@ namespace Fishare.Controllers
         {
             User _newUser = new User
             {
-                UserID = cookieUserId,
+                UserId = cookieUserId,
                 UserEmail = profileSettingsModel.UserEmail,
                 Password = profileSettingsModel.Password,
                 FirstName = profileSettingsModel.FirstName,

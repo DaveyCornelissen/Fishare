@@ -8,6 +8,8 @@ namespace Fishare.ViewModels
 {
     public class ProfileFriendsViewModal
     {
+        public int UserId { get; set; }
+
         public string SearchFriendsBox { get; set; }
 
         public List<Friend> AcceptedFriends { get; set; }
