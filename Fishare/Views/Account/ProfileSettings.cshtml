@@ -50,15 +50,15 @@
                             <textarea asp-for="Bio" rows="3" data-val="true" class="form-control" placeholder="Enter here your Bio story"></textarea>
                             <span asp-validation-for="Bio" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
                         </div>
-                        @if (Model.PPath != "")
+                        @if (Model.PPathView != "")
                         {
                             <div class="form-group">
-                                <img src="~@Model.PPath" class="PreviewAccountImage" />
+                                <img src="~@Model.PPathView" class="PreviewAccountImage" />
                             </div>
                         }
                         <div class="form-group">
                             <label for="ProfilePhoto">Upload profile picture</label>
-                            <input asp-for="PPath" type="file" class="form-control-file" id="ProfilePhoto" aria-describedby="fileHelp">
+                            <input asp-for="PPathUpload" type="file" class="form-control-file" id="ProfilePhoto" aria-describedby="fileHelp">
                             <small id="fileHelp" class="form-text text-muted">You can only upload images with these formats: PNG, JPEG, GIF</small>
                         </div>
                         <span class="form-text text-danger">@ViewData["UserCreateFailed"]</span>

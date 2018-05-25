@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace Fishare.ViewModels
 {
@@ -32,9 +33,9 @@ namespace Fishare.ViewModels
         [StringLength(20, ErrorMessage = "Your phone number must be less than {1} characters.")]
         public string PhoneNumber { get; set; }
 
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(255)]
-        public string PPath { get; set; }
+        public IFormFile PPathUpload { get; set; }
+
+        public string PPathView { get; set; }
 
         [Column(TypeName = "VARCHAR")]
         [StringLength(255, ErrorMessage = "Your bio must be less than {1} characters.")]

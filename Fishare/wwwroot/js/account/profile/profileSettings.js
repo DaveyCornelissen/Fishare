@@ -4,15 +4,16 @@
         $frm.submit(function(e) {
             e.preventDefault();
 
-            //getting form into Jquery Wrapper Instance to enable JQuery Functions on form                    
-            var form = $frm;
-
             //Serializing all For Input Values (not files!) in an Array Collection so that we can iterate this collection later.
-            var params = form.serializeArray();
+            var params = $frm.serializeArray();
 
             //Declaring new Form Data Instance  
             var formData = new FormData();
 
+            //Getting Files Collection
+            var files = $("#ProfilePhoto")[0].files;
+            //Add the file to the formData
+            formData.append('PPathUpload', files[0]);
 
             //Now Looping the parameters for all form input fields and assigning them as Name Value pairs. 
             $(params).each(function (index, element) {
@@ -28,13 +29,12 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                dataType: 'html',
+                //dataType: 'html',
                 success: function (data) {
                     $('#AccountSettings').modal('hide');
                     $("#ProfilePage").html(data);
                     $('#AccountSettings').modal('show');
                     console.log(data);
-                    alert(settingsCall);
                 }
             });
         });

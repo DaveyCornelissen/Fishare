@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Fishare.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,8 @@ using Fishare.Model;
 using Fishare.Logic;
 using Fishare.ViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
@@ -19,15 +22,23 @@ namespace Fishare.Controllers
 
         private int userId;
 
+        private string mapRootProfileImages = "images/Uploads/ProfileImages/";
+
+        private string mapRootPostImages = "images/Uploads/PostImages/";
+
         private AccountLogic _accountLogic;
 
         private FriendLogic _friendLogic;
 
-        public AccountController(IConfiguration config)
+        private IHostingEnvironment _hostingEnvironment;
+
+        public AccountController(IConfiguration config, IHostingEnvironment environment)
         {
             _accountLogic = new AccountLogic(config);
 
             _friendLogic = new FriendLogic(config);
+
+            _hostingEnvironment = environment;
         }
 
         public IActionResult Login()
@@ -124,7 +135,7 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Profile(string SearchValue, string ButtonType, int friendID,
+        public async Task<IActionResult> Profile(string SearchValue, string ButtonType, int friendID,
             ProfileSettingsViewModel profileSettingsModel, string settingsCall)
         {
             userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
@@ -146,7 +157,7 @@ namespace Fishare.Controllers
                         return PartialView();
 
                     //Update User Account settings
-                    ProfileSettings(profileSettingsModel);
+                    await ProfileSettings(profileSettingsModel);
                 }
 
                ProfileFriendsViewModal profileFriends = ProfileFriends(ButtonType, friendID, SearchValue);
@@ -275,7 +286,7 @@ namespace Fishare.Controllers
                 FirstName = _user.FirstName,
                 LastName = _user.LastName,
                 Birthday = _user.BirthDay,
-                PPath = _user.PpPath,
+                PPathView = _user.PpPath,
                 PhoneNumber = _user.PhoneNumber,
                 Bio = _user.Bio,
             };
@@ -308,8 +319,12 @@ namespace Fishare.Controllers
         /// </summary>
         /// <param name="profileSettingsModel"></param>
         /// <param name="cookieUserId"></param>
-        private void ProfileSettings(ProfileSettingsViewModel profileSettingsModel)
+        private async Task ProfileSettings(ProfileSettingsViewModel profileSettingsModel)
         {
+            var profileImagePaCombine = Path.Combine(_hostingEnvironment.WebRootPath, mapRootProfileImages);
+
+            IFormFile _NewFile = await AddFileToDirectory(profileSettingsModel.PPathUpload, profileImagePaCombine);
+
             User _newUser = new User
             {
                 UserId = userId,
@@ -319,12 +334,40 @@ namespace Fishare.Controllers
                 LastName = profileSettingsModel.LastName,
                 BirthDay = profileSettingsModel.Birthday,
                 PhoneNumber = profileSettingsModel.PhoneNumber,
-                PpPath = profileSettingsModel.PPath,
+                PpPath = _NewFile.FileName,
                 Bio = profileSettingsModel.Bio
             };
 
             //update users account
             _accountLogic.UpdateUser(_newUser);
+        }
+
+        public async Task<IFormFile> AddFileToDirectory(IFormFile file, string path)
+        {
+            if (file.Length > 0)
+            {
+                try
+                {
+                    //Rename the filename to a new and uniqe filename
+                    System.IO.File.Move(file.FileName, Path.GetRandomFileName());
+
+                    var filePath = Path.Combine(path, file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+
+                    }
+
+                    //new filename
+                    return file;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Directory.CreateDirectory(path);
+
+                   return await AddFileToDirectory(file, path);
+                }
+            }
         }
     }
 }
