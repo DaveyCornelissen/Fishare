@@ -46,17 +46,24 @@
         <div class="form-inline my-2 my-lg-0">
             @if (CookieClaims.GetCookieID(User) != null)
             {
-
-                    <div class="btn-group navOptions" role="group">
-                        <button onclick="window.location='@Url.Action("Profile", "Account", new { Id = CookieClaims.GetCookieID(User)})'" class="btn btn-info"><i class="fas fa-user"></i> @CookieClaims.GetCookieUserName(User)</button>
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupOptions" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupOptions">
-                                <a class="dropdown-item" onclick="window.location='@Url.Action("Logout", "Account")'"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                            </div>
+                <div class="btn-group navOptions" role="group">
+                    <button onclick="window.location = '@Url.Action("Profile", "Account", new {Id = CookieClaims.GetCookieID(User)})'" class="btn btn-info">
+                        <i class="fas fa-user"></i> @CookieClaims.GetCookieUserName(User)</button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupOptions" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupOptions">
+                            <a class="dropdown-item" onclick="window.location = '@Url.Action("Logout", "Account")'"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
-                    <img class="PPicture" src="~@CookieClaims.GetCookiePhoto(User)"/>
+                </div>
+                if (String.IsNullOrEmpty(@CookieClaims.GetCookiePhoto(User)))
+                {
+                    <img class="PPicture border border-info" src="~/images/Layout/user.png"/>
+                }
+                else
+                {
+                    <img class="PPicture rounded-circle border border-info" src="~/images/Uploads/ProfileImages/@CookieClaims.GetCookiePhoto(User)"/>
+                }
             }
             else
             {

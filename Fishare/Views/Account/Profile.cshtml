@@ -16,7 +16,14 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="UserImage">
-                    <img src="~/images/Layout/user.png" class="UserPhoto"/>
+                    @if (String.IsNullOrEmpty(Model.ProfileInfoViewModel.PPath))
+                    {
+                        <img src="~/images/Layout/user.png" class="UserPhoto border border-info"/>
+                    }
+                    else
+                    {
+                        <img src="~/images/Uploads/ProfileImages/@Model.ProfileInfoViewModel.PPath" class="UserPhoto rounded-circle border border-info"/>
+                    }
                 </div>
                 <div class="row AccountInfoText">
 

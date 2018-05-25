@@ -4,6 +4,10 @@
 .AccountInfoText {
     margin-top: 35px;
 }
+.UserPhoto {
+    height: 130px;
+    width: 130px;
+}
 .ActionButtons {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -38,6 +42,10 @@
     align-items: baseline;
     border-radius: 5px;
 }
+.PreviewAccountImage {
+    height: 120px;
+    width: 120px;
+}
 .SearchFriends {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -49,6 +57,7 @@
 }
 .FriendPicture {
     height: 50px;
+    width: 50px;
     margin-top: 2px;
     margin-bottom: 2px;
 }

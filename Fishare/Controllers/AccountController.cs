@@ -348,11 +348,18 @@ namespace Fishare.Controllers
             {
                 try
                 {
-                    //Rename the filename to a new and uniqe filename
-                    System.IO.File.Move(file.FileName, Path.GetRandomFileName());
+                    //Rename the filename to a new and unique filename
+                    string fileName = Path.GetRandomFileName();
 
-                    var filePath = Path.Combine(path, file.FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    string[] uniquefileName = fileName.Split('.');
+
+                    string extension = Path.GetExtension(file.FileName);
+
+                    string _newFileName = file.FileName.Replace(file.FileName, uniquefileName[0]+ extension);
+
+                    var newfilePath = Path.Combine(path, _newFileName);
+
+                    using (var fileStream = new FileStream(newfilePath, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
 
@@ -367,6 +374,10 @@ namespace Fishare.Controllers
 
                    return await AddFileToDirectory(file, path);
                 }
+            }
+            else
+            {
+                return null;
             }
         }
     }
