@@ -344,7 +344,7 @@ namespace Fishare.Controllers
 
         public async Task<string> AddFileToDirectory(IFormFile file, string path)
         {
-            if (file.Length > 0)
+            if (file != null)
             {
                 try
                 {
