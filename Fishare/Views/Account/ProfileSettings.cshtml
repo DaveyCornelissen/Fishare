@@ -50,7 +50,7 @@
                             <textarea asp-for="Bio" rows="3" data-val="true" class="form-control" placeholder="Enter here your Bio story"></textarea>
                             <span asp-validation-for="Bio" data-valmsg-replace="true" class="form-text field-validation-valid text-danger"></span>
                         </div>
-                        @if (String.IsNullOrEmpty(Model.PPathView))
+                        @if (!String.IsNullOrEmpty(Model.PPathView))
                         {
                             <div class="form-group">
                                 <img src="~/images/Uploads/ProfileImages/@Model.PPathView" class="PreviewAccountImage rounded border border-info" />

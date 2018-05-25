@@ -323,7 +323,7 @@ namespace Fishare.Controllers
         {
             var profileImagePaCombine = Path.Combine(_hostingEnvironment.WebRootPath, mapRootProfileImages);
 
-            IFormFile _NewFile = await AddFileToDirectory(profileSettingsModel.PPathUpload, profileImagePaCombine);
+            string _NewFile = await AddFileToDirectory(profileSettingsModel.PPathUpload, profileImagePaCombine);
 
             User _newUser = new User
             {
@@ -334,7 +334,7 @@ namespace Fishare.Controllers
                 LastName = profileSettingsModel.LastName,
                 BirthDay = profileSettingsModel.Birthday,
                 PhoneNumber = profileSettingsModel.PhoneNumber,
-                PpPath = _NewFile.FileName,
+                PpPath = _NewFile,
                 Bio = profileSettingsModel.Bio
             };
 
@@ -342,7 +342,7 @@ namespace Fishare.Controllers
             _accountLogic.UpdateUser(_newUser);
         }
 
-        public async Task<IFormFile> AddFileToDirectory(IFormFile file, string path)
+        public async Task<string> AddFileToDirectory(IFormFile file, string path)
         {
             if (file.Length > 0)
             {
@@ -366,7 +366,7 @@ namespace Fishare.Controllers
                     }
 
                     //new filename
-                    return file;
+                    return _newFileName;
                 }
                 catch (DirectoryNotFoundException)
                 {
