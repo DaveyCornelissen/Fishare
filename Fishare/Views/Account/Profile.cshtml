@@ -29,18 +29,18 @@
 
                     <div class="col-md-5">
                         <h5>
-                            <strong class="text-primary">Name:</strong> @Model.ProfileInfoViewModel.FirstName @Model.ProfileInfoViewModel.LastName
+                            <strong class="text-primary"><i class="fas fa-user"></i> Name:</strong> @Model.ProfileInfoViewModel.FirstName @Model.ProfileInfoViewModel.LastName
                         </h5>
                         <h5>
-                            <strong class="text-primary">Bio:</strong> @Model.ProfileInfoViewModel.Bio
+                            <strong class="text-primary"><i class="fas fa-book"></i> Bio:</strong> @Model.ProfileInfoViewModel.Bio
                         </h5>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <h5>
-                            <strong class="text-primary">Posts:</strong> @Model.ProfileInfoViewModel.Posts.Count.ToString()
+                            <strong class="text-primary"><i class="fas fa-camera-retro"></i> Posts:</strong> @Model.ProfileInfoViewModel.Posts.Count.ToString()
                         </h5>
                         <h5>
-                            <strong class="text-primary">Friends:</strong> @Model.ProfileInfoViewModel.Friends.Count(f => f.Status == Friend.eStatus.Accept).ToString()
+                            <strong class="text-primary"><i class="fas fa-users"></i> Friends:</strong> @Model.ProfileInfoViewModel.Friends.Count(f => f.Status == Friend.eStatus.Accept).ToString()
                         </h5>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                     @if (Model.ProfileInfoViewModel.UserId.ToString() == CookieClaims.GetCookieID(User))
                     {
                         <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                            <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings">Settings</button>
+                            <button type="button" class="btn btn-secondary SettingsModalButton" data-toggle="modal" data-target="#AccountSettings"><i class="fas fa-cogs"></i> Settings</button>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                            <Button type="button" class="btn btn-warning FriendModalButton" data-toggle="modal" data-target="#FriendsPage" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
+                            <Button type="button" class="btn btn-warning FriendModalButton" data-toggle="modal" data-target="#FriendsPage" value="@Model.ProfileInfoViewModel.UserId"><i class="fas fa-users"></i> Friends</Button>
                         </div>
                     }
                     else
@@ -63,7 +63,7 @@
                             if (Model.ProfileInfoViewModel.Friends.Any(f => f.Status == Friend.eStatus.Pending))
                             {
                                 <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                    <button type="button" class="btn btn-info">Pending...</button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-envelope"></i> Pending...</button>
                                 </div>
                             }
                             else
@@ -72,14 +72,14 @@
                                     <button type="button" class="btn btn-outline-success">Friends With @Model.ProfileInfoViewModel.FirstName</button>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                    <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId">Friends</Button>
+                                    <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId"><i class="fas fa-users"></i> Friends</Button>
                                 </div>
                             }
                         }
                         else
                         {
                             <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                <button type="button" class="btn btn-success FriendAddButton" value="@Model.ProfileInfoViewModel.UserId">Add Friend</button>
+                                <button type="button" class="btn btn-success FriendAddButton" value="@Model.ProfileInfoViewModel.UserId"><i class="fas fa-plus"></i> Add Friend</button>
                             </div>
                         }
                     }
@@ -91,10 +91,10 @@
     <div class="User-Content">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active show" data-toggle="tab" href="#Posts">Posts</a>
+                <a class="nav-link active show" data-toggle="tab" href="#Posts"><i class="fas fa-camera-retro"></i> Posts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#Statistics">Statistics</a>
+                <a class="nav-link" data-toggle="tab" href="#Statistics"><i class="fas fa-clipboard-list"></i> Statistics</a>
             </li>
         </ul>
         <div id="myTabContent" class="tab-content">

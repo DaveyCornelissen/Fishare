@@ -1,4 +1,14 @@
-﻿.FHPicture {
+﻿html,
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+#Wrapper {
+    min-height: 100%;
+    position: relative;
+}
+.FHPicture {
     height: 60px;
     width: 60px;
     margin-left: 10px;
@@ -22,18 +32,19 @@
 .navOptions {
     margin-right: 10px;
 }
-html, body {
-    height: 100%;
+#Body {
+    padding-bottom: 133px; /* Height of the footer */
 }
-.Main-Content {
-    position: relative;
+#Footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 133px; /* Height of the footer */
 }
 .page-footer {
     background-color: #2196F3;
-    width:100%;
-    position: absolute;
+    width: 100%;
 }
-
 .footer-copyright {
     background-color: #1A78C2;
 }
