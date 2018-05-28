@@ -1,0 +1,31 @@
+﻿.PostContent {
+    margin-top: 60px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    background-color: #2196F3;
+}
+.PostUserImage {
+    height: 70px;
+    width: 75px;
+    margin: 5px;
+}
+.PostTitle {
+    align-items: baseline;
+}
+.PostImage {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.PostDescription > h5{
+    display: inline-block;
+}
+.PostDescription > p{
+    display: inline-block;
+}
+.PostInfo {
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}

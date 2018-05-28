@@ -6,8 +6,8 @@ namespace Fishare.Model
 {
     public class PPhoto
     {
-        public Post Post { get; private set; }
+        public int Post { get; set; }
 
-        public string Path { get; private set; }
+        public string Path { get; set; }
     }
 }

@@ -248,6 +248,38 @@ namespace Fishare.Logic
             }
         }
 
+        public List<int> GetAllFriendsId(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand("dbo.GetAllFriendsID", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserId", userId);
+                try
+                {
+                    connection.Open();
+
+                    SqlDataReader dataReader = command.ExecuteReader();
+
+                    List<int> friendIdList = new List<int>();
+
+                    while (dataReader.Read())
+                    {
+                        friendIdList.Add((int)dataReader["UserID"]);
+                    }
+
+                    //Also add you own id
+                    friendIdList.Add(userId);
+
+                    return friendIdList;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
         public bool AcceptFriendRequest(int userId, int friendId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

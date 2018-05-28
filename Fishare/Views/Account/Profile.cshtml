@@ -72,7 +72,7 @@
                                     <button type="button" class="btn btn-outline-success">Friends With @Model.ProfileInfoViewModel.FirstName</button>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
-                                    <Button type="button" class="btn btn-warning FriendModalButton" value="@Model.ProfileInfoViewModel.UserId"><i class="fas fa-users"></i> Friends</Button>
+                                    <Button type="button" class="btn btn-danger FriendModalButton" data-toggle="modal" data-target="#FriendsPage" value="@Model.ProfileInfoViewModel.UserId"><i class="fas fa-users"></i> Friends</Button>
                                 </div>
                             }
                         }
@@ -107,7 +107,7 @@
                                 <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
                             </div>
                             <div class="card-body">
-                                <img class="PreviewPostImage" src="~@post.PrimaryPhoto"/>
+                                <img class="PreviewPostImage" src="~/images/Uploads/PostImages/@post.PrimaryPhoto"/>
                             </div>
                         </div>
                     }

@@ -324,6 +324,7 @@ namespace Fishare.Controllers
             var profileImagePaCombine = Path.Combine(_hostingEnvironment.WebRootPath, mapRootProfileImages);
 
             string _NewFile = await AddFileToDirectory(profileSettingsModel.PPathUpload, profileImagePaCombine);
+            string image = _NewFile ?? profileSettingsModel.PPathView;
 
             User _newUser = new User
             {
@@ -334,7 +335,7 @@ namespace Fishare.Controllers
                 LastName = profileSettingsModel.LastName,
                 BirthDay = profileSettingsModel.Birthday,
                 PhoneNumber = profileSettingsModel.PhoneNumber,
-                PpPath = _NewFile,
+                PpPath = image,
                 Bio = profileSettingsModel.Bio
             };
 

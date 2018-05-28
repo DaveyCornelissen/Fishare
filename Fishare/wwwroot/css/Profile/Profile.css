@@ -21,6 +21,7 @@
 }
 .PreviewPostImage {
     height: 200px;
+    width: 300px;
 }
 .PostTitle {
     text-align: left;

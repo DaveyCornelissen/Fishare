@@ -50,6 +50,8 @@ namespace Fishare.Logic
             return _repository.GetSearchResult(userId, databaseValue);
         }
 
+        public List<int> GetFriendIds(int userId) => _repository.GetAllFriendsId(userId);
+
         public bool AcceptFriendRequest(int userId, int friendId) => _repository.AcceptFriendRequest(userId, friendId);
 
         public bool SendFriendRequest(int userId, int friendId, int actionId = 0)

@@ -46,6 +46,11 @@ namespace Fishare.Logic
             throw new System.NotImplementedException();
         }
 
+        public List<int> GetAllFriendsId(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool AcceptFriendRequest(int userId, int friendId)
         {
             throw new System.NotImplementedException();

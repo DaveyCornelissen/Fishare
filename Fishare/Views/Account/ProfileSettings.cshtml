@@ -53,7 +53,8 @@
                         @if (!String.IsNullOrEmpty(Model.PPathView))
                         {
                             <div class="form-group">
-                                <img src="~/images/Uploads/ProfileImages/@Model.PPathView" class="PreviewAccountImage rounded border border-info" />
+                                <img src="~/images/Uploads/ProfileImages/@Model.PPathView"class="PreviewAccountImage rounded border border-info" />
+                                <input hidden asp-for="PPathView"/>
                             </div>
                         }
                         <div class="form-group">

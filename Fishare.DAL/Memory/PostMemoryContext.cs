@@ -6,7 +6,7 @@ using Fishare.Repository.Interface;
 
 namespace Fishare.DAL.Memory
 {
-    public class PostMemoryContext : IRepository<Post>
+    public class PostMemoryContext : IPostRepository
     {
         List<Post> AllPosts = new List<Post>();
 
@@ -46,6 +46,11 @@ namespace Fishare.DAL.Memory
         }
 
         public bool Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Post> GetPosts(List<int> ids)
         {
             throw new NotImplementedException();
         }

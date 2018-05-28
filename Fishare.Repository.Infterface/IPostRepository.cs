@@ -7,6 +7,6 @@ namespace Fishare.Repository.Interface
 {
     public interface IPostRepository : IRepository<Post>
     {
-        
+        List<Post> GetPosts(List<int> ids);
     }
 }

@@ -30,5 +30,10 @@ namespace Fishare.Model
 
         public FishInfo FishInfo { get; set; }
 
+        public string UserProfileImage { get; set; }
+
+        public string UserName { get; set; }
+
+
     }
 }

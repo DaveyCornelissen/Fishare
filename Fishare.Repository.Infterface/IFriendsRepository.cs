@@ -15,6 +15,8 @@ namespace Fishare.Repository.Interface
 
         List<User> GetSearchResult(int userId, string searchObject);
 
+        List<int> GetAllFriendsId(int userId);
+
         bool AcceptFriendRequest(int userId, int friendId);
 
         bool SendFriendRequest(int userOneId, int userTwoId, int actionId);

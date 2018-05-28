@@ -15,5 +15,10 @@ namespace Fishare.Repository
         {
             _context = context;
         }
+
+        public List<Post> GetPosts(List<int> ids)
+        {
+            return _context.GetPosts(ids);
+        }
     }
 }

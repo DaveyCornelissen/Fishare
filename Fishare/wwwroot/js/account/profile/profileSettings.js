@@ -22,8 +22,6 @@
         //Append data so the controller knows its an settings ajaxcall
         formData.append('settingsCall', 'True');
 
-        alert('Test');
-        
         $.ajax({
             type: $frm.attr('method'),
             url: $frm.attr('action'),

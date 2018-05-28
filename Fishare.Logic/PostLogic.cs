@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Fishare.DAL;
 using Fishare.DAL.Memory;
@@ -13,9 +14,9 @@ namespace Fishare.Logic
 {
     public class PostLogic
     {
-        private IRepository<Post> _repository;
+        private IPostRepository _repository;
 
-        private IRepository<Post> _context;
+        private IPostRepository _context;
 
         public PostLogic(IConfiguration config)
         {
@@ -32,12 +33,16 @@ namespace Fishare.Logic
                 default: throw new NotImplementedException();
             }
 
-            _repository = new Repository<Post>(_context);
+            _repository = new PostRepository(_context);
         }
 
-//        public List<Post> GetPosts()
-//        {
-//
-//        }
+        public List<Post> GetPosts(List<int> ids)
+        {
+            List<Post> postsList = _repository.GetPosts(ids);
+
+           // postsList.OrderBy(o => o.DateTime).ToList();
+
+            return postsList;
+        } 
     }
 }
