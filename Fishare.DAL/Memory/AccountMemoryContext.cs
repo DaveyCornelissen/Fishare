@@ -30,12 +30,12 @@ namespace Fishare.DAL.Memory
             AllPosts.Add(new Post {UserId = 1, DateTime = DateTime.Now, Title = "Test"});
         }
 
-        public User GetUserInfo(User entity)
-        {
-            User user = AllUsers.Find(u => u.UserEmail == entity.UserEmail && u.Password == entity.Password);
-
-            return user;
-        }
+//        public User GetUserInfo(User entity)
+//        {
+//            User user = AllUsers.Find(u => u.UserEmail == entity.UserEmail && u.Password == entity.Password);
+//
+//            return user;
+//        }
 
         public bool Update(User entity)
         {

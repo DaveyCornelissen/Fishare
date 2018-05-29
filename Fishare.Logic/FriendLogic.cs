@@ -57,12 +57,9 @@ namespace Fishare.Logic
         public bool SendFriendRequest(int userId, int friendId, int actionId = 0)
         {
             int _userOneId = (userId < friendId) ? userId : friendId;
-            ;
             int _UserTwoId = (userId > friendId) ? userId : friendId;
-            ;
 
             actionId = (actionId != 0) ? actionId : userId;
-
 
             return _repository.SendFriendRequest(_userOneId, _UserTwoId, actionId);
         }

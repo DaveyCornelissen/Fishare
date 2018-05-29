@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fishare.Logic\Fishare.Logic.csproj" />
-    <ProjectReference Include="..\Fishare.Model.Interface\Fishare.Model.Interface.csproj" />
     <ProjectReference Include="..\Fishare.Models\Fishare.Model.csproj" />
   </ItemGroup>
 

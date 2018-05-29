@@ -19,8 +19,6 @@ namespace Fishare.Controllers
 {
     public class AccountController : Controller
     {
-        //TODO Upload Profile Image
-
         private int userId;
 
         private string mapRootProfileImages = "images/Uploads/ProfileImages/";
@@ -266,7 +264,6 @@ namespace Fishare.Controllers
                 Birthday = _user.BirthDay,
                 Bio = _user.Bio,
                 PPath = _user.PpPath,
-                TotalFriends = _user.TotalFriends,
                 Posts = _user.Posts,
                 Friends = _user.Friends
             };

@@ -106,15 +106,6 @@ namespace Fishare.DAL.SQL
 
                     }
 
-                    //for the next table
-                    if (dataReader.NextResult())
-                    {
-                        dataReader.Read();
-
-                        //set the totalfriends to the user object
-                        user.TotalFriends = (int)dataReader["TotalFriends"];
-                    }
-
                     //to get all friends
                     if (dataReader.NextResult())
                     {

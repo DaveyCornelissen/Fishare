@@ -41,7 +41,7 @@
                         <div class="col-5">
                             @if (Friend.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User))
                             {
-                                <button type="button" class="btn btn-warning FriendActionButton" value="@Friend.UserId+RemoveOwn">Remove</button>
+                                <button type="button" class="btn btn-danger FriendActionButton" value="@Friend.UserId+RemoveOwn">Remove</button>
                             }
                             else
                             {
