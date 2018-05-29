@@ -8,6 +8,7 @@ using Fishare.Model;
 using Fishare.Logic;
 using Fishare.ViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -125,6 +126,7 @@ namespace Fishare.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "FishCookies")]
         public IActionResult Profile(int Id)
         {
             userId = (Id != 0)? Id : Convert.ToInt16(CookieClaims.GetCookieID(User));

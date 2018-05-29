@@ -21,7 +21,12 @@
                             }
                             
                         </div>
-                        <div class="col-md-8"><h5 class="text-left">@post.UserName</h5></div>
+                        <div class="col-md-8">
+                            <h4 class="text-left">@post.UserName</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-info"><i class="fas fa-cogs"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="PostImage">
@@ -66,45 +71,48 @@
                     </div>
                 </div>
                 <div class="PostInfo col-md-12 border border-primary">
-                    <div class="row">
-                        <div class="PostDescription col-md-8">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="PostDescription col-md-8">
                                 <div class="col-md-12 row">
-                                    <h5><strong class="text-primary">Title: </strong></h5><p> @post.Title</p>
+                                    <h5><strong class="text-primary">Title:&nbsp;</strong></h5><p>@post.Title</p>
                                 </div>
                                 <div class="col-md-12 row">
-                                    <h5><strong class="text-primary">Description: </strong>  @post.Description</h5> 
-                                </div>
-                        </div>
-                        <div class="PostAction col-md-4">
-                            <div class="col-md-6">
-                                <h5><strong class="text-primary">Likes: </strong> @post.PostLike</h5>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button class="btn btn-success btn-sm" type="button" value="@post.PostID">Like</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-info btn-sm" type="button">Comments</button>
-                                    </div>
+                                    <h5><strong class="text-primary">Description:&nbsp;</strong></h5> <p>@post.Description</p>
                                 </div>
                             </div>
+                            <div class="PostAction col-md-4">
+                                <div class="col-md-12">
+                                    <h5><strong class="text-primary">Likes: </strong> @post.PostLike</h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <button class="btn btn-success" type="button" value="@post.PostID"><i class="fas fa-thumbs-up"></i> Like</button>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary" type="button"><i class="fas fa-comments"></i> Comments</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                     @if (post.FishInfo != null)
                     {
                         <div class="PostFishInfo col-md-12">
+                            <h4><i class="fas fa-info-circle"></i> Info</h4>
+                            <div class="PageBorder"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <P>Location: @post.Location</P>
-                                    <P>Date/Time: @post.DateTime</P>
-                                    <P>Fish: @post.FishInfo.Name</P>
+                                    <P><strong class="text-primary"><i class="fas fa-map-marker"></i> Location: </strong>@post.Location</P>
+                                    <P><strong class="text-primary"><i class="fas fa-calendar-alt"></i> Date/Time: </strong>@post.DateTime</P>
+                                    <P><strong class="text-primary">Fish: </strong>@post.FishInfo.Name</P>
                                 </div>
                                 <div class="col-md-6">
-                                    <P>Lenght: @post.FishInfo.Lenght</P>
-                                    <P>Weight: @post.FishInfo.Weight</P>
-                                    <P>Bait: @post.FishInfo.Bait</P>
+                                    <P><strong class="text-primary"><i class="fas fa-arrows-alt-h"></i> Lenght: </strong>@post.FishInfo.Lenght cm</P>
+                                    <P><strong class="text-primary"><i class="fas fa-weight"></i> Weight: </strong>@post.FishInfo.Weight kg</P>
+                                    <P><strong class="text-primary"><i class="fas fa-utensils"></i> Bait: </strong>@post.FishInfo.Bait</P>
                                 </div>
                             </div>
                         </div>

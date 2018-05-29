@@ -93,41 +93,6 @@ namespace Fishare.DAL.SQL
                             Posts.Add(Userpost);
                         }
 
-                        //                    //for the next table
-                        //                    if (dataReader.NextResult())
-                        //                    {
-                        //                        while (dataReader.Read())
-                        //                        {
-                        //                            Post Friendpost = new Post
-                        //                            {
-                        //                                PostID = (int) dataReader["PostID"],
-                        //                                UserId = (int) dataReader["UserID"],
-                        //                                Title = (string) dataReader["Title"],
-                        //                                Description = (string) dataReader["Description"],
-                        //                                DateTime = (DateTime) dataReader["DateTime"],
-                        //                                Location = (string) dataReader["Location"],
-                        //                                PublicPost = Convert.ToBoolean((int) dataReader["Public"]),
-                        //                                PostLike = (int) dataReader["TotalLikes"]
-                        //                            };
-                        //
-                        //                            if ((int) dataReader["FishInfo_FishInfoID"] != 0)
-                        //                            {
-                        //                                FishInfo fishInfo = new FishInfo
-                        //                                {
-                        //                                    FishInfoID = (int) dataReader["FishInfo_FishInfoID"],
-                        //                                    Name = (string) dataReader["Name"] ?? string.Empty,
-                        //                                    Lenght = Convert.ToDouble((decimal) dataReader["Lenght"] == null ? 0 : (decimal) dataReader["Weight"]),
-                        //                                    Weight = Convert.ToDouble((decimal) dataReader["Weight"] == null ? 0 : (decimal) dataReader["Weight"]),
-                        //                                    Bait = (string) dataReader["Bait"] ?? string.Empty,
-                        //                                };
-                        //
-                        //                                Friendpost.FishInfo = fishInfo;
-                        //                            }
-                        //
-                        //                            Posts.Add(Friendpost);
-                        //                        }
-                        //                    }
-
                         List<PPhoto> postPictureList = new List<PPhoto>();
 
                         //for the next table
