@@ -30,12 +30,6 @@ namespace Fishare.Model
 
         public List<EJoined> UsersList { get; private set; }
 
-
-        public Event()
-        {
-            
-        }
-
         public enum eRange
         {
             FishClub,

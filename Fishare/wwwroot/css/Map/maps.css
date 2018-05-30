@@ -1,0 +1,36 @@
+﻿.Map-Wrapper {
+    height: 100%;
+    width: 100%;
+}
+.Maps-Wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #2196F3;
+}
+.Top-Wrapper {
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.Info-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.PageBorder {
+    border-bottom: 1px solid #127BA3;
+    margin-bottom: 5px;
+}
+#Map {
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.Search-Wrapper {
+    margin-top: 15px;
+}
+.SearchBalk {
+    width: 100%;
+}

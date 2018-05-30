@@ -55,6 +55,11 @@ namespace Fishare.DAL.SQL
             }
         }
 
+        /// <summary>
+        /// Get all info of the user needed
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public User Read(int Id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -152,6 +157,11 @@ namespace Fishare.DAL.SQL
             }
         }
 
+        /// <summary>
+        /// Update the user to the database
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public bool Update(User entity)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -265,6 +275,11 @@ namespace Fishare.DAL.SQL
             }
         }
 
+        /// <summary>
+        /// Get the user info needed to fill the cookies
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public User GetCookieInfo(string email)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

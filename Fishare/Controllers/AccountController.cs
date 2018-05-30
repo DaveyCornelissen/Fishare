@@ -342,6 +342,12 @@ namespace Fishare.Controllers
             _accountLogic.UpdateUser(_newUser);
         }
 
+       /// <summary>
+        /// Adds the file to the right directory and also random creates a new name.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public async Task<string> AddFileToDirectory(IFormFile file, string path)
         {
             if (file != null)

@@ -1,8 +1,6 @@
 ﻿@using Fishare.Cookies
 <!DOCTYPE html>
 <html>
-
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -32,18 +30,18 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Timeline" asp-action="TimeLine"><i class="fas fa-clock"></i> Timeline <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" asp-controller="Timeline" asp-action="TimeLine"><i class="fas fa-clock"></i> Timeline</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="#"><i class="fas fa-book"></i> FishOpedia</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-map"></i> Maps</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-controller="Maps" asp-action="FishMap"><i class="fas fa-map"></i> Maps</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Events</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="#"><i class="fab fa-houzz"></i> FishClub</a>
                     </li>
                 </ul>

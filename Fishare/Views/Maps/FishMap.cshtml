@@ -1,0 +1,32 @@
+﻿
+<link href="~/css/Map/maps.css" rel="stylesheet" />
+<div class="Maps-Wrapper container">
+    <div class="row">
+        <div class="Top-Wrapper col-md-10 offset-1">
+            <div class="Info-wrapper col-md-10 offset-1">
+                <h4><i class="fab fa-hubspot"></i> Search for fishing spots</h4>
+                <div class="PageBorder"></div>
+                <p>This map you can use to find or create fishing spots and also view your own catches or from other fishers!</p>
+            </div>
+            <div class="row Search-Wrapper col-md-10 offset-1">
+                <div class="col-1">
+                    <P>Search:</P>
+                </div>
+                <div class="col-7">
+                    <input id="MapsSearchbox" class="SearchBalk" type="text"/>
+                </div>
+                <div class="col-2">
+                    <button id="SubitSearchBox" type="button" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="Map-Wrapper">
+            <div id="Map" style="width: 100%; height: 600px;" class="col-md-10 offset-1"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/maps/maps.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyjWlHhjQo_yhP0M21i0yx_NTLAgp5NnA&callback=initMap"
+        async defer></script>
+

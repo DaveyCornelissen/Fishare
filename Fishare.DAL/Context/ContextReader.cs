@@ -11,6 +11,7 @@ namespace Fishare.DAL
 
         public ContextReader(IConfiguration config)
         {
+            //Try to get the config if not catch to default
             try
             {
                 Context = config.GetSection("Database")["Type"];
