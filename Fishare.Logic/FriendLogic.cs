@@ -26,10 +26,9 @@ namespace Fishare.Logic
                 case "MSSQL":
                     _context = new FriendSQLContext(contextReader.ConnectionString);
                     break;
-                case "MEMORY":
+                default:
                     _context = new FriendMemoryContext();
                     break;
-                default: throw new NotImplementedException();
             }
 
             _repository = new FriendRepository(_context);

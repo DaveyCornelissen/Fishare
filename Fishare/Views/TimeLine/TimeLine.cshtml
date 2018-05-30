@@ -1,8 +1,10 @@
 ﻿@using Fishare.Cookies
 @using Fishare.Model
 @model TimeLineViewModel
-
-<link href="~/css/Timeline/Timeline.css" rel="stylesheet"/>
+@{
+    ViewData["Title"] = "Timeline";
+}
+<link href="~/css/Timeline/Timeline.css" rel="stylesheet" />
 <div class="col-md-10 offset-1">
     <div class="col-md-8 offset-2">
         @foreach (Post post in Model.Posts)
@@ -13,13 +15,13 @@
                         <div class="col-md-2">
                             @if (String.IsNullOrEmpty(post.UserProfileImage))
                             {
-                                <img src="~/images/Layout/user.png" class="PostUserImage"/>
+                                <img src="~/images/Layout/user.png" class="PostUserImage" />
                             }
                             else
                             {
-                                <img src="~/images/Uploads/ProfileImages/@post.UserProfileImage" class="PostUserImage rounded-circle border border-info"/>
+                                <img src="~/images/Uploads/ProfileImages/@post.UserProfileImage" class="PostUserImage rounded-circle border border-info" />
                             }
-                            
+
                         </div>
                         <div class="col-md-8">
                             <h4 class="text-left">@post.UserName</h4>
@@ -55,7 +57,7 @@
                                 </div>
                             }
                         </div>
-                        
+
                         @if (post.Photos.Count > 1)
                         {
                             <a class="carousel-control-prev" href="#@post.PostID" role="button" data-slide="prev">
@@ -67,7 +69,7 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         }
-                        
+
                     </div>
                 </div>
                 <div class="PostInfo col-md-12 border border-primary">

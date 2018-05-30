@@ -60,7 +60,7 @@
                     {
                         if (Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User)))
                         {
-                            if (Model.ProfileInfoViewModel.Friends.Any(f => f.Status == Friend.eStatus.Pending))
+                            if (Model.ProfileInfoViewModel.Friends.Any(f => f.Status == Friend.eStatus.Pending && f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User)))
                             {
                                 <div class="col-lg-3 col-md-4 col-sm-3 ActionButtons">
                                     <button type="button" class="btn btn-info"><i class="fas fa-envelope"></i> Pending...</button>
@@ -102,14 +102,28 @@
                 <div class="row">
                     @foreach (Post post in Model.ProfileInfoViewModel.Posts)
                     {
-                        <div id="PostId:@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
-                            <div class="card-header">
-                                <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
+                        if (Model.ProfileInfoViewModel.UserId.ToString() == CookieClaims.GetCookieID(User))
+                        {
+                            <div id="PostId:@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
+                                <div class="card-header">
+                                    <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
+                                </div>
+                                <div class="card-body">
+                                    <img class="PreviewPostImage" src="~/images/Uploads/PostImages/@post.PrimaryPhoto"/>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <img class="PreviewPostImage" src="~/images/Uploads/PostImages/@post.PrimaryPhoto"/>
+                        }
+                        else if (post.PublicPost || (Model.ProfileInfoViewModel.Friends.Any(f => f.FriendEntity.UserId.ToString() == CookieClaims.GetCookieID(User) && f.Status == Friend.eStatus.Accept)))
+                        {
+                            <div id="PostId:@post.PostID" class="card border-primary mb-3 PreviewPost" style="min-width: 20rem;">
+                                <div class="card-header">
+                                    <h4 class="PostTitle">@post.Title</h4> <small class="PostDate text-mute">Upload date: @post.DateTime</small>
+                                </div>
+                                <div class="card-body">
+                                    <img class="PreviewPostImage" src="~/images/Uploads/PostImages/@post.PrimaryPhoto"/>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>

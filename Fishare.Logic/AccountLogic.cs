@@ -28,10 +28,9 @@ namespace Fishare.Logic
                 case "MSSQL":
                     _context = new AccountSQLContext(contextReader.ConnectionString);
                     break;
-                case "MEMORY":
+                default:
                     _context = new AccountMemoryContext();
                     break;
-                default: throw new NotImplementedException();
             }
 
             _repository = new AccountRepository(_context);

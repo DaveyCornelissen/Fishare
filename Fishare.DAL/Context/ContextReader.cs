@@ -11,8 +11,17 @@ namespace Fishare.DAL
 
         public ContextReader(IConfiguration config)
         {
-            Context = config.GetSection("Database")["Type"];
-            ConnectionString = config.GetSection("ConnectionStrings")[Context];
+            try
+            {
+                Context = config.GetSection("Database")["Type"];
+                ConnectionString = config.GetSection("ConnectionStrings")[Context];
+            }
+            catch
+            {
+                Context = "";
+                ConnectionString = "";
+            }
+            
         }
     }
 }

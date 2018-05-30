@@ -95,8 +95,8 @@ namespace Fishare.DAL.SQL
                                 PostID = (int)dataReader["PostID"],
                                 Title = dataReader["Title"].ToString(),
                                 DateTime = (DateTime)dataReader["DateTime"],
-                                PrimaryPhoto = dataReader["Path"].ToString()
-
+                                PrimaryPhoto = dataReader["Path"].ToString(),
+                                PublicPost = Convert.ToBoolean(dataReader["Public"])
                             };
                             userPosts.Add(post);
                         }

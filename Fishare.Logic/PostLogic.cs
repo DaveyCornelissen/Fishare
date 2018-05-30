@@ -27,10 +27,9 @@ namespace Fishare.Logic
                 case "MSSQL":
                     _context = new PostSQLContext(contextReader.ConnectionString);
                     break;
-                case "MEMORY":
+                default:
                     _context = new PostMemoryContext();
                     break;
-                default: throw new NotImplementedException();
             }
 
             _repository = new PostRepository(_context);
