@@ -55,7 +55,6 @@ function GetAjaxRequest(type, Id, evt) {
     evt.stopPropagation();
 
     var call = "True";
-    alert(call);
     $.ajax({
         type: 'POST',
         url: 'Profile',
@@ -63,7 +62,6 @@ function GetAjaxRequest(type, Id, evt) {
         success: function (data) {
             $('#FriendsPage').modal('hide');
             $("#ProfilePage").html(data);
-                //$('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');
         }
     })
@@ -76,7 +74,7 @@ $(document).on("click",
         evt.preventDefault();
         evt.stopPropagation();
         var SearchVal = $('#FriendsSearchBox').val();
-            var url = "Profile";
+        var url = "Profile";
 
         $.ajax({
             type: 'POST',
@@ -85,7 +83,6 @@ $(document).on("click",
             success: function(data) {
                 $('#FriendsPage').modal('hide');
                 $("#ProfilePage").html(data);
-                //$('#LocationFriendsModalContainer').html(data);
                 $('#FriendsPage').modal('show');
             }
         })

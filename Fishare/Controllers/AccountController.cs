@@ -174,7 +174,7 @@ namespace Fishare.Controllers
                     await ProfileSettings(profileSettingsModel);
                 }
 
-                if (friendCall == "True")
+                if (friendCall == "True" || !string.IsNullOrEmpty(SearchValue))
                     _searchResult = ProfileFriends(buttonType, friendID, SearchValue);
                 
                 //update the cookies
