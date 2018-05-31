@@ -14,11 +14,6 @@ namespace Fishare.ViewModels
         [StringLength(60, ErrorMessage = "the email must be less than {1} characters.")]
         public string UserEmail { get; set; }
 
-        [Required(ErrorMessage = "Please enter an username!")]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(150, ErrorMessage = "the username must be less than {1} characters.")]
-        public string UserName { get; set; }
-
         [Column(TypeName = "VARCHAR")]
         [StringLength(255, ErrorMessage = "the password must be less than {1} characters.")]
         public string Password { get; set; }

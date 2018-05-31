@@ -128,7 +128,7 @@ namespace Fishare.Controllers
             catch (ExceptionHandler exception)
             {
                 ViewData[exception.Index] = exception.Message;
-                return View();
+                return View(model);
             }
         }
 
