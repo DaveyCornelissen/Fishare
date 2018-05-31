@@ -135,12 +135,15 @@
 </div>
 
 @*Accountsettings Modal*@
-@Html.Partial("ProfileSettings", Model.ProfileSettingsViewModel)
+@*@Html.Partial("ProfileSettings", Model.ProfileSettingsViewModel)*@
 
-<script src="~/js/account/profile/profileSettings.js"></script>
+@{
+    Html.RenderPartial("ProfileSettings", Model.ProfileSettingsViewModel);
+}
 
 @*Friends Modal*@
 @Html.Partial("ProfileFriends", Model.ProfileFriendsViewModal)
-@*<div id="LocationFriendsModalContainer"></div>*@
 
+
+<script src="~/js/account/profile/profileSettings.js"></script>
 <script src="~/js/account/profile/ProfileFriends.js"></script>

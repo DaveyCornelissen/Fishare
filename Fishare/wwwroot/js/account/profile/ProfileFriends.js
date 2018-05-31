@@ -53,10 +53,13 @@ $(document).on('click',
 function GetAjaxRequest(type, Id, evt) {
     evt.preventDefault();
     evt.stopPropagation();
+
+    var call = "True";
+    alert(call);
     $.ajax({
         type: 'POST',
         url: 'Profile',
-        data: { ButtonType: type, FriendID: Id },
+        data: { buttonType: type, friendID: Id, friendCall: call },
         success: function (data) {
             $('#FriendsPage').modal('hide');
             $("#ProfilePage").html(data);

@@ -1,6 +1,5 @@
-﻿$(document).one('click', '#EditAccoutButton',function(e) {
+﻿$(document).on('click', '#EditAccoutButton',function(e) {
     e.preventDefault();
-    e.stopPropagation();
 
         var $frm = $('.post-using-ajax');
         //Serializing all For Input Values (not files!) in an Array Collection so that we can iterate this collection later.

@@ -18,6 +18,10 @@ namespace Fishare.Logic
 
         private IPostRepository _context;
 
+        /// <summary>
+        /// The Post constructor with a config parameter who checks which context is used.
+        /// </summary>
+        /// <param name="config"></param>
         public PostLogic(IConfiguration config)
         {
             ContextReader contextReader = new ContextReader(config);
@@ -35,11 +39,16 @@ namespace Fishare.Logic
             _repository = new PostRepository(_context);
         }
 
+        /// <summary>
+        /// Get all the posts from the friends and the users and orders them by upload date
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public List<Post> GetPosts(List<int> ids)
         {
             List<Post> postsList = _repository.GetPosts(ids);
 
-           // postsList.OrderBy(o => o.DateTime).ToList();
+            postsList.OrderBy(o => o.DateTime).ToList();
 
             return postsList;
         } 

@@ -40,11 +40,19 @@ namespace Fishare.Controllers
             _hostingEnvironment = environment;
         }
 
+        /// <summary>
+        /// Login Get action
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Logout the user and delete the cookies
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
@@ -129,42 +137,42 @@ namespace Fishare.Controllers
         {
             userId = (Id != 0)? Id : Convert.ToInt16(CookieClaims.GetCookieID(User));
 
-            ProfileFriendsViewModal profileFriends = ProfileFriends();
-
-            return View(GetProfileModel(profileFriends));
+            return View(GetProfileModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile(string SearchValue, string ButtonType, int friendID,
-            ProfileSettingsViewModel profileSettingsModel, string settingsCall)
+        public async Task<IActionResult> Profile(string SearchValue, string buttonType, int friendID,
+            ProfileSettingsViewModel profileSettingsModel, string settingsCall, string friendCall)
         {
             userId = Convert.ToInt16(CookieClaims.GetCookieID(User));
+            List<User> _searchResult = null;
 
             try
             {
                 //for add a friend on there profile page
-                if (friendID != 0 && String.IsNullOrEmpty(ButtonType))
+                if (friendID != 0 && String.IsNullOrEmpty(buttonType))
                 {
                     //third parameter is the actionId default it is 0
                    _friendLogic.SendFriendRequest(userId, friendID);
                     userId = friendID;
                 }
-                
+
                 //update Profile/Account settings
-                if(settingsCall == "True")
+                if (settingsCall == "True")
                 {
                     if (!ModelState.IsValid)
-                        return PartialView();
+                        return PartialView(GetProfileModel());
 
                     //Update User Account settings
                     await ProfileSettings(profileSettingsModel);
                 }
 
-               ProfileFriendsViewModal profileFriends = ProfileFriends(ButtonType, friendID, SearchValue);
-
+                if (friendCall == "True")
+                    _searchResult = ProfileFriends(buttonType, friendID, SearchValue);
+                
                 //update the cookies
 
-                return PartialView(GetProfileModel(profileFriends));
+                return PartialView(GetProfileModel(_searchResult));
             }
             catch (ExceptionHandler exception)
             {
@@ -180,10 +188,8 @@ namespace Fishare.Controllers
         /// <param name="friendID"></param>
         /// <param name="SearchValue"></param>
         /// <returns></returns>
-        public ProfileFriendsViewModal ProfileFriends(string ButtonType = null, int friendID = 0, string SearchValue = null)
+        public List<User> ProfileFriends(string ButtonType = null, int friendID = 0, string SearchValue = null)
         {
-            //userId = (userId != 0) ? userId : Convert.ToInt16(CookieClaims.GetCookieID(User));
-
             if (!String.IsNullOrEmpty(ButtonType) && friendID != 0)
             {
                 switch (ButtonType)
@@ -220,12 +226,12 @@ namespace Fishare.Controllers
                 }
             }
 
-            ProfileFriendsViewModal profileFriendsView = ProfileFriendView();
-
+            //Checks if there is a search request
             if (!String.IsNullOrEmpty(SearchValue))
-                profileFriendsView.SearchedFriends = _friendLogic.GetSearchResult(userId, SearchValue);
-
-            return profileFriendsView;
+                return _friendLogic.GetSearchResult(userId, SearchValue);
+            
+            //Return Default
+            return null;
         }
 
         /// <summary>
@@ -234,14 +240,14 @@ namespace Fishare.Controllers
         /// <param name="_pSModel"></param>
         /// <param name="cookieUserId"></param>
         /// <returns></returns>
-        private ProfileViewModel GetProfileModel(ProfileFriendsViewModal profileFriends = null)
+        private ProfileViewModel GetProfileModel(List<User> searchResult = null)
         {
             //return the new ProfileModel
             return new ProfileViewModel
             {
                 ProfileInfoViewModel = ProfileInfo(),
                 ProfileSettingsViewModel = ProfileSettings(),
-                ProfileFriendsViewModal = profileFriends
+                ProfileFriendsViewModal = ProfileFriend(searchResult)
             };
         }
 
@@ -296,7 +302,7 @@ namespace Fishare.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private ProfileFriendsViewModal ProfileFriendView()
+        private ProfileFriendsViewModal ProfileFriend(List<User> SearchResult = null)
         {
             List<Friend> _Acceptedfriends = _friendLogic.GetAcceptedFriends(userId);
 
@@ -309,7 +315,8 @@ namespace Fishare.Controllers
                 UserId = userId,
                 AcceptedFriends = _Acceptedfriends,
                 RequestingFriends = _Pendingfriends,
-                BlockedFriends = _Blockedfriends
+                BlockedFriends = _Blockedfriends,
+                SearchedFriends = SearchResult
             };
         }
 

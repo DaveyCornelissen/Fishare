@@ -19,6 +19,10 @@ namespace Fishare.Logic
 
         private IAccountRepository _context;
 
+        /// <summary>
+        /// The account constructor with a config parameter who checks which context is used.
+        /// </summary>
+        /// <param name="config"></param>
         public AccountLogic(IConfiguration config)
         {
             ContextReader contextReader = new ContextReader(config);
@@ -36,16 +40,30 @@ namespace Fishare.Logic
             _repository = new AccountRepository(_context);
         }
 
-        //Check if the user email and password exist
+        /// <summary>
+        /// Check if The login parameters a valid and if the user exist with the parameters
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
         public void CheckLogin(string email, string password)
         {
+            if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password))
+                throw new ExceptionHandler("ErrorNullableParameters", "Email or password parameter is null or empty");
+
             if (!_repository.CheckLogin(email, password))
                 throw new ExceptionHandler("ErrorNoUser", "Email or password does not exist! Please try again");
         }
 
-        //Getting user-id and user-name
+        /// <summary>
+        /// Get the right info to create cookies
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public User GetCookieInfo(string email)
         {
+            if (String.IsNullOrEmpty(email))
+                throw new ExceptionHandler("ErrorNullableParameters", "Email parameter is null or empty");
+
             User userResult = _repository.GetCookieInfo(email);
 
             if (userResult == null)
@@ -54,9 +72,15 @@ namespace Fishare.Logic
             return userResult;
         }
 
-        //Create the new user
+        /// <summary>
+        /// Create the user with the new user entity and run some checks
+        /// </summary>
+        /// <param name="entity"></param>
         public void CreateUser(User entity)
         {
+            if (String.IsNullOrEmpty(entity.UserEmail) || String.IsNullOrEmpty(entity.Password) || String.IsNullOrEmpty(entity.FirstName) || String.IsNullOrEmpty(entity.LastName))
+                throw new ExceptionHandler("ErrorNullableParameters", "Required parameter is null or empty");
+
             if (_repository.Exist(entity.UserEmail))
                 throw new ExceptionHandler("ErrorEmailExist", "The email already exist! Please choose another one.");
 
@@ -69,12 +93,28 @@ namespace Fishare.Logic
                 throw new ExceptionHandler("UserCreateFailed", "Oops something went wrong! your account has failed to create!");
         }
 
-        //get the User Profile information
-        public User GetUserProfile(int UserId) => _repository.Read(UserId);
+        /// <summary>
+        /// Get the User with the id
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public User GetUserProfile(int UserId)
+        {
+            if (UserId == 0)
+                throw new ExceptionHandler("ErrorNullableParameters", "UserId parameter is null or empty");
 
-        //Update the Users Settings
+            return _repository.Read(UserId);
+        } 
+
+        /// <summary>
+        /// Update the user entity and checks if the required parameters are valid.
+        /// </summary>
+        /// <param name="entity"></param>
         public void UpdateUser(User entity)
         {
+            if (String.IsNullOrEmpty(entity.UserEmail) || String.IsNullOrEmpty(entity.FirstName) || String.IsNullOrEmpty(entity.LastName))
+                throw new ExceptionHandler("ErrorNullableParameters", "Required parameter is null or empty");
+
             User _oldUser = _repository.Read(entity.UserId);
 
             if (_oldUser.UserEmail != entity.UserEmail)
