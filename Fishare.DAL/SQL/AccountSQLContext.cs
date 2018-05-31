@@ -35,6 +35,7 @@ namespace Fishare.DAL.SQL
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@BirthDay", entity.BirthDay);
                 command.Parameters.AddWithValue("@Phone", entity.PhoneNumber);
+                command.Parameters.AddWithValue("@Ppath", entity.PpPath);
 
                 try
                 {

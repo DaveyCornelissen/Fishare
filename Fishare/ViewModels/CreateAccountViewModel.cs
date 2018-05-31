@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Fishare.ViewModels
 {
@@ -35,8 +36,6 @@ namespace Fishare.ViewModels
         [StringLength(20, ErrorMessage = "the phone number must be less than {1} characters.")]
         public string PhoneNumber { get; set; }
 
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(255)]
-        public string PPath { get; set; }
+        public IFormFile PPath { get; set; }
     }
 }

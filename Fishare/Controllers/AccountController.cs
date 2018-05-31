@@ -103,13 +103,20 @@ namespace Fishare.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateAccountViewModel model)
+        public async Task<IActionResult> Create(CreateAccountViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
             try
             {
+
+                var profileImagePaCombine = Path.Combine(_hostingEnvironment.WebRootPath, mapRootProfileImages);
+
+                string _NewFile = await AddFileToDirectory(model.PPath, profileImagePaCombine);
+                string image = _NewFile ?? "";
+
+
                 User _newUser = new User
                 {
                     UserEmail = model.UserEmail,
@@ -118,7 +125,7 @@ namespace Fishare.Controllers
                     LastName = model.LastName,
                     BirthDay = model.Birthday,
                     PhoneNumber = model.PhoneNumber,
-                    PpPath = model.PPath
+                    PpPath = image
                 };
 
                 _accountLogic.CreateUser(_newUser);
